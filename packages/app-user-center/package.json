@@ -1,6 +1,6 @@
 {
   "private": true,
-  "author":"杜培义 <peiyi.du@zknow.com>",
+  "author":"DPY",
   "scripts": {
     "dev": "max dev",
     "build": "max build",
