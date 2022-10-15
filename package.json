@@ -1,0 +1,16 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "start": "lerna run --parallel start",
+    "install": "pnpm install",
+    "bootstrap": "lerna bootstrap --hoist",
+    "build": "rm -rf dist && rollup --config",
+    "test": "jest",
+    "clear": "lerna clean",
+    "version": "lerna version 0.0.2"
+  },
+  "devDependencies": {
+    "lerna": "^5.5.2"
+  }
+}

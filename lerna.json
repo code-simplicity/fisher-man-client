@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "useNx": true,
+  "useWorkspaces": true,
+  "version": "0.0.0",
+  "npmClient": "pnpm",
+  "command": {
+    "publish": {
+      "message": "chore(release)：public %s",
+      "registry": "https://registry.npm.taobao.org"
+    },
+    "bootstrap": {
+      "npmClientArgs": [
+        "--no-package-lock",
+        "--legacy-peer-deps"
+      ]
+    }
+  }
+}
