@@ -10,12 +10,16 @@ import {
   Row,
   Tooltip,
 } from 'antd';
+import { useIntl, getLocale } from 'umi';
 import './index.less';
+import { setLocale } from '@@/plugin-locale';
 
 const prefixCls = 'login-container';
 const { Item } = Form;
+
 // 登陆模块
 const Login: FC = () => {
+  const intl = useIntl();
   return (
     <div className={`${prefixCls}`}>
       <div className={`${prefixCls}-left`}>
@@ -48,7 +52,7 @@ const Login: FC = () => {
             </Item>
             <Item>
               <Button block type="primary">
-                登陆
+                {intl.formatMessage({ id: 'login' })}
               </Button>
             </Item>
             <Item>

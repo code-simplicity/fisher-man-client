@@ -14,7 +14,7 @@ export default defineConfig({
   }, // 开启Module Federation
   // 多语言配置
   locale: {
-    default: 'zh-CN',
+    default: 'en-US',
     antd: true,
     title: false,
     baseNavigator: true,
