@@ -1,5 +1,15 @@
 import { FC } from 'react';
-import { Button, Col, Form, Image, Input, Row } from 'antd';
+import {
+  Avatar,
+  Button,
+  Col,
+  Divider,
+  Form,
+  Image,
+  Input,
+  Row,
+  Tooltip,
+} from 'antd';
 import './index.less';
 
 const prefixCls = 'login-container';
@@ -42,9 +52,29 @@ const Login: FC = () => {
               </Button>
             </Item>
             <Item>
-              <Row>
-                <Col>
-                  <Button>登陆</Button>
+              <div className={`register-btn`}>
+                <Button type="text" danger>
+                  注册
+                </Button>
+              </div>
+            </Item>
+            <Divider>其他方式登陆</Divider>
+            <Item>
+              <Row justify="space-between">
+                <Col span={8}>
+                  <Tooltip title="微信">
+                    <Avatar src="" alt="wx" />
+                  </Tooltip>
+                </Col>
+                <Col span={8}>
+                  <Tooltip title="github">
+                    <Avatar src="" alt="github" />
+                  </Tooltip>
+                </Col>
+                <Col span={8}>
+                  <Tooltip title="QQ">
+                    <Avatar src="" alt="QQ" />
+                  </Tooltip>
                 </Col>
               </Row>
             </Item>
