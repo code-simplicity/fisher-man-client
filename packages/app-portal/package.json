@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "app-portal",
   "author":"DPY",
   "scripts": {
     "dev": "max dev",
