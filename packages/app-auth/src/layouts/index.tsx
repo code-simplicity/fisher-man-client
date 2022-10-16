@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'umi';
+import { Outlet } from 'umi';
 import { FC } from 'react';
 import './index.less';
 
