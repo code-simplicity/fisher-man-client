@@ -20,20 +20,11 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/home',
-      routes: [
-        {
-          name: '门户',
-          path: '/app-portal',
-          component: './Home',
-          routes: [
-            {
-              path: '/app-portal/app-portal/*',
-              microApp: 'app-portal',
-            },
-          ],
-        },
-      ],
+      redirect: '/login',
+    },
+    {
+      path: '/login',
+      component: './Login',
     },
     {
       name: '首页',

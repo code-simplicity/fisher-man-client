@@ -3,8 +3,9 @@ import { trim } from '@/utils/format';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import styles from './index.less';
+import { FC } from 'react';
 
-const HomePage: React.FC = () => {
+const HomePage: FC = () => {
   const { name } = useModel('global');
   return (
     <PageContainer ghost>
