@@ -1,3 +1,15 @@
 export default {
   login: 'Login',
+  register: 'Register',
+  otherWaysToLogIn: 'Other ways to login',
+  wechat: 'Wechat',
+  github: 'Github',
+  qq: 'QQ',
+  google: 'Google',
+  username: 'username',
+  password: 'password',
+  verifyCode: 'verifyCode',
+  placeholderUsername: 'Please enter user name',
+  placeholderPassword: 'Please enter password ',
+  placeholderVerifyCode: 'Please enter verify code',
 };

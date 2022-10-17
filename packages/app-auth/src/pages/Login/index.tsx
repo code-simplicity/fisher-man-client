@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import {
   Avatar,
   Button,
@@ -13,6 +13,12 @@ import {
 import { useIntl, getLocale } from 'umi';
 import './index.less';
 import { setLocale } from '@@/plugin-locale';
+import {
+  GithubFilled,
+  GooglePlusOutlined,
+  QqCircleFilled,
+  WechatFilled,
+} from '@ant-design/icons';
 
 const prefixCls = 'login-container';
 const { Item } = Form;
@@ -20,6 +26,10 @@ const { Item } = Form;
 // 登陆模块
 const Login: FC = () => {
   const intl = useIntl();
+  const [headerTitle, setHeaderTitle] = useState(
+    intl.formatMessage({ id: 'login' }),
+  );
+  // TODO：继续开发，实现多语言配置化
   return (
     <div className={`${prefixCls}`}>
       <div className={`${prefixCls}-left`}>
@@ -32,18 +42,35 @@ const Login: FC = () => {
       </div>
       <div className={`${prefixCls}-right`}>
         <div className={`${prefixCls}-right-box`}>
-          <h2>登陆</h2>
+          <h2>{headerTitle}</h2>
           <Form labelAlign="left" colon={false} labelCol={{ span: 3 }}>
-            <Item label="用户名" name="username">
-              <Input placeholder="请输入用户名" />
+            <Item
+              label={intl.formatMessage({ id: 'username' })}
+              name="username"
+            >
+              <Input
+                placeholder={intl.formatMessage({ id: 'placeholderUsername' })}
+              />
             </Item>
-            <Item label="密码" name="password">
-              <Input.Password placeholder="请输入密码" />
+            <Item
+              label={intl.formatMessage({ id: 'password' })}
+              name="password"
+            >
+              <Input.Password
+                placeholder={intl.formatMessage({ id: 'placeholderPassword' })}
+              />
             </Item>
-            <Item label="验证码" name="verifyCode">
+            <Item
+              label={intl.formatMessage({ id: 'verifyCode' })}
+              name="verifyCode"
+            >
               <Row gutter={12}>
                 <Col span={16}>
-                  <Input placeholder="请输入验证码" />
+                  <Input
+                    placeholder={intl.formatMessage({
+                      id: 'placeholderVerifyCode',
+                    })}
+                  />
                 </Col>
                 <Col span={8}>
                   <Input placeholder="请输入验证码" />
@@ -58,26 +85,41 @@ const Login: FC = () => {
             <Item>
               <div className={`register-btn`}>
                 <Button type="text" danger>
-                  注册
+                  {intl.formatMessage({ id: 'register' })}
                 </Button>
               </div>
             </Item>
-            <Divider>其他方式登陆</Divider>
+            <Divider plain>
+              <h4>{intl.formatMessage({ id: 'otherWaysToLogIn' })}</h4>
+            </Divider>
             <Item>
               <Row justify="space-between">
-                <Col span={8}>
-                  <Tooltip title="微信">
-                    <Avatar src="" alt="wx" />
+                <Col span={6}>
+                  <Tooltip title={intl.formatMessage({ id: 'wechat' })}>
+                    <div className={`other-login-mode`}>
+                      <WechatFilled style={{ fontSize: '22px' }} />
+                    </div>
                   </Tooltip>
                 </Col>
-                <Col span={8}>
-                  <Tooltip title="github">
-                    <Avatar src="" alt="github" />
+                <Col span={6}>
+                  <Tooltip title={intl.formatMessage({ id: 'github' })}>
+                    <div className={`other-login-mode`}>
+                      <GithubFilled style={{ fontSize: '22px' }} />
+                    </div>
                   </Tooltip>
                 </Col>
-                <Col span={8}>
-                  <Tooltip title="QQ">
-                    <Avatar src="" alt="QQ" />
+                <Col span={6}>
+                  <Tooltip title={intl.formatMessage({ id: 'qq' })}>
+                    <div className={`other-login-mode`}>
+                      <QqCircleFilled style={{ fontSize: '22px' }} />
+                    </div>
+                  </Tooltip>
+                </Col>
+                <Col span={6}>
+                  <Tooltip title={intl.formatMessage({ id: 'google' })}>
+                    <div className={`other-login-mode`}>
+                      <GooglePlusOutlined style={{ fontSize: '22px' }} />
+                    </div>
                   </Tooltip>
                 </Col>
               </Row>
