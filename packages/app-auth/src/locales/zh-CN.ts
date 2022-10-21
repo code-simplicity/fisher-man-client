@@ -12,4 +12,6 @@ export default {
   placeholderUsername: '请输入用户名',
   placeholderPassword: '请输入密码',
   placeholderVerifyCode: '请输入验证码',
+  zh_CH: '中文',
+  en_US: '英文',
 };
