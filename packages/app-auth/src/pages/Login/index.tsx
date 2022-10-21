@@ -9,6 +9,7 @@ import {
   Input,
   Row,
   Tooltip,
+  Select,
 } from 'antd';
 import { useIntl, getLocale } from 'umi';
 import './index.less';
@@ -22,13 +23,21 @@ import {
 
 const prefixCls = 'login-container';
 const { Item } = Form;
+const { Option } = Select;
 
 // 登陆模块
-const Login: FC = () => {
+const Login: FC = (props) => {
+  console.log('props ==>', props);
   const intl = useIntl();
   const [headerTitle, setHeaderTitle] = useState(
     intl.formatMessage({ id: 'login' }),
   );
+
+  // 选择多语言
+  const handleChangeLanguage = (value: string) => {
+    console.log('value', value);
+  };
+
   // TODO：继续开发，实现多语言配置化
   return (
     <div className={`${prefixCls}`}>
@@ -41,6 +50,18 @@ const Login: FC = () => {
         />
       </div>
       <div className={`${prefixCls}-right`}>
+        <div className="absolute top-6 right-6">
+          <Select
+            defaultValue={'中文'}
+            style={{
+              width: '70px',
+            }}
+            onChange={handleChangeLanguage}
+          >
+            <Option value="zh-CN">中文</Option>
+            <Option value="en-US">英文</Option>
+          </Select>
+        </div>
         <div className={`${prefixCls}-right-box`}>
           <h2>{headerTitle}</h2>
           <Form labelAlign="left" colon={false} labelCol={{ span: 3 }}>

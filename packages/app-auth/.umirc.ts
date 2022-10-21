@@ -6,7 +6,9 @@ export default defineConfig({
     "@umijs/plugins/dist/antd",
     "@umijs/plugins/dist/locale",
     "@umijs/plugins/dist/tailwindcss",
+    "@umijs/plugins/dist/dva",
   ],
+
   antd: {},
   mfsu: {
     strategy: "normal",
@@ -40,4 +42,5 @@ export default defineConfig({
   ],
 
   tailwindcss: {},
+  dva: {},
 });
