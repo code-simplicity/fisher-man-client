@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   Avatar,
   Button,
@@ -11,7 +11,7 @@ import {
   Tooltip,
   Select,
 } from 'antd';
-import { useIntl, getLocale } from 'umi';
+import { useIntl, getLocale, useModel } from 'umi';
 import './index.less';
 import { setLocale } from '@@/plugin-locale';
 import {
@@ -27,7 +27,6 @@ const { Option } = Select;
 
 // 登陆模块
 const Login: FC = (props) => {
-  console.log('props ==>', props);
   const intl = useIntl();
   const [headerTitle, setHeaderTitle] = useState(
     intl.formatMessage({ id: 'login' }),
@@ -37,6 +36,9 @@ const Login: FC = (props) => {
   const handleChangeLanguage = (value: string) => {
     console.log('value', value);
   };
+
+  const { language } = useModel('loginModel');
+  console.log('props ==>', language);
 
   // TODO：继续开发，实现多语言配置化
   return (

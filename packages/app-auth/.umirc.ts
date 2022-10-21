@@ -1,17 +1,18 @@
-import { defineConfig } from "umi";
+import { defineConfig } from 'umi';
 
 export default defineConfig({
-  npmClient: "pnpm",
+  npmClient: 'pnpm',
   plugins: [
-    "@umijs/plugins/dist/antd",
-    "@umijs/plugins/dist/locale",
-    "@umijs/plugins/dist/tailwindcss",
-    "@umijs/plugins/dist/dva",
+    '@umijs/plugins/dist/antd',
+    '@umijs/plugins/dist/locale',
+    '@umijs/plugins/dist/tailwindcss',
+    '@umijs/plugins/dist/dva',
+    '@umijs/plugins/dist/model',
   ],
 
   antd: {},
   mfsu: {
-    strategy: "normal",
+    strategy: 'normal',
     shared: {
       react: {
         singleton: true,
@@ -22,25 +23,26 @@ export default defineConfig({
   // 开启Module Federation
   // 多语言配置
   locale: {
-    default: "en-US",
+    default: 'en-US',
     antd: true,
     title: false,
     baseNavigator: true,
-    baseSeparator: "-",
+    baseSeparator: '-',
   },
 
   routes: [
     {
-      path: "/",
-      redirect: "/login",
+      path: '/',
+      redirect: '/login',
     },
 
     {
-      path: "/login",
-      component: "./Login",
+      path: '/login',
+      component: './Login',
     },
   ],
 
   tailwindcss: {},
   dva: {},
+  model: {},
 });
