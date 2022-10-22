@@ -26,7 +26,7 @@ const Login: FC = (props) => {
   const intl = useIntl();
   // 语言
   const [defaultLanguage, setDefaultLanguage] = useState(
-    '' || intl.formatMessage({ id: 'zh-CN' }),
+    getLocale() || intl.formatMessage({ id: 'zh-CN' }),
   );
   const { language } = useModel('loginModel');
 
@@ -36,7 +36,8 @@ const Login: FC = (props) => {
 
   // 选择多语言
   const handleChangeLanguage = (value: string) => {
-    console.log('value', value);
+    // 设置当前的多语言
+    setLocale(value);
   };
 
   return (
@@ -53,9 +54,8 @@ const Login: FC = (props) => {
         <div className="absolute top-6 right-6">
           <Select
             defaultValue={defaultLanguage}
-            style={{
-              width: '70px',
-            }}
+            bordered={false}
+            popupClassName="w-12"
             onChange={handleChangeLanguage}
           >
             <Option value="zh-CN">{intl.formatMessage({ id: 'zh_CH' })}</Option>
@@ -63,7 +63,7 @@ const Login: FC = (props) => {
           </Select>
         </div>
         <div className={`${prefixCls}-right-box`}>
-          <h2>{headerTitle}</h2>
+          <h2 className="text-2xl">{headerTitle}</h2>
           <LoginForm />
         </div>
       </div>

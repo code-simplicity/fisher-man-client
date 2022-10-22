@@ -12,6 +12,7 @@ export default {
   placeholderUsername: 'Please enter user name',
   placeholderPassword: 'Please enter password ',
   placeholderVerifyCode: 'Please enter verify code',
-  zh_CH: 'zh-CH',
-  en_US: 'en-US',
+  zh_CH: '中文',
+  en_US: 'English',
+  remember_the_password: 'Remember the password',
 };

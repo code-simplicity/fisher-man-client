@@ -1,5 +1,14 @@
 import { injectIntl } from '@@/plugin-locale';
-import { Button, Col, Divider, Form, Input, Row, Tooltip } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Tooltip,
+} from 'antd';
 import {
   GithubFilled,
   GooglePlusOutlined,
@@ -19,7 +28,7 @@ interface LoginFormProps extends ComponentsProps {}
 const LoginForm: FC<LoginFormProps> = ({ intl }) => {
   return (
     <>
-      <Form labelAlign="left" colon={false} labelCol={{ span: 3 }}>
+      <Form labelAlign="left" colon={false} labelCol={{ span: 4 }}>
         <Item label={intl.formatMessage({ id: 'username' })} name="username">
           <Input
             placeholder={intl.formatMessage({ id: 'placeholderUsername' })}
@@ -53,10 +62,15 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
           </Button>
         </Item>
         <Item>
-          <div className={`register-btn`}>
-            <Button type="text" danger>
-              {intl.formatMessage({ id: 'register' })}
-            </Button>
+          <div className="flex items-center justify-between">
+            <Checkbox>
+              {intl.formatMessage({ id: 'remember_the_password' })}
+            </Checkbox>
+            <div className={`register-btn`}>
+              <Button type="text" danger>
+                {intl.formatMessage({ id: 'register' })}
+              </Button>
+            </div>
           </div>
         </Item>
         <Divider plain>
@@ -99,5 +113,4 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
   );
 };
 
-// @ts-ignore
 export default injectIntl(LoginForm);

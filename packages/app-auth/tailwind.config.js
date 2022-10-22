@@ -4,4 +4,8 @@ module.exports = {
     './src/components/**.tsx',
     './src/layouts/**.tsx',
   ],
-}
+  fontFamily: {
+    sans: ['Graphik', 'sans-serif'],
+    serif: ['Merriweather', 'serif'],
+  },
+};
