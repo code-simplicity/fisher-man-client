@@ -1,21 +1,24 @@
 import React, { FC } from 'react';
+import { injectIntl } from '@@/plugin-locale';
 import { ComponentsProps } from '@/pages/Login/interface';
 import { Button, Form } from 'antd';
 import { LoginEnum } from '@/utils';
 import { useModel } from 'umi';
-import { injectIntl } from '@@/plugin-locale';
 
 const { Item } = Form;
 
-interface RegisterFormProps extends ComponentsProps {}
+interface ForgetFormProps extends ComponentsProps {}
 
-// 注册表单
-const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
+// 忘记密码
+const ForgetForm: FC<ForgetFormProps> = ({ intl }) => {
   const { handleCheckForm } = useModel('loginModel');
   return (
     <>
-      <h2 className="text-xl">{intl.formatMessage({ id: 'register' })}</h2>
+      <h2 className="text-xl">
+        {intl.formatMessage({ id: 'forgetPassword' })}
+      </h2>
       <Form>
+        <Item></Item>
         <Item>
           <div className="flex items-center justify-between">
             <Button
@@ -28,9 +31,9 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
               <Button
                 type="text"
                 danger
-                onClick={() => handleCheckForm(LoginEnum.forgetPassword)}
+                onClick={() => handleCheckForm(LoginEnum.register)}
               >
-                {intl.formatMessage({ id: 'forgetPassword' })}
+                {intl.formatMessage({ id: 'register' })}
               </Button>
             </div>
           </div>
@@ -40,4 +43,4 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
   );
 };
 
-export default injectIntl(RegisterForm);
+export default injectIntl(ForgetForm);

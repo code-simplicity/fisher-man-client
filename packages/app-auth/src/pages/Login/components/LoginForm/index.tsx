@@ -1,10 +1,12 @@
 import { injectIntl } from '@@/plugin-locale';
-import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Form, Input, Row } from 'antd';
 import React, { FC } from 'react';
 import { ComponentsProps } from '@/pages/Login/interface';
 import OtherLoginMode from '../OtherLoginMode';
 
 import './index.less';
+import { useModel } from 'umi';
+import { LoginEnum } from '@/utils';
 
 const { Item } = Form;
 
@@ -12,10 +14,12 @@ interface LoginFormProps extends ComponentsProps {}
 
 // 登陆表单
 const LoginForm: FC<LoginFormProps> = ({ intl }) => {
+  const { cardFormState, handleCheckForm } = useModel('loginModel');
+
   return (
     <>
       <h2 className="text-xl">
-        {intl.formatMessage({ id: 'login_with_account_password' })}
+        {intl.formatMessage({ id: 'loginWithAccountPassword' })}
       </h2>
       <Form labelAlign="left" colon={false} labelCol={{ span: 4 }}>
         <Item name="username">
@@ -52,11 +56,18 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
         </Item>
         <Item>
           <div className="flex items-center justify-between">
-            <Checkbox>
-              {intl.formatMessage({ id: 'remember_the_password' })}
-            </Checkbox>
+            <Button
+              type="link"
+              onClick={() => handleCheckForm(LoginEnum.forgetPassword)}
+            >
+              {intl.formatMessage({ id: 'forgetPassword' })}
+            </Button>
             <div className={`register-btn`}>
-              <Button type="text" danger>
+              <Button
+                type="text"
+                danger
+                onClick={() => handleCheckForm(LoginEnum.register)}
+              >
                 {intl.formatMessage({ id: 'register' })}
               </Button>
             </div>
