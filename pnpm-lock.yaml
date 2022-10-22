@@ -11,6 +11,7 @@ importers:
   packages/app-auth:
     specifiers:
       '@ant-design/icons': ^4.7.0
+      '@icon-park/react': ^1.4.2
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@umijs/lint': ^4.0.25
@@ -23,15 +24,18 @@ importers:
       prettier-plugin-organize-imports: ^2
       prettier-plugin-packagejson: ^2
       qrcode.react: ^3.1.0
+      react-hook-form: ^7.38.0
       stylelint: ^14.14.0
       tailwindcss: ^3
       typescript: ^4.1.2
       umi: ^4.0.25
     dependencies:
       '@ant-design/icons': 4.7.0
+      '@icon-park/react': 1.4.2
       ahooks: 3.7.2
       antd: 4.23.5
       qrcode.react: 3.1.0
+      react-hook-form: 7.38.0
       umi: 4.0.25_rwolo2oicssgq7yy75a3svvjq4
     devDependencies:
       '@types/react': 18.0.21
@@ -1220,6 +1224,14 @@ packages:
     resolution: {integrity: sha512-H9XAx3hc0BQHY6l+IFSWHDySypcXsvsuLhgYLUGywmJ5pswRVQJUHpOsobnLYp2ZUaUlKiKDrgWWhosOwAEM8Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@hutson/parse-repository-url/-/parse-repository-url-3.0.2.tgz}
     engines: {node: '>=6.9.0'}
     dev: true
+
+  /@icon-park/react/1.4.2:
+    resolution: {integrity: sha512-+MtQLjNiRuia3fC/NfpSCTIy5KH5b+NkMB9zYd7p3R4aAIK61AjK0OSraaICJdkKooU9jpzk8m0fY4g9A3JqhQ==}
+    engines: {node: '>= 8.0.0', npm: '>= 5.0.0'}
+    peerDependencies:
+      react: '>=16.9'
+      react-dom: '>=16.9'
+    dev: false
 
   /@isaacs/string-locale-compare/1.1.0:
     resolution: {integrity: sha512-SQ7Kzhh9+D+ZW9MA0zkYv3VXhIDNx+LzM6EJ+/65I3QY+enU6Itte7E5XX7EWrqLW2FN4n06GWzBnPoC3th2aQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@isaacs/string-locale-compare/-/string-locale-compare-1.1.0.tgz}
@@ -10520,6 +10532,13 @@ packages:
 
   /react-error-overlay/6.0.9:
     resolution: {integrity: sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==}
+    dev: false
+
+  /react-hook-form/7.38.0:
+    resolution: {integrity: sha512-gxWW1kMeru9xR1GoR+Iw4hA+JBOM3SHfr4DWCUKY0xc7Vv1MLsF109oHtBeWl9shcyPFx67KHru44DheN0XY5A==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
     dev: false
 
   /react-intl/3.12.1:
