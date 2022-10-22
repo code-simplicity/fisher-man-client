@@ -7,7 +7,7 @@ export default {
   github: 'Github',
   qq: 'QQ',
   google: 'Google',
-  Weibo: 'Weibo',
+  weibo: 'Weibo',
   username: 'username',
   password: 'password',
   verifyCode: 'verifyCode',
@@ -21,4 +21,5 @@ export default {
   loginWithAccountPassword: 'Login with account password',
   accountLogin: 'Account login',
   sweepQRCodeLogin: 'Scan QR code login',
+  sweepTheCodePrompt: 'Please scan the code in using the Touch Fish APP',
 };

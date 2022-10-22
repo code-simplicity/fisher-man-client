@@ -9,6 +9,7 @@ import ForgetForm from '@/pages/Login/components/ForgetForm';
 import LoginForm from '@/pages/Login/components/LoginForm';
 import SweepQRCode from '@/pages/Login/components/SweepQRCode';
 import RegisterForm from '@/pages/Login/components/RegisterForm';
+import '@icon-park/react/styles/index.less';
 
 const prefixCls = 'login-container';
 const { Item } = Form;

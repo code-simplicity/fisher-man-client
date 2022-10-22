@@ -19,7 +19,11 @@ const SweepQRCode: FC<SweepQRCodeProps> = ({ intl }) => {
           level={'H'}
           includeMargin={true}
         />
-        <div className="text-md">请使用摸鱼君APP扫码进行登录</div>
+        <div className="text-md">
+          {intl.formatMessage({
+            id: 'sweepTheCodePrompt',
+          })}
+        </div>
       </div>
       <OtherLoginMode />
     </>

@@ -21,4 +21,5 @@ export default {
   loginWithAccountPassword: '账户密码登陆',
   accountLogin: '账户登陆',
   sweepQRCodeLogin: '扫码登陆',
+  sweepTheCodePrompt: '请使用摸鱼君APP扫码进行登录',
 };
