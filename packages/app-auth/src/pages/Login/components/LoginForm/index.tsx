@@ -1,23 +1,9 @@
 import { injectIntl } from '@@/plugin-locale';
-import {
-  Button,
-  Checkbox,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Row,
-  Tooltip,
-} from 'antd';
-import {
-  GithubFilled,
-  GooglePlusOutlined,
-  QqCircleFilled,
-  WechatFilled,
-} from '@ant-design/icons';
+import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
 import React, { FC } from 'react';
-import { IntlShape } from 'react-intl';
 import { ComponentsProps } from '@/pages/Login/interface';
+import OtherLoginMode from '../OtherLoginMode';
+
 import './index.less';
 
 const { Item } = Form;
@@ -28,24 +14,27 @@ interface LoginFormProps extends ComponentsProps {}
 const LoginForm: FC<LoginFormProps> = ({ intl }) => {
   return (
     <>
+      <h2 className="text-xl">
+        {intl.formatMessage({ id: 'login_with_account_password' })}
+      </h2>
       <Form labelAlign="left" colon={false} labelCol={{ span: 4 }}>
-        <Item label={intl.formatMessage({ id: 'username' })} name="username">
+        <Item name="username">
           <Input
+            bordered={false}
             placeholder={intl.formatMessage({ id: 'placeholderUsername' })}
           />
         </Item>
-        <Item label={intl.formatMessage({ id: 'password' })} name="password">
+        <Item name="password">
           <Input.Password
+            bordered={false}
             placeholder={intl.formatMessage({ id: 'placeholderPassword' })}
           />
         </Item>
-        <Item
-          label={intl.formatMessage({ id: 'verifyCode' })}
-          name="verifyCode"
-        >
+        <Item name="verifyCode">
           <Row gutter={12}>
             <Col span={16}>
               <Input
+                bordered={false}
                 placeholder={intl.formatMessage({
                   id: 'placeholderVerifyCode',
                 })}
@@ -73,40 +62,8 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
             </div>
           </div>
         </Item>
-        <Divider plain>
-          <h4>{intl.formatMessage({ id: 'otherWaysToLogIn' })}</h4>
-        </Divider>
         <Item>
-          <Row justify="space-between">
-            <Col span={6}>
-              <Tooltip title={intl.formatMessage({ id: 'wechat' })}>
-                <div className={`other-login-mode`}>
-                  <WechatFilled style={{ fontSize: '22px' }} />
-                </div>
-              </Tooltip>
-            </Col>
-            <Col span={6}>
-              <Tooltip title={intl.formatMessage({ id: 'github' })}>
-                <div className={`other-login-mode`}>
-                  <GithubFilled style={{ fontSize: '22px' }} />
-                </div>
-              </Tooltip>
-            </Col>
-            <Col span={6}>
-              <Tooltip title={intl.formatMessage({ id: 'qq' })}>
-                <div className={`other-login-mode`}>
-                  <QqCircleFilled style={{ fontSize: '22px' }} />
-                </div>
-              </Tooltip>
-            </Col>
-            <Col span={6}>
-              <Tooltip title={intl.formatMessage({ id: 'google' })}>
-                <div className={`other-login-mode`}>
-                  <GooglePlusOutlined style={{ fontSize: '22px' }} />
-                </div>
-              </Tooltip>
-            </Col>
-          </Row>
+          <OtherLoginMode />
         </Item>
       </Form>
     </>
