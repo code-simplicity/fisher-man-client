@@ -10,7 +10,7 @@ interface LayoutProps {
 // 样式配置
 const Layout: FC<LayoutProps> = (props) => {
   return (
-    <ConfigProvider prefixCls="fisher">
+    <ConfigProvider>
       <div className="layout-container">
         {props.children}
         <Outlet />

@@ -1,15 +1,23 @@
 import React, { FC, useState } from 'react';
-import { Form, Image, Select, Carousel, Tabs, Card } from 'antd';
+import {
+  Form,
+  Image,
+  Select,
+  Carousel,
+  Tabs,
+  Card,
+  ConfigProvider,
+} from 'antd';
 import { useIntl, getLocale, useModel } from 'umi';
 import { setLocale } from '@@/plugin-locale';
 import './index.less';
+import { SketchPicker } from 'react-color';
 
 import { LoginEnum } from '@/utils';
 import ForgetForm from '@/pages/Login/components/ForgetForm';
 import LoginForm from '@/pages/Login/components/LoginForm';
 import SweepQRCode from '@/pages/Login/components/SweepQRCode';
 import RegisterForm from '@/pages/Login/components/RegisterForm';
-import '@icon-park/react/styles/index.less';
 
 const prefixCls = 'login-container';
 const { Item } = Form;
@@ -63,6 +71,25 @@ const Login: FC = (props) => {
     }
   };
 
+  const [color, setColor] = useState({
+    primaryColor: '#ca013d',
+    errorColor: '#ff4d4f',
+    warningColor: '#faad14',
+    successColor: '#52c41a',
+    infoColor: '#1890ff',
+  });
+
+  const onColorChange = (nextColor: Partial<typeof color>) => {
+    const mergedNextColor = {
+      ...color,
+      ...nextColor,
+    };
+    setColor(mergedNextColor);
+    ConfigProvider.config({
+      theme: mergedNextColor,
+    });
+  };
+
   return (
     <div
       className={`${prefixCls} bg-gradient-to-bl from-blue-600 md:from-yellow-500`}
@@ -82,6 +109,15 @@ const Login: FC = (props) => {
         <div className={`${prefixCls}-wrapper-content`}>
           <div className="text-3xl absolute top-12 left-2 z-50 md:hidden sm:hidden">
             <div>{headerTitle}</div>
+            <SketchPicker
+              presetColors={['#1890ff', '#25b864', '#ff6f00']}
+              color={color.primaryColor}
+              onChange={({ hex }) => {
+                onColorChange({
+                  primaryColor: hex,
+                });
+              }}
+            />
           </div>
           <Image
             preview={false}

@@ -10,20 +10,21 @@ export default defineConfig({
     '@umijs/plugins/dist/dva',
     '@umijs/plugins/dist/model',
   ],
+  theme: {
+    primaryColor: '#6f0022',
+  },
   antd: {
     // dark: true,
-    configProvider: {
-      prefixCls: 'fisher',
-    },
+    configProvider: {},
   },
   // 加载器实现颜色的更改
-  lessLoader: {
-    modifyVars: {
-      '@ant-prefix': 'fisher',
-      'primary-color': '#a70000',
-    },
-    javascriptEnabled: true,
-  },
+  // lessLoader: {
+  //   modifyVars: {
+  //     '@ant-prefix': 'fisher',
+  //     'primary-color': '#a70000',
+  //   },
+  //   javascriptEnabled: true,
+  // },
   mfsu: {
     strategy: 'normal',
     shared: {
