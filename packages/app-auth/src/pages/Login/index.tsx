@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
 import {
   Form,
   Image,
@@ -33,10 +33,14 @@ const Login: FC = (props) => {
     getLocale() || intl.formatMessage({ id: 'zh-CN' }),
   );
   const { cardFormState } = useModel('loginModel');
-
   const [headerTitle, setHeaderTitle] = useState(
     intl.formatMessage({ id: 'fisherManApp' }),
   );
+  const [color, setColor] = useState(configurationColor('#e50878'));
+
+  // useLayoutEffect(() => {
+  //   onColorChange('#d80404');
+  // }, []);
 
   // 选择多语言
   const handleChangeLanguage = (value: string) => {
@@ -72,17 +76,11 @@ const Login: FC = (props) => {
     }
   };
 
-  const [color, setColor] = useState(configurationColor('#ca013d'));
-
   const onColorChange = (nextColor: string) => {
-    console.log('nextColor ==>', nextColor);
-    console.log(
-      'configurationColor(nextColor) ==>',
-      configurationColor(nextColor),
-    );
-    setColor(configurationColor(nextColor));
+    const colors = configurationColor(nextColor);
+    setColor(colors);
     ConfigProvider.config({
-      theme: color,
+      theme: colors,
     });
   };
 
@@ -106,8 +104,8 @@ const Login: FC = (props) => {
           <div className="text-3xl absolute top-12 left-2 z-50 md:hidden sm:hidden">
             <div>{headerTitle}</div>
             <SketchPicker
-              presetColors={['#1890ff', '#25b864', '#ff6f00']}
               color={color.primaryColor}
+              presetColors={['#1890ff', '#25b864', '#ff6f00']}
               onChange={({ hex }) => {
                 onColorChange(hex);
               }}

@@ -11,10 +11,12 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.7.0",
     "@icon-park/react": "^1.4.2",
     "ahooks": "^3.7.2",
     "antd": "^4.20.7",
+    "chroma-js": "^2.4.2",
     "color": "^4.2.3",
     "qrcode.react": "^3.1.0",
     "react-color": "^2.19.3",
@@ -22,6 +24,7 @@
     "umi": "^4.0.25"
   },
   "devDependencies": {
+    "@types/chroma-js": "^2.1.4",
     "@types/color": "^3.0.3",
     "@types/react": "^18.0.0",
     "@types/react-color": "^3.0.6",

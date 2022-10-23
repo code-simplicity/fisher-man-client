@@ -10,9 +10,6 @@ export default defineConfig({
     '@umijs/plugins/dist/dva',
     '@umijs/plugins/dist/model',
   ],
-  theme: {
-    primaryColor: '#6f0022',
-  },
   antd: {
     // dark: true,
     configProvider: {},

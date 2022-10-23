@@ -10,8 +10,10 @@ importers:
 
   packages/app-auth:
     specifiers:
+      '@ant-design/colors': ^6.0.0
       '@ant-design/icons': ^4.7.0
       '@icon-park/react': ^1.4.2
+      '@types/chroma-js': ^2.1.4
       '@types/color': ^3.0.3
       '@types/react': ^18.0.0
       '@types/react-color': ^3.0.6
@@ -20,6 +22,7 @@ importers:
       '@umijs/plugins': ^4.0.26
       ahooks: ^3.7.2
       antd: ^4.20.7
+      chroma-js: ^2.4.2
       color: ^4.2.3
       eslint: ^8.25.0
       lint-staged: ^13.0.3
@@ -34,16 +37,19 @@ importers:
       typescript: ^4.1.2
       umi: ^4.0.25
     dependencies:
+      '@ant-design/colors': 6.0.0
       '@ant-design/icons': 4.7.0
       '@icon-park/react': 1.4.2
       ahooks: 3.7.2
       antd: 4.23.5
+      chroma-js: 2.4.2
       color: 4.2.3
       qrcode.react: 3.1.0
       react-color: 2.19.3
       react-hook-form: 7.38.0
       umi: 4.0.25_rwolo2oicssgq7yy75a3svvjq4
     devDependencies:
+      '@types/chroma-js': 2.1.4
       '@types/color': 3.0.3
       '@types/react': 18.0.21
       '@types/react-color': 3.0.6
@@ -2766,6 +2772,10 @@ packages:
       '@babel/types': 7.19.4
     dev: false
 
+  /@types/chroma-js/2.1.4:
+    resolution: {integrity: sha512-l9hWzP7cp7yleJUI7P2acmpllTJNYf5uU6wh50JzSIZt3fFHe+w2FM6w9oZGBTYzjjm2qHdnQvI+fF/JF/E5jQ==}
+    dev: true
+
   /@types/color-convert/2.0.0:
     resolution: {integrity: sha512-m7GG7IKKGuJUXvkZ1qqG3ChccdIM/qBBo913z+Xft0nKCX4hAU/IxKwZBU4cpRZ7GS5kV4vOblUkILtSShCPXQ==}
     dependencies:
@@ -4493,6 +4503,10 @@ packages:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/chownr/-/chownr-2.0.0.tgz}
     engines: {node: '>=10'}
     dev: true
+
+  /chroma-js/2.4.2:
+    resolution: {integrity: sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==}
+    dev: false
 
   /ci-info/2.0.0:
     resolution: {integrity: sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/ci-info/-/ci-info-2.0.0.tgz}
