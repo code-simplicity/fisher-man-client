@@ -2,6 +2,11 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "dev": "pnpm -r --parallel --filter=./packages/* run dev",
+    "dev:app-container": "pnpm --filter=./packages/app-container run dev",
+    "dev:app-auth": "pnpm --filter=./packages/app-auth run dev",
+    "dev:app-portal": "pnpm --filter=./packages/app-portal run dev",
+    "dev:app-user-center": "pnpm --filter=./packages/app-user-center run dev",
     "start": "lerna run --parallel start",
     "install": "pnpm install",
     "bootstrap": "lerna bootstrap --hoist",
