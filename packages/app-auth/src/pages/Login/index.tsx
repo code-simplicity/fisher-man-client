@@ -18,6 +18,7 @@ import ForgetForm from '@/pages/Login/components/ForgetForm';
 import LoginForm from '@/pages/Login/components/LoginForm';
 import SweepQRCode from '@/pages/Login/components/SweepQRCode';
 import RegisterForm from '@/pages/Login/components/RegisterForm';
+import configurationColor from '@/utils/ConfigurationColor';
 
 const prefixCls = 'login-container';
 const { Item } = Form;
@@ -71,22 +72,17 @@ const Login: FC = (props) => {
     }
   };
 
-  const [color, setColor] = useState({
-    primaryColor: '#ca013d',
-    errorColor: '#ff4d4f',
-    warningColor: '#faad14',
-    successColor: '#52c41a',
-    infoColor: '#1890ff',
-  });
+  const [color, setColor] = useState(configurationColor('#ca013d'));
 
-  const onColorChange = (nextColor: Partial<typeof color>) => {
-    const mergedNextColor = {
-      ...color,
-      ...nextColor,
-    };
-    setColor(mergedNextColor);
+  const onColorChange = (nextColor: string) => {
+    console.log('nextColor ==>', nextColor);
+    console.log(
+      'configurationColor(nextColor) ==>',
+      configurationColor(nextColor),
+    );
+    setColor(configurationColor(nextColor));
     ConfigProvider.config({
-      theme: mergedNextColor,
+      theme: color,
     });
   };
 
@@ -113,9 +109,7 @@ const Login: FC = (props) => {
               presetColors={['#1890ff', '#25b864', '#ff6f00']}
               color={color.primaryColor}
               onChange={({ hex }) => {
-                onColorChange({
-                  primaryColor: hex,
-                });
+                onColorChange(hex);
               }}
             />
           </div>
