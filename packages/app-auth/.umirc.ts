@@ -1,4 +1,5 @@
 import { defineConfig } from 'umi';
+import routes from './config/routes';
 
 export default defineConfig({
   npmClient: 'pnpm',
@@ -9,8 +10,20 @@ export default defineConfig({
     '@umijs/plugins/dist/dva',
     '@umijs/plugins/dist/model',
   ],
-
-  antd: {},
+  antd: {
+    // dark: true,
+    configProvider: {
+      prefixCls: 'fisher',
+    },
+  },
+  // 加载器实现颜色的更改
+  lessLoader: {
+    modifyVars: {
+      '@ant-prefix': 'fisher',
+      'primary-color': '#a70000',
+    },
+    javascriptEnabled: true,
+  },
   mfsu: {
     strategy: 'normal',
     shared: {
@@ -29,20 +42,12 @@ export default defineConfig({
     baseNavigator: true,
     baseSeparator: '-',
   },
-
-  routes: [
-    {
-      path: '/',
-      redirect: '/login',
-    },
-
-    {
-      path: '/login',
-      component: './Login',
-    },
-  ],
-
+  routes,
   tailwindcss: {},
   dva: {},
   model: {},
+  title: '摸鱼君登陆',
+  targets: {
+    ie: 11,
+  },
 });
