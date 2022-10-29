@@ -22,4 +22,10 @@ export default {
   accountLogin: '账户登陆',
   sweepQRCodeLogin: '扫码登陆',
   sweepTheCodePrompt: '请使用摸鱼君APP扫码进行登录',
+  appSetting: '系统设置',
+  appSettingTitle: '摸鱼君-系统设置',
+
+  // 按钮
+  cancel: '取消',
+  ok: '确认',
 };

@@ -11,17 +11,17 @@ const configurationColor = (colorStr: string) => {
 
   // 取不同的数组，一共有10个数组，
   // 全局主色
-  const primaryColor = colors[9];
+  const primaryColor = colors[4];
   // 错误色
   const errorColor = colors[7];
   // 警告色
-  const warningColor = colors[7];
+  const warningColor = colors[2];
   // 成功色
   const successColor = colors[6];
   // 信息色
   const infoColor = colors[3];
   // 链接色
-  const linkColor = colors[4];
+  const linkColor = colors[9];
   // 边框颜色
   const borderColorBase = colors[5];
   // 主色号

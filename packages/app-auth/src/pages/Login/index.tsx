@@ -19,6 +19,8 @@ import LoginForm from '@/pages/Login/components/LoginForm';
 import SweepQRCode from '@/pages/Login/components/SweepQRCode';
 import RegisterForm from '@/pages/Login/components/RegisterForm';
 import configurationColor from '@/utils/ConfigurationColor';
+import AppSketchPicker from '@/components/AppSketchPicker';
+import AppSetting from '@/components/AppSetting';
 
 const prefixCls = 'login-container';
 const { Item } = Form;
@@ -92,27 +94,25 @@ const Login: FC = (props) => {
       className={`${prefixCls} bg-gradient-to-bl from-blue-600 md:from-yellow-500`}
     >
       <div className="md:hidden sm:hidden absolute top-6 right-6">
-        <Select
-          defaultValue={defaultLanguage}
-          bordered={false}
-          popupClassName="w-12"
-          onChange={handleChangeLanguage}
-        >
-          <Option value="zh-CN">{intl.formatMessage({ id: 'zh-CH' })}</Option>
-          <Option value="en-US">{intl.formatMessage({ id: 'en-US' })}</Option>
-        </Select>
+        <div className="flex">
+          <div className="mx-2">
+            <AppSketchPicker />
+          </div>
+          <Select
+            defaultValue={defaultLanguage}
+            bordered={false}
+            popupClassName="w-12"
+            onChange={handleChangeLanguage}
+          >
+            <Option value="zh-CN">{intl.formatMessage({ id: 'zh-CH' })}</Option>
+            <Option value="en-US">{intl.formatMessage({ id: 'en-US' })}</Option>
+          </Select>
+        </div>
       </div>
       <div className={`${prefixCls}-wrapper`}>
         <div className={`${prefixCls}-wrapper-content`}>
           <div className="text-3xl absolute top-12 left-2 z-50 md:hidden sm:hidden">
             <div>{headerTitle}</div>
-            <SketchPicker
-              color={color.primaryColor}
-              presetColors={['#1890ff', '#25b864', '#ff6f00']}
-              onChange={({ hex }) => {
-                onColorChange(hex);
-              }}
-            />
           </div>
           <Image
             preview={false}
@@ -138,6 +138,7 @@ const Login: FC = (props) => {
           </div>
         </div>
       </div>
+      <AppSetting />
     </div>
   );
 };

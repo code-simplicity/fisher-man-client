@@ -22,4 +22,10 @@ export default {
   accountLogin: 'Account login',
   sweepQRCodeLogin: 'Scan QR code login',
   sweepTheCodePrompt: 'Please scan the code in using the Touch Fish APP',
+  appSetting: 'App setting',
+  appSettingTitle: '摸鱼君-系统设置',
+
+  // 按钮
+  cancel: 'Cancel',
+  ok: 'OK',
 };
