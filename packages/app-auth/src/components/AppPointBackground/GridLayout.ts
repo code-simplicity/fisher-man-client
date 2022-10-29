@@ -36,7 +36,6 @@ class GridLayout {
 
   // 是否存在碰撞物
   hasCollisions = (t: any) => {
-    console.log('t ==>', t);
     return this.getCells(t).some((e) => {
       if (e === undefined || !Array.isArray(e)) {
         return;

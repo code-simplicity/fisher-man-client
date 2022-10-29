@@ -1,18 +1,6 @@
 import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
-import {
-  Form,
-  Image,
-  Select,
-  Carousel,
-  Tabs,
-  Card,
-  ConfigProvider,
-} from 'antd';
-import { useIntl, getLocale, useModel } from 'umi';
-import { setLocale } from '@@/plugin-locale';
-import './index.less';
-import { SketchPicker } from 'react-color';
-
+import { Form, Image, Select, Tabs, Card, ConfigProvider } from 'antd';
+import { useIntl, useModel } from 'umi';
 import { LoginEnum } from '@/utils';
 import ForgetForm from '@/pages/Login/components/ForgetForm';
 import LoginForm from '@/pages/Login/components/LoginForm';
@@ -22,6 +10,8 @@ import configurationColor from '@/utils/ConfigurationColor';
 import AppSketchPicker from '@/components/AppSketchPicker';
 import AppSetting from '@/components/AppSetting';
 import AppPointBackground from '@/components/AppPointBackground';
+import './index.less';
+import AppTriggerLocales from '@/components/AppTriggerLocales';
 
 const prefixCls = 'login-container';
 const { Item } = Form;
@@ -31,10 +21,7 @@ const { TabPane } = Tabs;
 // 登陆模块
 const Login: FC = (props) => {
   const intl = useIntl();
-  // 语言
-  const [defaultLanguage, setDefaultLanguage] = useState(
-    getLocale() || intl.formatMessage({ id: 'zh-CN' }),
-  );
+
   const { cardFormState } = useModel('loginModel');
   const [headerTitle, setHeaderTitle] = useState(
     intl.formatMessage({ id: 'fisherManApp' }),
@@ -46,12 +33,6 @@ const Login: FC = (props) => {
   useLayoutEffect(() => {
     onColorChange('#e50878');
   }, []);
-
-  // 选择多语言
-  const handleChangeLanguage = (value: string) => {
-    // 设置当前的多语言
-    setLocale(value);
-  };
 
   // 获取不同的组件
   const getDifferentComponents = () => {
@@ -98,15 +79,7 @@ const Login: FC = (props) => {
           <div className="mx-2">
             <AppSketchPicker />
           </div>
-          <Select
-            defaultValue={defaultLanguage}
-            bordered={false}
-            popupClassName="w-12"
-            onChange={handleChangeLanguage}
-          >
-            <Option value="zh-CN">{intl.formatMessage({ id: 'zh-CH' })}</Option>
-            <Option value="en-US">{intl.formatMessage({ id: 'en-US' })}</Option>
-          </Select>
+          <AppTriggerLocales />
         </div>
       </div>
       <div className={`${prefixCls}-wrapper`}>

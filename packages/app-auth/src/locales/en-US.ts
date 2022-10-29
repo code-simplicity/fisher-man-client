@@ -14,7 +14,7 @@ export default {
   placeholderUsername: 'Please enter username or email',
   placeholderPassword: 'Please enter password ',
   placeholderVerifyCode: 'Please enter verify code',
-  'zh-CH': '中文',
+  'zh-CN': '中文',
   'en-US': 'English',
   rememberThePassword: 'Remember the password',
   fisherManApp: 'Fisher man app',

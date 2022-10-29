@@ -14,7 +14,7 @@ export default {
   placeholderUsername: '请输入用户名/邮箱',
   placeholderPassword: '请输入密码',
   placeholderVerifyCode: '请输入验证码',
-  'zh-CH': '中文',
+  'zh-CN': '中文',
   'en-US': 'English',
   rememberThePassword: '记住密码',
   fisherManApp: '摸鱼君平台',
