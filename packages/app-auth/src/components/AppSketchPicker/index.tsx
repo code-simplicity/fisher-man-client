@@ -58,7 +58,7 @@ const AppSketchPicker: FC<AppSketchPickerProps> = ({ intl }) => {
       <div className={`${prefixCls}-content`}>
         <div
           style={{
-            position: 'fixed',
+            position: 'absolute',
             top: '0',
             right: '0',
             bottom: '0',
