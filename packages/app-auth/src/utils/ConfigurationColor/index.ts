@@ -2,27 +2,45 @@ import Color from 'color';
 import Chroma from 'chroma-js';
 import { generate, presetPalettes } from '@ant-design/colors';
 
+// TODO:继续编写颜色配置
 // 配置颜色
 const configurationColor = (colorStr: string) => {
   const colors = generate(colorStr);
   console.log('colors ==>', colors);
   console.log('presetPalettes ==>', presetPalettes);
-  // 计算老的数据
 
-  // const chromaScale = Chroma.scale([colorStr, computerColor.hex()]);
-  // 主颜色
-
+  // 取不同的数组，一共有10个数组，
+  // 全局主色
   const primaryColor = colors[9];
-  const errorColor = colors[5];
+  // 错误色
+  const errorColor = colors[7];
+  // 警告色
   const warningColor = colors[7];
+  // 成功色
   const successColor = colors[6];
-  const infoColor = colors[5];
+  // 信息色
+  const infoColor = colors[3];
+  // 链接色
+  const linkColor = colors[4];
+  // 边框颜色
+  const borderColorBase = colors[5];
+  // 主色号
+  const textColor = colors[9];
+  // 标题色
+  const headingColor = 'rgba(0, 0, 0, 0.85)';
+  // 次文本颜色
+  const textColorSecondary = 'rgba(0, 0, 0, 0.45);';
   return {
     primaryColor: primaryColor,
     errorColor: errorColor,
     warningColor: warningColor,
     successColor: successColor,
     infoColor: infoColor,
+    linkColor: linkColor,
+    borderColorBase: borderColorBase,
+    textColor: textColor,
+    headingColor: headingColor,
+    textColorSecondary: textColorSecondary,
   };
 };
 
@@ -50,7 +68,5 @@ const colorPalette = (colorStr: string, opacity: number, type: string) => {
   }
   return colorState;
 };
-
-// 颜色规则的转换
 
 export default configurationColor;

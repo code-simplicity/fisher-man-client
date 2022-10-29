@@ -36,11 +36,13 @@ const Login: FC = (props) => {
   const [headerTitle, setHeaderTitle] = useState(
     intl.formatMessage({ id: 'fisherManApp' }),
   );
-  const [color, setColor] = useState(configurationColor('#e50878'));
+  const [color, setColor] = useState({
+    primaryColor: '#e50878',
+  });
 
-  // useLayoutEffect(() => {
-  //   onColorChange('#d80404');
-  // }, []);
+  useLayoutEffect(() => {
+    onColorChange('#e50878');
+  }, []);
 
   // 选择多语言
   const handleChangeLanguage = (value: string) => {
@@ -78,7 +80,8 @@ const Login: FC = (props) => {
 
   const onColorChange = (nextColor: string) => {
     const colors = configurationColor(nextColor);
-    setColor(colors);
+    // 设置颜色
+    setColor({ primaryColor: nextColor });
     ConfigProvider.config({
       theme: colors,
     });
