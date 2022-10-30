@@ -1,18 +1,31 @@
 import { ComponentsProps } from '@/pages/Login/interface';
 import React, { FC, useCallback, useState } from 'react';
 import { injectIntl } from '@@/plugin-locale';
-import { SettingOne } from '@icon-park/react';
+import { SettingOne, Tool } from '@icon-park/react';
 import './index.less';
-import { Button, Card, Col, Drawer, Form, Row, Space, Tooltip } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Drawer,
+  Form,
+  Row,
+  Space,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
 import AppSketchPicker from '@/components/AppSketchPicker';
 import AppTriggerLocales from '@/components/AppTriggerLocales';
-import AppCard from '@/components/AppCard';
+import AppText from '@/components/AppText';
 
 interface AppSettingProps extends ComponentsProps {}
 
 // TODO:明天继续完善设置组件的编写，加入拖拽的组件，这里需要开发一个拖拽的组件，后面再继续的去实践
 
 const { Item } = Form;
+const { Title } = Typography;
 
 // 设置组件
 const AppSetting: FC<AppSettingProps> = ({ intl }) => {
@@ -38,7 +51,7 @@ const AppSetting: FC<AppSettingProps> = ({ intl }) => {
       <Drawer
         title={intl.formatMessage({ id: 'appSettingTitle' })}
         placement="right"
-        width={500}
+        width={360}
         onClose={handleClose}
         open={openDrawer}
         mask={true}
@@ -54,12 +67,21 @@ const AppSetting: FC<AppSettingProps> = ({ intl }) => {
           </Space>
         }
       >
-        <Form>
-          <Item label={intl.formatMessage({ id: 'appSketchPicker' })}>
-            <AppSketchPicker />
+        <Form colon={false}>
+          <Divider orientation="left">
+            <Tag icon={<Tool theme="outline" size="18" />} color="processing">
+              <AppText text={intl.formatMessage({ id: 'systemSetting' })} />
+            </Tag>
+          </Divider>
+          <Item label={intl.formatMessage({ id: 'systemTheme' })}>
+            <div className="flex-end">
+              <AppSketchPicker />
+            </div>
           </Item>
-          <Item label={intl.formatMessage({ id: 'appSketchPicker' })}>
-            <AppTriggerLocales />
+          <Item label={intl.formatMessage({ id: 'systemLanguage' })}>
+            <div className="flex-end">
+              <AppTriggerLocales />
+            </div>
           </Item>
         </Form>
       </Drawer>
