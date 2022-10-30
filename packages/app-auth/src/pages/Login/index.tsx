@@ -74,14 +74,6 @@ const Login: FC = (props) => {
   return (
     <div className={`${prefixCls}`}>
       <AppPointBackground x={0} y={0} radius={0} />
-      <div className="md:hidden sm:hidden absolute top-6 right-6 z-10">
-        <div className="flex">
-          <div className="mx-2">
-            <AppSketchPicker />
-          </div>
-          <AppTriggerLocales />
-        </div>
-      </div>
       <div className={`${prefixCls}-wrapper`}>
         <div className={`${prefixCls}-wrapper-content`}>
           <div className="text-3xl absolute top-12 left-2 z-50 md:hidden sm:hidden">

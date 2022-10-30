@@ -56,25 +56,22 @@ const AppSketchPicker: FC<AppSketchPickerProps> = ({ intl }) => {
         </div>
       </div>
       <div className={`${prefixCls}-content`}>
-        <div
-          style={{
-            position: 'absolute',
-            top: '0',
-            right: '0',
-            bottom: '0',
-            left: '0',
-            zIndex: '-1',
-          }}
-          onClick={handlePaletteClose}
-        />
         {paletteState ? (
-          <SketchPicker
-            color={color.primaryColor}
-            presetColors={['#1890ff', '#25b864', '#ff6f00']}
-            onChange={({ hex }) => {
-              onColorChange(hex);
-            }}
-          />
+          <>
+            <div
+              className={`${prefixCls}-content-mask`}
+              onClick={handlePaletteClose}
+            />
+            <div className={`${prefixCls}-content-pick`}>
+              <SketchPicker
+                color={color.primaryColor}
+                presetColors={['#1890ff', '#25b864', '#ff6f00']}
+                onChange={({ hex }) => {
+                  onColorChange(hex);
+                }}
+              />
+            </div>
+          </>
         ) : null}
       </div>
     </div>

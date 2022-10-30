@@ -1,11 +1,18 @@
 import { ComponentsProps } from '@/pages/Login/interface';
-import { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { injectIntl } from '@@/plugin-locale';
 import { SettingOne } from '@icon-park/react';
 import './index.less';
-import { Button, Drawer, Space, Tooltip } from 'antd';
+import { Button, Card, Col, Drawer, Form, Row, Space, Tooltip } from 'antd';
+import AppSketchPicker from '@/components/AppSketchPicker';
+import AppTriggerLocales from '@/components/AppTriggerLocales';
+import AppCard from '@/components/AppCard';
 
 interface AppSettingProps extends ComponentsProps {}
+
+// TODO:明天继续完善设置组件的编写，加入拖拽的组件，这里需要开发一个拖拽的组件，后面再继续的去实践
+
+const { Item } = Form;
 
 // 设置组件
 const AppSetting: FC<AppSettingProps> = ({ intl }) => {
@@ -20,6 +27,7 @@ const AppSetting: FC<AppSettingProps> = ({ intl }) => {
   const handleClose = () => {
     setOpenDrawer(false);
   };
+
   return (
     <>
       <div className="app-setting-container" onClick={handleOpenSetting}>
@@ -30,7 +38,7 @@ const AppSetting: FC<AppSettingProps> = ({ intl }) => {
       <Drawer
         title={intl.formatMessage({ id: 'appSettingTitle' })}
         placement="right"
-        width={600}
+        width={500}
         onClose={handleClose}
         open={openDrawer}
         mask={true}
@@ -46,9 +54,14 @@ const AppSetting: FC<AppSettingProps> = ({ intl }) => {
           </Space>
         }
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <Form>
+          <Item label={intl.formatMessage({ id: 'appSketchPicker' })}>
+            <AppSketchPicker />
+          </Item>
+          <Item label={intl.formatMessage({ id: 'appSketchPicker' })}>
+            <AppTriggerLocales />
+          </Item>
+        </Form>
       </Drawer>
     </>
   );
