@@ -1,0 +1,30 @@
+.app-point-background-container {
+  position: fixed;
+  left:0;
+  top:0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #019BF0;
+  z-index: 1;
+  &-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    left: -100%;
+    top: 0;
+    bottom: 0;
+    right: -100%;
+    margin: auto;
+  }
+  &-block {
+    position: absolute;
+    transition: transform .45s ease;
+    &-child {
+      border-radius: 100%;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

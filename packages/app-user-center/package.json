@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "app-user-center",
   "author":"DPY",
   "scripts": {
     "dev": "max dev",
