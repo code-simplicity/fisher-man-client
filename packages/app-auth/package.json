@@ -3,12 +3,12 @@
   "private": true,
   "author": "DPY",
   "scripts": {
-    "dev": "umi dev",
-    "build": "umi build",
-    "format": "prettier --cache --write .",
-    "postinstall": "umi setup",
-    "setup": "umi setup",
-    "start": "npm run dev"
+    "dev:APP-AUTH": "umi dev",
+    "build:APP-AUTH": "umi build",
+    "format:APP-AUTH": "prettier --cache --write .",
+    "postinstall:APP-AUTH": "umi setup",
+    "setup:APP-AUTH": "umi setup",
+    "start:APP-AUTH": "npm run dev"
   },
   "dependencies": {
     "@ant-design/colors": "^6.0.0",

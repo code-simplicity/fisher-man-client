@@ -1,21 +1,33 @@
+@import '~antd/es/style/themes/variable.less';
+
 .login-container {
   position: relative;
   height: 100%;
   width: 100%;
+  padding: 40px;
   &-wrapper {
     height: 100%;
-    width: 70%;
-    margin: auto;
-    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     &-content {
       position: relative;
       width: 100%;
       height: 100%;
+      z-index: 2;
+      .app-header-title {
+        color: @primary-color;
+        font-weight: 700;
+      }
       &-image {
         background-size: cover;
       }
     }
     &-form {
+      width: 422px;
+      min-height: 600px;
+      height: 100%;
+      z-index: 2;
     }
   }
 }
