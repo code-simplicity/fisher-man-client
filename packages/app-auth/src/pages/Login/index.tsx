@@ -80,23 +80,19 @@ const Login: FC = (props) => {
             <div>{headerTitle}</div>
           </div>
         </div>
-        <div
-          className={`${prefixCls}-wrapper-form`}
-        >
-          <div className={`${prefixCls}-wrapper-form`}>
-            <Card
-              className="login-card-warp"
-              title={
-                <>
-                  <span className="text-2xl flex items-center justify-center">
-                    {headerTitle}
-                  </span>
-                </>
-              }
-            >
-              {getDifferentComponents()}
-            </Card>
-          </div>
+        <div className={`${prefixCls}-wrapper-form md:mr-24`}>
+          <Card
+            className="login-card-warp"
+            title={
+              <>
+                <span className="text-2xl flex items-center justify-center">
+                  {headerTitle}
+                </span>
+              </>
+            }
+          >
+            {getDifferentComponents()}
+          </Card>
         </div>
       </div>
       <AppSetting />
