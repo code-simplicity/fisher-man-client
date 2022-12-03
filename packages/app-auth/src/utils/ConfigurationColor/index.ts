@@ -32,15 +32,15 @@ const configurationColor = (colorStr: string) => {
   const textColorSecondary = 'rgba(0, 0, 0, 0.45);';
   return {
     primaryColor: primaryColor,
-    errorColor: errorColor,
-    warningColor: warningColor,
-    successColor: successColor,
-    infoColor: infoColor,
-    linkColor: linkColor,
-    borderColorBase: borderColorBase,
-    textColor: textColor,
-    headingColor: headingColor,
-    textColorSecondary: textColorSecondary,
+    // errorColor: errorColor,
+    // warningColor: warningColor,
+    // successColor: successColor,
+    // infoColor: infoColor,
+    // linkColor: linkColor,
+    // borderColorBase: borderColorBase,
+    // textColor: textColor,
+    // headingColor: headingColor,
+    // textColorSecondary: textColorSecondary,
   };
 };
 

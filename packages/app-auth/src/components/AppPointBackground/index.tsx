@@ -8,7 +8,7 @@ import AppPoint from '@/components/AppPointBackground/Point';
 import './index.less';
 import { AppPointBackgroundType } from './interface';
 
-interface AppPointBackgroundProps extends AppPointBackgroundType {}
+type AppPointBackgroundProps = AppPointBackgroundType;
 
 interface appPointStateType extends AppPointBackgroundProps {
   data: [AppPointBackgroundProps] | any;

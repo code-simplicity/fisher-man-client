@@ -5,7 +5,7 @@ import TweenOne from 'rc-tween-one';
 import './index.less';
 import { AppPointBackgroundType } from './interface';
 
-interface AppPointProps extends AppPointBackgroundType {}
+type AppPointProps = AppPointBackgroundType;
 
 // 圆点
 const AppPoint: FC<AppPointProps> = (props: AppPointProps) => {
@@ -54,7 +54,7 @@ const AppPoint: FC<AppPointProps> = (props: AppPointProps) => {
       <TweenOne
         animation={animation}
         style={{
-          backgroundColor,
+          backgroundColor: backgroundColor,
         }}
         className={`${props.className}-child`}
       />
