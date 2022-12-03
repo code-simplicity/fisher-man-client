@@ -48,4 +48,14 @@ export default defineConfig({
   targets: {
     ie: 11,
   },
+  // 配置代理
+  proxy: {
+    '/auth': {
+      target: 'http://localhost:5012/',
+      changeOrigin: true,
+      pathRewrite: {
+        auth: '',
+      },
+    },
+  },
 });

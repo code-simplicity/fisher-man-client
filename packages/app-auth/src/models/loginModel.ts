@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import { useIntl } from 'umi';
 import { LoginEnum } from '@/utils';
 
-interface loginConfigStateProps {
+interface formConfigStateProps {
   border?: boolean;
+  formItemLayout?: {
+    labelCol: object;
+    wrapperCol: object;
+  };
 }
 
+/**
+ * 验证函数参数类型
+ */
 interface validateRuleProps {
-  required: boolean;
-  message: string;
-  args: any;
+  required?: boolean; // 是否必填
+  message?: string; // 验证消息
+  args?: any; // 其他参数
 }
 
 // 登陆的状态
@@ -23,25 +30,37 @@ export default () => {
     setCardFromState(state);
   };
 
-  // 登陆表单配置
-  const [loginConfigState, setLoginConfigState] =
-    useState<loginConfigStateProps>({
-      border: false,
-    });
+  // 表单配置
+  const [formConfigState, setFormConfigState] = useState<formConfigStateProps>({
+    border: false,
+    formItemLayout: {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 24 },
+      },
+    },
+  });
 
   // 设置配置选项
-  const handleSetLoginConfigState = (config: loginConfigStateProps) => {
+  const handleSetLoginConfigState = (config: formConfigStateProps) => {
     // 对登陆的表单进行配置设置
-    setLoginConfigState({ ...loginConfigState, ...config });
+    setFormConfigState({ ...formConfigState, ...config });
   };
 
   // 验证规则
-  const validateRule = (required = true, message?: string, args?: any) => {
+  const validateRule = (
+    validateRuleProps: validateRuleProps,
+  ): validateRuleProps[] => {
+    const { required = true, message, ...args } = validateRuleProps;
     return [
       {
         required: required,
         message: message,
-        ...args,
+        args,
       },
     ];
   };
@@ -49,7 +68,7 @@ export default () => {
   return {
     language,
     cardFormState,
-    loginConfigState,
+    formConfigState,
     handleCheckForm,
     handleSetLoginConfigState,
     validateRule,

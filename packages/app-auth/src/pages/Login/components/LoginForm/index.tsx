@@ -10,11 +10,11 @@ import { FingerprintThree, Key, User } from '@icon-park/react';
 
 const { Item } = Form;
 
-interface LoginFormProps extends ComponentsProps {}
+type LoginFormProps = ComponentsProps;
 
 // 登陆表单
 const LoginForm: FC<LoginFormProps> = ({ intl }) => {
-  const { loginConfigState, handleCheckForm, validateRule } =
+  const { formConfigState, handleCheckForm, validateRule } =
     useModel('loginModel');
 
   // 登陆
@@ -32,19 +32,18 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
       <Form
         labelAlign="left"
         colon={false}
-        labelCol={{ span: 4 }}
+        {...formConfigState.formItemLayout}
         onFinish={handleLogin}
         autoComplete="off"
       >
         <Item
           name="username"
-          rules={validateRule(
-            true,
-            intl.formatMessage({ id: 'placeholderUsername' }),
-          )}
+          rules={validateRule({
+            message: intl.formatMessage({ id: 'placeholderUsername' }),
+          })}
         >
           <Input
-            bordered={loginConfigState.border}
+            bordered={formConfigState.border}
             prefix={<User theme="outline" size="18" />}
             allowClear
             placeholder={intl.formatMessage({ id: 'placeholderUsername' })}
@@ -52,13 +51,12 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
         </Item>
         <Item
           name="password"
-          rules={validateRule(
-            true,
-            intl.formatMessage({ id: 'placeholderUsername' }),
-          )}
+          rules={validateRule({
+            message: intl.formatMessage({ id: 'placeholderUsername' }),
+          })}
         >
           <Input.Password
-            bordered={loginConfigState.border}
+            bordered={formConfigState.border}
             prefix={<Key theme="outline" size="18" />}
             allowClear
             placeholder={intl.formatMessage({ id: 'placeholderPassword' })}
@@ -66,15 +64,14 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
         </Item>
         <Item
           name="verifyCode"
-          rules={validateRule(
-            true,
-            intl.formatMessage({ id: 'placeholderVerifyCode' }),
-          )}
+          rules={validateRule({
+            message: intl.formatMessage({ id: 'placeholderVerifyCode' }),
+          })}
         >
           <Row gutter={12}>
             <Col span={16}>
               <Input
-                bordered={loginConfigState.border}
+                bordered={formConfigState.border}
                 prefix={<FingerprintThree theme="outline" size="18" />}
                 allowClear
                 placeholder={intl.formatMessage({

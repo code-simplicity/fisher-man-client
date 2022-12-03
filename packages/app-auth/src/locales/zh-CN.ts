@@ -30,4 +30,12 @@ export default {
   systemSetting: '系统设置',
   systemTheme: '系统主题',
   systemLanguage: '系统语言',
+  placeholderRegisterUsername: '请输入用户名',
+  placeholderEmail: '请输入邮箱',
+  placeholderSign: '请输入个性签名',
+  placeholderPhone: '请输入手机号码',
+  avatar: '头像',
+  uploadAvatar: '上传头像',
+  placeholderEmailCode: '请输入邮箱验证码',
+  getEmailCode: '获取邮箱验证码',
 };
