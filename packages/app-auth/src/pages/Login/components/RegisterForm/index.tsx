@@ -23,6 +23,8 @@ import {
   UploadPicture,
   User,
 } from '@icon-park/react';
+import { useCountDown } from 'ahooks';
+import { getEmailCodeService } from '@/services/auth';
 
 const { Item } = Form;
 const { Option } = Select;
@@ -33,9 +35,13 @@ type RegisterFormProps = ComponentsProps;
 const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
   const { handleCheckForm, validateRule, formConfigState } =
     useModel('loginModel');
-  const [emialCodeTextState, setEmialCodeTextState] = useState(
-    intl.formatMessage({ id: 'getEmailCode' }),
-  );
+  // 时间的hooks
+  const [targetDateState, settargetDateState] = useState<number>(0);
+  // 倒计时的hooks
+  const [countDown] = useCountDown({
+    targetDate: targetDateState,
+  });
+
   // 注册
   const handleRegister = () => {};
 
@@ -86,9 +92,12 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
   /**
    * 获取邮箱验证码
    */
-  const handleEmailCode = () => {
-    // 改变文字
-    // 获取成功之后改变
+  const handleEmailCode = async () => {
+    // 发送邮箱验证码
+    const result = await getEmailCodeService({ email: '468262345@qq.com' });
+    console.log('result ==>', result);
+    // 调用接口
+    settargetDateState(Date.now() + 60000);
   };
 
   return (
@@ -106,7 +115,6 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
           name="avatar"
           rules={validateRule({
             required: false,
-            message: intl.formatMessage({ id: 'placeholderAvatar' }),
           })}
         >
           <UploadAvatar />
@@ -155,8 +163,14 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
               />
             </Col>
             <Col span={8}>
-              <Button onClick={() => handleEmailCode()}>
-                {emialCodeTextState}
+              <Button
+                style={{ width: '100px' }}
+                disabled={countDown !== 0}
+                onClick={() => handleEmailCode()}
+              >
+                {countDown === 0
+                  ? intl.formatMessage({ id: 'getEmailCode' })
+                  : `倒计时${Math.round(countDown / 1000)}s`}
               </Button>
             </Col>
           </Row>

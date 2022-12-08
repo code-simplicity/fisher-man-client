@@ -37,5 +37,5 @@ export default {
   avatar: 'Avatar',
   uploadAvatar: 'Upload avatar',
   placeholderEmailCode: 'Please enter email code',
-  getEmailCode: 'Obtain the email verification code',
+  getEmailCode: 'Email verification code',
 };

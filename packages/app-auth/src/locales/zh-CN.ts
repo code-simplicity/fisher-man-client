@@ -37,5 +37,5 @@ export default {
   avatar: '头像',
   uploadAvatar: '上传头像',
   placeholderEmailCode: '请输入邮箱验证码',
-  getEmailCode: '获取邮箱验证码',
+  getEmailCode: '邮箱验证码',
 };

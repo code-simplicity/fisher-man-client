@@ -1,5 +1,5 @@
-// @ts-ignore
-import type { RequestConfig } from 'umi';
+import type { RequestConfig } from '@umijs/max';
+import type { RequestOptions } from '@@/plugin-request/request';
 import { message } from 'antd';
 
 /**
@@ -30,6 +30,7 @@ enum ErrorShowType {
   GATEWAY_TIMEOUT = 504, // 当服务器作为网关，不能及时得到响应时返回此错误代码。
   HTTP_VERSION_NOT_SUPPORTED = 505, // 服务器不支持请求中所使用的HTTP协议版本。
 }
+
 /**
  * 后端返回的数据响应格式
  */
@@ -40,10 +41,11 @@ interface ResponseStructure {
   message: any;
 }
 
+// @ts-ignore
 /**
- * 网络请求封装
+ * 网络请求统一配置和处理
  */
-export const appRequest: RequestConfig = {
+export const appRequestConfig: RequestConfig = {
   // 请求的统一配置
   timeout: 60 * 1000,
   headers: {
@@ -102,7 +104,7 @@ export const appRequest: RequestConfig = {
 
     // 请求拦截
     requestInterceptors: [
-      (config: { url: string | any[] }) => {
+      (config: RequestOptions) => {
         // 拦截请求配置，进行个性化处理
         const url = config.url.concat(`?token = 123`);
         return { ...config, url };

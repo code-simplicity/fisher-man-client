@@ -1,19 +1,17 @@
-import { defineConfig } from 'umi';
+import { defineConfig } from '@umijs/max';
 import routes from './config/routes';
+import { proxy } from './config/proxy';
+
+const { UMI_ENV } = process.env;
 
 export default defineConfig({
   npmClient: 'pnpm',
-  plugins: [
-    '@umijs/plugins/dist/antd',
-    '@umijs/plugins/dist/locale',
-    '@umijs/plugins/dist/tailwindcss',
-    '@umijs/plugins/dist/dva',
-    '@umijs/plugins/dist/model',
-  ],
   antd: {
     // dark: true,
     configProvider: {},
   },
+  // 配置代理
+  proxy: proxy[UMI_ENV || 'dev'],
   // 加载器实现颜色的更改
   // lessLoader: {
   //   modifyVars: {
@@ -48,14 +46,8 @@ export default defineConfig({
   targets: {
     ie: 11,
   },
-  // 配置代理
-  proxy: {
-    '/auth': {
-      target: 'http://localhost:5012/',
-      changeOrigin: true,
-      pathRewrite: {
-        auth: '',
-      },
-    },
-  },
+  /**
+   * 网络请求配置
+   */
+  request: {},
 });
