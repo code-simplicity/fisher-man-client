@@ -3,14 +3,20 @@
   "private": true,
   "author": "DPY",
   "scripts": {
-    "dev:APP-AUTH": "cross-env AUTH_APP_ENV=dev UMI_ENV=dev max dev",
-    "uat:APP-AUTH": "cross-env AUTH_APP_ENV=uat UMI_ENV=uat max dev",
-    "prod:APP-AUTH": "cross-env AUTH_APP_ENV=prod UMI_ENV=prod max dev",
     "build:APP-AUTH": "max build",
+    "dev:APP-AUTH": "cross-env AUTH_APP_ENV=dev UMI_ENV=dev max dev",
     "format:APP-AUTH": "prettier --cache --write .",
     "postinstall:APP-AUTH": "max setup",
+    "precommit": "lint-staged",
+    "prod:APP-AUTH": "cross-env AUTH_APP_ENV=prod UMI_ENV=prod max dev",
     "setup:APP-AUTH": "max setup",
-    "start:APP-AUTH": "npm run dev"
+    "start:APP-AUTH": "npm run dev",
+    "uat:APP-AUTH": "cross-env AUTH_APP_ENV=uat UMI_ENV=uat max dev"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,less}": [
+      "umi lint"
+    ]
   },
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
@@ -36,7 +42,6 @@
     "@umijs/plugins": "^4.0.26",
     "cross-env": "^7.0.3",
     "eslint": "^8.25.0",
-    "husky": "^8.0.2",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^2",
@@ -44,10 +49,5 @@
     "stylelint": "^14.14.0",
     "tailwindcss": "^3",
     "typescript": "^4.1.2"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,less}": [
-      "umi lint"
-    ]
   }
 }
