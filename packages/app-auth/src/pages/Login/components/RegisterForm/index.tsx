@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { ComponentsProps } from '@/pages/Login/interface';
 import {
   Avatar,
@@ -8,7 +8,6 @@ import {
   Input,
   message,
   Row,
-  Select,
   Upload,
   UploadProps,
 } from 'antd';
@@ -23,11 +22,10 @@ import {
   UploadPicture,
   User,
 } from '@icon-park/react';
-import { useCountDown } from 'ahooks';
-import { getEmailCodeService } from '@/services/auth';
+import { useCountDown, useRequest } from 'ahooks';
+import { getEmailCodeService, getInitAvatar } from '@/services/auth';
 
 const { Item } = Form;
-const { Option } = Select;
 
 type RegisterFormProps = ComponentsProps;
 
@@ -36,11 +34,20 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
   const { handleCheckForm, validateRule, formConfigState } =
     useModel('loginModel');
   // 时间的hooks
-  const [targetDateState, settargetDateState] = useState<number>(0);
+  const [targetDateState, setTargetDateState] = useState<number>(0);
   // 倒计时的hooks
   const [countDown] = useCountDown({
     targetDate: targetDateState,
   });
+
+  /**
+   * 请求初始化头像
+   */
+  const avatarResult = useRequest(() => {
+    return getInitAvatar();
+  });
+
+  useEffect(() => {}, []);
 
   // 注册
   const handleRegister = () => {};
@@ -73,7 +80,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         <Avatar
           icon={<User theme="outline" size="24" />}
           size={48}
-          src=""
+          src={avatarResult.data?.data?.avatarUrl}
           alt={intl.formatMessage({ id: 'avatar' })}
         />
         <Upload {...uploadAvatarProps}>
@@ -97,7 +104,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
     const result = await getEmailCodeService({ email: '468262345@qq.com' });
     console.log('result ==>', result);
     // 调用接口
-    settargetDateState(Date.now() + 60000);
+    setTargetDateState(Date.now() + 60000);
   };
 
   return (
@@ -202,21 +209,21 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
             placeholder={intl.formatMessage({ id: 'placeholderPhone' })}
           />
         </Item>
-        <Item
-          name="sign"
-          rules={validateRule({
-            required: false,
-            message: intl.formatMessage({ id: 'placeholderSign' }),
-          })}
-        >
-          <Input.TextArea
-            bordered={formConfigState.border}
-            allowClear
-            showCount
-            maxLength={120}
-            placeholder={intl.formatMessage({ id: 'placeholderSign' })}
-          />
-        </Item>
+        {/*<Item*/}
+        {/*  name="sign"*/}
+        {/*  rules={validateRule({*/}
+        {/*    required: false,*/}
+        {/*    message: intl.formatMessage({ id: 'placeholderSign' }),*/}
+        {/*  })}*/}
+        {/*>*/}
+        {/*  <Input.TextArea*/}
+        {/*    bordered={formConfigState.border}*/}
+        {/*    allowClear*/}
+        {/*    showCount*/}
+        {/*    maxLength={120}*/}
+        {/*    placeholder={intl.formatMessage({ id: 'placeholderSign' })}*/}
+        {/*  />*/}
+        {/*</Item>*/}
         <Item>
           <Button block type="primary" htmlType="submit">
             {intl.formatMessage({ id: 'register' })}

@@ -3,4 +3,9 @@ declare namespace SERVICE {
   type EmailCodeType = {
     email: string;
   };
+  type UploadAvatarType = {
+    params: object;
+    body: object;
+    file?: File;
+  };
 }
