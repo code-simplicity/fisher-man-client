@@ -7,7 +7,7 @@ export interface AppPointBackgroundType extends ComponentsProps {
   x: number;
   y: number;
   opacity?: number;
-  backgroundColor?: string;
+  background?: string;
   radius: number;
   className?: string;
 }

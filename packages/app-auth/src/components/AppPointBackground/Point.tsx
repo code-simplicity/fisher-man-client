@@ -9,7 +9,7 @@ type AppPointProps = AppPointBackgroundType;
 
 // 圆点
 const AppPoint: FC<AppPointProps> = (props: AppPointProps) => {
-  const { tx, ty, x, y, opacity, backgroundColor, radius } = props;
+  const { tx, ty, x, y, opacity, background, radius } = props;
   let transform;
   let zIndex = 0;
   let animation: {
@@ -54,7 +54,7 @@ const AppPoint: FC<AppPointProps> = (props: AppPointProps) => {
       <TweenOne
         animation={animation}
         style={{
-          backgroundColor: backgroundColor,
+          background: background,
         }}
         className={`${props.className}-child`}
       />

@@ -26,20 +26,28 @@ const AppPointBackground: FC<AppPointBackgroundProps> = (props) => {
       return {
         ...item,
         opacity: Math.random() * 0.2 + 0.05,
-        backgroundColor: `rgb(${Math.round(Math.random() * 95 + 160)},255,255)`,
+        background: `rgb(${Math.round(Math.random() * 95 + 160)},255,255)`,
       };
     }),
     tx: 0,
     ty: 0,
   });
   const pointRef = useRef<any>();
+
+  const handleMouseLeave = () => {
+    setAppPointState({
+      ...appPointState,
+      tx: 0,
+      ty: 0,
+    });
+  };
+
   const handleMouseMove = (e: any) => {
     const cX = e.clientX;
     const cY = e.clientY;
     const boxRect = pointRef.current!.getBoundingClientRect();
     const pos = appPointState.data
       .map((item: any) => {
-        // @ts-ignore
         const { x, y, radius } = item;
         return {
           x,
@@ -65,14 +73,7 @@ const AppPointBackground: FC<AppPointBackgroundProps> = (props) => {
       handleMouseLeave();
     }
   };
-  const handleMouseLeave = () => {
-    setAppPointState({
-      ...appPointState,
-      tx: 0,
-      ty: 0,
-    });
-  };
-  // @ts-ignore
+
   return (
     <div className={`${prefixCls}`}>
       <div

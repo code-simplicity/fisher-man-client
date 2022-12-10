@@ -26,13 +26,16 @@ export default defineConfig({
     },
     theme: {
       token: {
-        colorPrimary: '#ff1818',
+        // colorPrimary: '#ff1818',
       },
     },
   },
   // 加载器实现颜色的更改
   lessLoader: {
-    modifyVars: v4Token,
+    lessOptions: {
+      modifyVars: mapToken,
+    },
+    // modifyVars: mapToken,
   },
   // 配置代理
   proxy: proxy[UMI_ENV || 'dev'],
