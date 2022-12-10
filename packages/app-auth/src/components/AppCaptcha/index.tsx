@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { useRequest } from 'ahooks';
 import { getVerifyCode } from '@/services/auth';
+import { Button } from 'antd';
 import './index.less';
 
 export interface AppCaptchaProps {}
@@ -14,11 +15,15 @@ const AppCaptcha: FC<AppCaptchaProps> = () => {
     debounceWait: 200,
   });
   return (
-    <div
+    <Button
+      type="primary"
+      size="middle"
+      ghost
       className="app-captcha"
-      dangerouslySetInnerHTML={{ __html: data }}
       onClick={run}
-    ></div>
+    >
+      <span dangerouslySetInnerHTML={{ __html: data }}></span>
+    </Button>
   );
 };
 
