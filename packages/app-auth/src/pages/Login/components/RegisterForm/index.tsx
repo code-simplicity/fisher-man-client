@@ -33,24 +33,30 @@ type RegisterFormProps = ComponentsProps;
 const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
   const { handleCheckForm, validateRule, formConfigState } =
     useModel('loginModel');
+  const { handleInitAvatar, handleRegisterUser, handleSendEmailCode } =
+    useModel('registerModel');
   // 时间的hooks
   const [targetDateState, setTargetDateState] = useState<number>(0);
+  // 注册表单的hooks
+  const [registerModelForm] = Form.useForm<SERVICE.RegisterUserType>();
   // 倒计时的hooks
   const [countDown] = useCountDown({
     targetDate: targetDateState,
   });
 
-  /**
-   * 请求初始化头像
-   */
-  const avatarResult = useRequest(() => {
-    return getInitAvatar();
-  });
-
   useEffect(() => {}, []);
 
   // 注册
-  const handleRegister = () => {};
+  const handleRegister = (values: any) => {
+    const data = {
+      ...values,
+      avatar: handleInitAvatar.data?.data?.avatarUrl,
+    };
+    // 设置数据
+    console.log('values ==>', data);
+    // 执行
+    handleRegisterUser.run(data);
+  };
 
   /**
    * 头像上传的参数
@@ -80,7 +86,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         <Avatar
           icon={<User theme="outline" size="24" />}
           size={48}
-          src={avatarResult.data?.data?.avatarUrl}
+          src={handleInitAvatar.data?.data?.avatarUrl}
           alt={intl.formatMessage({ id: 'avatar' })}
         />
         <Upload {...uploadAvatarProps}>
@@ -96,15 +102,23 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
     );
   };
 
+  // 邮箱
+  const email = Form.useWatch('email', registerModelForm);
   /**
    * 获取邮箱验证码
    */
-  const handleEmailCode = async () => {
+  const handleEmailCode = () => {
     // 发送邮箱验证码
-    const result = await getEmailCodeService({ email: '468262345@qq.com' });
-    console.log('result ==>', result);
-    // 调用接口
-    setTargetDateState(Date.now() + 60000);
+    handleSendEmailCode
+      .runAsync({ email })
+      .then((data) => {
+        // 发送成功之后才可以触发倒计时
+        setTargetDateState(Date.now() + 60000);
+      })
+      .catch((error) => {
+        // 提示错误信息
+        message.error(error);
+      });
   };
 
   return (
@@ -112,9 +126,10 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
       <h2 className="text-xl">{intl.formatMessage({ id: 'register' })}</h2>
       <Form
         labelAlign="left"
+        name="register"
+        form={registerModelForm}
         colon={false}
         {...formConfigState.formItemLayout}
-        initialValues={{}}
         onFinish={handleRegister}
         autoComplete="off"
       >
@@ -154,20 +169,23 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
             placeholder={intl.formatMessage({ id: 'placeholderPassword' })}
           />
         </Item>
-        <Item
-          name="email"
-          rules={validateRule({
-            message: intl.formatMessage({ id: 'placeholderEmail' }),
-          })}
-        >
+        <Item>
           <Row gutter={12}>
             <Col span={16}>
-              <Input
-                bordered={formConfigState.border}
-                prefix={<AcceptEmail theme="outline" size="18" />}
-                allowClear
-                placeholder={intl.formatMessage({ id: 'placeholderEmail' })}
-              />
+              <Item
+                name="email"
+                rules={validateRule({
+                  message: intl.formatMessage({ id: 'placeholderEmail' }),
+                })}
+                noStyle
+              >
+                <Input
+                  bordered={formConfigState.border}
+                  prefix={<AcceptEmail theme="outline" size="18" />}
+                  allowClear
+                  placeholder={intl.formatMessage({ id: 'placeholderEmail' })}
+                />
+              </Item>
             </Col>
             <Col span={8}>
               <Button

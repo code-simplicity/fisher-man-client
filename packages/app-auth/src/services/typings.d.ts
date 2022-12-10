@@ -8,4 +8,13 @@ declare namespace SERVICE {
     body: object;
     file?: File;
   };
+  type RegisterUserType = {
+    username: string;
+    password: string;
+    email: string;
+    sex: string;
+    sign?: string;
+    avatar?: string;
+    phone?: string;
+  };
 }

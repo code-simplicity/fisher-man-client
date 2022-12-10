@@ -39,6 +39,7 @@ interface ResponseStructure {
   data: any;
   code: number;
   message: any;
+  error?: any;
 }
 
 // @ts-ignore

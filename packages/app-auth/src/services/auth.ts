@@ -18,6 +18,17 @@ export const getInitAvatar = () => {
 };
 
 /**
+ * 注册用户
+ * @param data
+ */
+export const registerUser = (data: SERVICE.RegisterUserType) => {
+  return request('/ucenter/user/register', {
+    method: 'POST',
+    data: data,
+  });
+};
+
+/**
  * 上传头像
  * @param params
  * @param body
