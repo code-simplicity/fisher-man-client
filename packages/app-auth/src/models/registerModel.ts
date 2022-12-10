@@ -30,13 +30,15 @@ export default () => {
    * 发送邮箱验证码接口请求
    */
   const handleSendEmailCode = useRequest(getEmailCodeService, {
+    debounceWait: 300,
     manual: true,
   });
 
   // 注册接口的调用
   const handleRegisterUser = useRequest(registerUser, {
+    debounceWait: 300,
     manual: true,
-    onSuccess: (data, params) => {
+    onSuccess: (data) => {
       message.success(data.message);
     },
     onError: (error) => {
