@@ -7,6 +7,7 @@ import { useModel } from 'umi';
 import { LoginEnum } from '@/utils';
 import './index.less';
 import { FingerprintThree, Key, User } from '@icon-park/react';
+import AppCaptcha from '@/components/AppCaptcha';
 
 const { Item } = Form;
 
@@ -69,7 +70,7 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
           })}
         >
           <Row gutter={12}>
-            <Col span={16}>
+            <Col span={15}>
               <Input
                 bordered={formConfigState.border}
                 prefix={<FingerprintThree theme="outline" size="18" />}
@@ -79,8 +80,8 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
                 })}
               />
             </Col>
-            <Col span={8}>
-              <div>yzmz</div>
+            <Col span={9}>
+              <AppCaptcha />
             </Col>
           </Row>
         </Item>

@@ -34,8 +34,10 @@ export default {
   placeholderEmail: 'Please enter email',
   placeholderSign: 'Please enter sign',
   placeholderPhone: 'Please enter phone',
+  placeholderCaptcha: 'Please enter captcha',
   avatar: 'Avatar',
   uploadAvatar: 'Upload avatar',
   placeholderEmailCode: 'Please enter email code',
   getEmailCode: 'Email verification code',
+  emailFormatError: 'The email format is incorrect',
 };

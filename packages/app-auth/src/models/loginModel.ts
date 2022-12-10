@@ -16,7 +16,9 @@ interface formConfigStateProps {
 interface validateRuleProps {
   required?: boolean; // 是否必填
   message?: string; // 验证消息
+  pattern?: RegExp; // 正则
   args?: any; // 其他参数
+  rule?: validateRuleProps; // 其他的校验规则
 }
 
 // 登陆的状态
@@ -55,12 +57,22 @@ export default () => {
   const validateRule = (
     validateRuleProps: validateRuleProps,
   ): validateRuleProps[] => {
-    const { required = true, message, ...args } = validateRuleProps;
+    const {
+      required = true,
+      message,
+      rule,
+      pattern,
+      ...args
+    } = validateRuleProps;
     return [
       {
         required: required,
         message: message,
+        pattern,
         args,
+      },
+      {
+        ...rule,
       },
     ];
   };

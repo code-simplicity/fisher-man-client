@@ -17,6 +17,8 @@ import { injectIntl } from '@@/plugin-locale';
 import {
   AcceptEmail,
   FileCode,
+  FingerprintThree,
+  InternalData,
   Key,
   PhoneTelephone,
   UploadPicture,
@@ -24,6 +26,7 @@ import {
 } from '@icon-park/react';
 import { useCountDown, useRequest } from 'ahooks';
 import { getEmailCodeService, getInitAvatar } from '@/services/auth';
+import AppCaptcha from '@/components/AppCaptcha';
 
 const { Item } = Form;
 
@@ -44,13 +47,11 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
     targetDate: targetDateState,
   });
 
-  useEffect(() => {}, []);
-
   // 注册
   const handleRegister = (values: any) => {
     const data = {
       ...values,
-      avatar: handleInitAvatar.data?.data?.avatarUrl,
+      // avatar: handleInitAvatar.data?.data?.avatarUrl,
     };
     // 设置数据
     console.log('values ==>', data);
@@ -83,12 +84,20 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
   const UploadAvatar = () => {
     return (
       <div className={`flex items-center justify-center flex-col`}>
-        <Avatar
-          icon={<User theme="outline" size="24" />}
-          size={48}
-          src={handleInitAvatar.data?.data?.avatarUrl}
-          alt={intl.formatMessage({ id: 'avatar' })}
-        />
+        <Item
+          name="avatar"
+          rules={validateRule({
+            required: false,
+          })}
+          noStyle
+        >
+          <Avatar
+            icon={<User theme="outline" size="24" />}
+            size={48}
+            src={handleInitAvatar.data?.data?.avatarUrl}
+            alt={intl.formatMessage({ id: 'avatar' })}
+          />
+        </Item>
         <Upload {...uploadAvatarProps}>
           <Button
             className="mt-2"
@@ -102,12 +111,17 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
     );
   };
 
-  // 邮箱
-  const email = Form.useWatch('email', registerModelForm);
   /**
    * 获取邮箱验证码
    */
-  const handleEmailCode = () => {
+  const handleEmailCode = async () => {
+    // 校验邮箱
+    const email = registerModelForm.getFieldValue('email');
+    if (!email) {
+      // 触发校验规则
+      await registerModelForm.validateFields(['email']).catch((error) => {});
+      return;
+    }
     // 发送邮箱验证码
     handleSendEmailCode
       .runAsync({ email })
@@ -132,13 +146,15 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         {...formConfigState.formItemLayout}
         onFinish={handleRegister}
         autoComplete="off"
+        initialValues={{
+          username: '测试测试',
+          password: '123456',
+          email: 'dupyi0912@gmail.com',
+          emailCode: '123456',
+          captcha: '123',
+        }}
       >
-        <Item
-          name="avatar"
-          rules={validateRule({
-            required: false,
-          })}
-        >
+        <Item>
           <UploadAvatar />
         </Item>
         <Item
@@ -171,11 +187,16 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         </Item>
         <Item>
           <Row gutter={12}>
-            <Col span={16}>
+            <Col span={15}>
               <Item
                 name="email"
                 rules={validateRule({
                   message: intl.formatMessage({ id: 'placeholderEmail' }),
+                  rule: {
+                    pattern:
+                      /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+                    message: intl.formatMessage({ id: 'emailFormatError' }),
+                  },
                 })}
                 noStyle
               >
@@ -187,11 +208,12 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
                 />
               </Item>
             </Col>
-            <Col span={8}>
+            <Col span={9}>
               <Button
-                style={{ width: '100px' }}
+                block
                 disabled={countDown !== 0}
                 onClick={() => handleEmailCode()}
+                loading={handleSendEmailCode.loading}
               >
                 {countDown === 0
                   ? intl.formatMessage({ id: 'getEmailCode' })
@@ -213,6 +235,29 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
             placeholder={intl.formatMessage({ id: 'placeholderEmailCode' })}
           />
         </Item>
+        <Item>
+          <Row gutter={12}>
+            <Col span={15}>
+              <Item
+                name="captcha"
+                rules={validateRule({
+                  message: intl.formatMessage({ id: 'placeholderCaptcha' }),
+                })}
+                noStyle
+              >
+                <Input
+                  bordered={formConfigState.border}
+                  prefix={<FingerprintThree theme="outline" size="18" />}
+                  allowClear
+                  placeholder={intl.formatMessage({ id: 'placeholderCaptcha' })}
+                />
+              </Item>
+            </Col>
+            <Col span={9}>
+              <AppCaptcha />
+            </Col>
+          </Row>
+        </Item>
         <Item
           name="phone"
           rules={validateRule({
@@ -227,6 +272,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
             placeholder={intl.formatMessage({ id: 'placeholderPhone' })}
           />
         </Item>
+
         {/*<Item*/}
         {/*  name="sign"*/}
         {/*  rules={validateRule({*/}
@@ -243,7 +289,12 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         {/*  />*/}
         {/*</Item>*/}
         <Item>
-          <Button block type="primary" htmlType="submit">
+          <Button
+            block
+            type="primary"
+            htmlType="submit"
+            loading={handleRegisterUser.loading}
+          >
             {intl.formatMessage({ id: 'register' })}
           </Button>
         </Item>

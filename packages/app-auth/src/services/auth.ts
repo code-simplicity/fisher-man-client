@@ -49,3 +49,12 @@ export const uploadAvatarService = async ({
     requestType: 'form',
   });
 };
+
+/**
+ * 获取图灵验证码
+ */
+export const getVerifyCode = () => {
+  return request('/ucenter/verify/code', {
+    method: 'GET',
+  });
+};

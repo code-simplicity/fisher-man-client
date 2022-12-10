@@ -2,6 +2,8 @@ import type { RequestConfig } from '@umijs/max';
 import type { RequestOptions } from '@@/plugin-request/request';
 import { message } from 'antd';
 
+const appMessage = message;
+
 /**
  * 错误状态
  */
@@ -71,8 +73,8 @@ export const appRequestConfig: RequestConfig = {
     // 错误接收和处理
     errorHandler: (error: any, opts: any) => {
       if (opts?.skipErrorHandler) throw error;
-      if (error.name === 'AppBizError') {
-        const errorInfo: ResponseStructure | undefined = error.info;
+      if (error.name === 'AxiosError') {
+        const errorInfo: ResponseStructure = error.response.data;
         if (errorInfo) {
           const { message, code } = errorInfo;
           // 提示不同的错误信息
@@ -82,13 +84,13 @@ export const appRequestConfig: RequestConfig = {
             case ErrorShowType.CREATED:
               break;
             case ErrorShowType.FORBIDDEN:
-              message.error(message);
+              appMessage.error(message);
               break;
             case ErrorShowType.INTERNAL_SERVER_ERROR:
-              message.error(message);
+              appMessage.error(message);
               break;
             default:
-              message.error(message);
+              appMessage.error(message);
           }
         } else if (error.response) {
           // 请求成功也做出响应 但是状态码超出2xx范围

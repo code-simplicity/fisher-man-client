@@ -34,8 +34,10 @@ export default {
   placeholderEmail: '请输入邮箱',
   placeholderSign: '请输入个性签名',
   placeholderPhone: '请输入手机号码',
+  placeholderCaptcha: '请输入图灵验证码',
   avatar: '头像',
   uploadAvatar: '上传头像',
   placeholderEmailCode: '请输入邮箱验证码',
   getEmailCode: '邮箱验证码',
+  emailFormatError: '邮箱格式不正确',
 };

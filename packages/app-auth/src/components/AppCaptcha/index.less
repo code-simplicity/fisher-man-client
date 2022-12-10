@@ -1,0 +1,19 @@
+@import '~antd/es/style/themes/variable.less';
+
+.app-captcha {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+
+  svg {
+    height: calc(100% - 2px);
+    width: 100%;
+    background: @blue-1;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px @info-color;
+
+    &:hover {
+      box-shadow: 0 0 0 1px @primary-color-hover;
+    }
+  }
+}

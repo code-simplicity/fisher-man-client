@@ -41,9 +41,6 @@ export default () => {
     onSuccess: (data) => {
       message.success(data.message);
     },
-    onError: (error) => {
-      message.error(error.message);
-    },
   });
   return {
     handleInitAvatar,

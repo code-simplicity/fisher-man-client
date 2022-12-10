@@ -8,7 +8,15 @@ export default defineConfig({
   npmClient: 'pnpm',
   antd: {
     // dark: true,
-    configProvider: {},
+    configProvider: {
+      message: {
+        left: 200,
+        bottom: 200,
+        duration: 2,
+        maxCount: 3,
+        rtl: true,
+      },
+    },
   },
   // 配置代理
   proxy: proxy[UMI_ENV || 'dev'],
