@@ -15,15 +15,24 @@ type LoginFormProps = ComponentsProps;
 
 // 登陆表单
 const LoginForm: FC<LoginFormProps> = ({ intl }) => {
-  const { formConfigState, handleCheckForm, validateRule } =
+  const { formConfigState, handleCheckForm, validateRule, handleLoginModel } =
     useModel('loginModel');
 
-  // 登陆
-  const handleLogin = (data: any) => {
-    console.log('data ==>', data);
-  };
+  /**
+   * 刷新验证码
+   * @param run
+   */
+  const handleRefreshCaptcha = () => {};
 
-  // TODO：登陆逻辑的编写
+  /**
+   * 登陆
+   * @param data
+   */
+  const handleLogin = (data: SERVICE.LoginType) => {
+    handleLoginModel.run(data);
+    // 执行之后刷新验证码，不管是失败还是啥
+    handleRefreshCaptcha();
+  };
 
   return (
     <>
@@ -32,10 +41,16 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
       </h2>
       <Form
         labelAlign="left"
+        name="loginForm"
         colon={false}
         {...formConfigState.formItemLayout}
         onFinish={handleLogin}
         autoComplete="off"
+        initialValues={{
+          username: 'admin',
+          password: '123456',
+          captcha: '123456',
+        }}
       >
         <Item
           name="username"
@@ -64,7 +79,7 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
           />
         </Item>
         <Item
-          name="verifyCode"
+          name="captcha"
           rules={validateRule({
             message: intl.formatMessage({ id: 'placeholderVerifyCode' }),
           })}
@@ -81,7 +96,7 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
               />
             </Col>
             <Col span={9}>
-              <AppCaptcha />
+              <AppCaptcha onRefreshCaptcha={handleRefreshCaptcha} />
             </Col>
           </Row>
         </Item>

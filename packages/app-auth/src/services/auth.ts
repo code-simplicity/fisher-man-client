@@ -1,6 +1,17 @@
 import { request } from '@umijs/max';
 
 /**
+ * 登陆接口
+ * @param data
+ */
+export const login = async (data: SERVICE.LoginType) => {
+  return request('/ucenter/user/login', {
+    method: 'POST',
+    data: data,
+  });
+};
+
+/**
  * 获取邮箱验证码
  * @param params
  */

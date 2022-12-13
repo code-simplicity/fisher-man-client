@@ -1,4 +1,10 @@
 declare namespace SERVICE {
+  // 登陆
+  type LoginType = {
+    username: string;
+    password: string;
+    captcha: string;
+  };
   // 接口邮箱类型定义
   type EmailCodeType = {
     email: string;

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useIntl } from 'umi';
 import { LoginEnum } from '@/utils';
+import { useRequest } from 'ahooks';
+import { message } from 'antd';
+import { login } from '@/services/auth';
 
 interface formConfigStateProps {
   border?: boolean;
@@ -77,6 +80,14 @@ export default () => {
     ];
   };
 
+  const handleLoginModel = useRequest(login, {
+    debounceWait: 300,
+    manual: true,
+    onSuccess: (data) => {
+      message.success(data.message);
+    },
+  });
+
   return {
     language,
     cardFormState,
@@ -84,5 +95,6 @@ export default () => {
     handleCheckForm,
     handleSetLoginConfigState,
     validateRule,
+    handleLoginModel,
   };
 };

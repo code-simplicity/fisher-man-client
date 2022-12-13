@@ -140,7 +140,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
       <h2 className="text-xl">{intl.formatMessage({ id: 'register' })}</h2>
       <Form
         labelAlign="left"
-        name="register"
+        name="registerForm"
         form={registerModelForm}
         colon={false}
         {...formConfigState.formItemLayout}
