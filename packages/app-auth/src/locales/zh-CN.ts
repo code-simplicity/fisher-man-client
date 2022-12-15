@@ -40,4 +40,6 @@ export default {
   placeholderEmailCode: '请输入邮箱验证码',
   getEmailCode: '邮箱验证码',
   emailFormatError: '邮箱格式不正确',
+  updatePassword: '更新密码',
+  placeholderConfirmPassword: '请再次确认密码',
 };

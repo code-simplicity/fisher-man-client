@@ -1,34 +1,45 @@
-import React, { FC } from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { useRequest } from 'ahooks';
 import { getVerifyCode } from '@/services/auth';
 import { Button } from 'antd';
 import './index.less';
 
-export interface AppCaptchaProps {
-  onRefreshCaptcha: any;
+export interface IAppCaptchaRef {
+  onRefreshCaptcha?: () => void; // 刷新验证码的函数
 }
+
+export interface IAppCaptchaProps {}
 
 /**
  * 获取图灵验证码的组件抽取
  * @constructor
  */
-const AppCaptcha: FC<AppCaptchaProps> = (props) => {
-  let { onRefreshCaptcha } = props;
+const AppCaptcha = (props: any, ref: React.Ref<unknown> | undefined) => {
   const { data, run } = useRequest(getVerifyCode, {
     debounceWait: 200,
   });
-  onRefreshCaptcha = () => {
-    return run();
-  };
   // 执行更新方法
-  // TODO:明天继续编写上传头像的功能
+  const handleRefreshCaptcha = () => {
+    run();
+  };
+  // 暴露刷新验证码的方法给上层组件，提供调用
+  useImperativeHandle(
+    ref,
+    () => ({
+      onRefreshCaptcha: () => {
+        handleRefreshCaptcha();
+      },
+    }),
+    [handleRefreshCaptcha],
+  );
+
   return (
     <Button
       type="primary"
       size="middle"
       ghost
       className="app-captcha"
-      onClick={onRefreshCaptcha}
+      onClick={handleRefreshCaptcha}
       style={{
         padding: 0,
       }}
@@ -38,4 +49,4 @@ const AppCaptcha: FC<AppCaptchaProps> = (props) => {
   );
 };
 
-export default AppCaptcha;
+export default forwardRef<IAppCaptchaRef, IAppCaptchaProps>(AppCaptcha);

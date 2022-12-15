@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { ComponentsProps } from '@/pages/Login/interface';
 import {
   Avatar,
@@ -18,15 +18,14 @@ import {
   AcceptEmail,
   FileCode,
   FingerprintThree,
-  InternalData,
   Key,
   PhoneTelephone,
   UploadPicture,
   User,
 } from '@icon-park/react';
-import { useCountDown, useRequest } from 'ahooks';
-import { getEmailCodeService, getInitAvatar } from '@/services/auth';
 import AppCaptcha from '@/components/AppCaptcha';
+import AppEmailCountDown from '@/components/AppEmailCountDown';
+import AppSvgIcon from '@/components/AppSvgIcon';
 
 const { Item } = Form;
 
@@ -34,18 +33,13 @@ type RegisterFormProps = ComponentsProps;
 
 // 注册表单
 const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
-  const { handleCheckForm, validateRule, formConfigState } =
-    useModel('loginModel');
+  const { handleCheckForm } = useModel('loginModel');
   const { handleInitAvatar, handleRegisterUser, handleSendEmailCode } =
     useModel('registerModel');
-  // 时间的hooks
-  const [targetDateState, setTargetDateState] = useState<number>(0);
+  const { appSettingConfigData, onFormValidateRule } =
+    useModel('appSettingModel');
   // 注册表单的hooks
   const [registerModelForm] = Form.useForm<SERVICE.RegisterUserType>();
-  // 倒计时的hooks
-  const [countDown] = useCountDown({
-    targetDate: targetDateState,
-  });
 
   // 注册
   const handleRegister = (values: any) => {
@@ -86,7 +80,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
       <div className={`flex items-center justify-center flex-col`}>
         <Item
           name="avatar"
-          rules={validateRule({
+          rules={onFormValidateRule({
             required: false,
           })}
           noStyle
@@ -111,30 +105,6 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
     );
   };
 
-  /**
-   * 获取邮箱验证码
-   */
-  const handleEmailCode = async () => {
-    // 校验邮箱
-    const email = registerModelForm.getFieldValue('email');
-    if (!email) {
-      // 触发校验规则
-      await registerModelForm.validateFields(['email']).catch((error) => {});
-      return;
-    }
-    // 发送邮箱验证码
-    handleSendEmailCode
-      .runAsync({ email })
-      .then((data) => {
-        // 发送成功之后才可以触发倒计时
-        setTargetDateState(Date.now() + 60000);
-      })
-      .catch((error) => {
-        // 提示错误信息
-        message.error(error);
-      });
-  };
-
   return (
     <>
       <h2 className="text-xl">{intl.formatMessage({ id: 'register' })}</h2>
@@ -142,8 +112,8 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         labelAlign="left"
         name="registerForm"
         form={registerModelForm}
-        colon={false}
-        {...formConfigState.formItemLayout}
+        colon={appSettingConfigData.formColon}
+        {...appSettingConfigData.formItemLayout}
         onFinish={handleRegister}
         autoComplete="off"
         initialValues={{
@@ -159,13 +129,17 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         </Item>
         <Item
           name="username"
-          rules={validateRule({
+          rules={onFormValidateRule({
             message: intl.formatMessage({ id: 'placeholderRegisterUsername' }),
           })}
         >
           <Input
-            bordered={formConfigState.border}
-            prefix={<User theme="outline" size="18" />}
+            bordered={appSettingConfigData.border}
+            prefix={
+              <AppSvgIcon>
+                <User theme="outline" size="18" />
+              </AppSvgIcon>
+            }
             allowClear
             placeholder={intl.formatMessage({
               id: 'placeholderRegisterUsername',
@@ -174,13 +148,17 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         </Item>
         <Item
           name="password"
-          rules={validateRule({
+          rules={onFormValidateRule({
             message: intl.formatMessage({ id: 'placeholderPassword' }),
           })}
         >
           <Input.Password
-            bordered={formConfigState.border}
-            prefix={<Key theme="outline" size="18" />}
+            bordered={appSettingConfigData.border}
+            prefix={
+              <AppSvgIcon>
+                <Key theme="outline" size="18" />
+              </AppSvgIcon>
+            }
             allowClear
             placeholder={intl.formatMessage({ id: 'placeholderPassword' })}
           />
@@ -190,7 +168,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
             <Col span={15}>
               <Item
                 name="email"
-                rules={validateRule({
+                rules={onFormValidateRule({
                   message: intl.formatMessage({ id: 'placeholderEmail' }),
                   rule: {
                     pattern:
@@ -201,36 +179,35 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
                 noStyle
               >
                 <Input
-                  bordered={formConfigState.border}
-                  prefix={<AcceptEmail theme="outline" size="18" />}
+                  bordered={appSettingConfigData.border}
+                  prefix={
+                    <AppSvgIcon>
+                      <AcceptEmail theme="outline" size="18" />
+                    </AppSvgIcon>
+                  }
                   allowClear
                   placeholder={intl.formatMessage({ id: 'placeholderEmail' })}
                 />
               </Item>
             </Col>
             <Col span={9}>
-              <Button
-                block
-                disabled={countDown !== 0}
-                onClick={() => handleEmailCode()}
-                loading={handleSendEmailCode.loading}
-              >
-                {countDown === 0
-                  ? intl.formatMessage({ id: 'getEmailCode' })
-                  : `倒计时${Math.round(countDown / 1000)}s`}
-              </Button>
+              <AppEmailCountDown modelForm={registerModelForm} />
             </Col>
           </Row>
         </Item>
         <Item
           name="emailCode"
-          rules={validateRule({
+          rules={onFormValidateRule({
             message: intl.formatMessage({ id: 'placeholderEmailCode' }),
           })}
         >
           <Input
-            bordered={formConfigState.border}
-            prefix={<FileCode theme="outline" size="18" />}
+            bordered={appSettingConfigData.border}
+            prefix={
+              <AppSvgIcon>
+                <FileCode theme="outline" size="18" />
+              </AppSvgIcon>
+            }
             allowClear
             placeholder={intl.formatMessage({ id: 'placeholderEmailCode' })}
           />
@@ -240,14 +217,18 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
             <Col span={15}>
               <Item
                 name="captcha"
-                rules={validateRule({
+                rules={onFormValidateRule({
                   message: intl.formatMessage({ id: 'placeholderCaptcha' }),
                 })}
                 noStyle
               >
                 <Input
-                  bordered={formConfigState.border}
-                  prefix={<FingerprintThree theme="outline" size="18" />}
+                  bordered={appSettingConfigData.border}
+                  prefix={
+                    <AppSvgIcon>
+                      <FingerprintThree theme="outline" size="18" />
+                    </AppSvgIcon>
+                  }
                   allowClear
                   placeholder={intl.formatMessage({ id: 'placeholderCaptcha' })}
                 />
@@ -260,14 +241,18 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
         </Item>
         <Item
           name="phone"
-          rules={validateRule({
+          rules={onFormValidateRule({
             required: false,
             message: intl.formatMessage({ id: 'placeholderPhone' }),
           })}
         >
           <Input
-            bordered={formConfigState.border}
-            prefix={<PhoneTelephone theme="outline" size="18" />}
+            bordered={appSettingConfigData.border}
+            prefix={
+              <AppSvgIcon>
+                <PhoneTelephone theme="outline" size="18" />
+              </AppSvgIcon>
+            }
             allowClear
             placeholder={intl.formatMessage({ id: 'placeholderPhone' })}
           />
@@ -275,13 +260,13 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
 
         {/*<Item*/}
         {/*  name="sign"*/}
-        {/*  rules={validateRule({*/}
+        {/*  rules={onFormValidateRule({*/}
         {/*    required: false,*/}
         {/*    message: intl.formatMessage({ id: 'placeholderSign' }),*/}
         {/*  })}*/}
         {/*>*/}
         {/*  <Input.TextArea*/}
-        {/*    bordered={formConfigState.border}*/}
+        {/*    bordered={appSettingConfigData.border}*/}
         {/*    allowClear*/}
         {/*    showCount*/}
         {/*    maxLength={120}*/}

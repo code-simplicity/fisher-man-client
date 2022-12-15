@@ -1,17 +1,8 @@
-import React, { useState } from 'react';
-import { useIntl } from 'umi';
+import { useState } from 'react';
 import { LoginEnum } from '@/utils';
 import { useRequest } from 'ahooks';
 import { message } from 'antd';
 import { login } from '@/services/auth';
-
-interface formConfigStateProps {
-  border?: boolean;
-  formItemLayout?: {
-    labelCol: object;
-    wrapperCol: object;
-  };
-}
 
 /**
  * 验证函数参数类型
@@ -35,51 +26,6 @@ export default () => {
     setCardFromState(state);
   };
 
-  // 表单配置
-  const [formConfigState, setFormConfigState] = useState<formConfigStateProps>({
-    border: false,
-    formItemLayout: {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 24 },
-      },
-    },
-  });
-
-  // 设置配置选项
-  const handleSetLoginConfigState = (config: formConfigStateProps) => {
-    // 对登陆的表单进行配置设置
-    setFormConfigState({ ...formConfigState, ...config });
-  };
-
-  // 验证规则
-  const validateRule = (
-    validateRuleProps: validateRuleProps,
-  ): validateRuleProps[] => {
-    const {
-      required = true,
-      message,
-      rule,
-      pattern,
-      ...args
-    } = validateRuleProps;
-    return [
-      {
-        required: required,
-        message: message,
-        pattern,
-        args,
-      },
-      {
-        ...rule,
-      },
-    ];
-  };
-
   const handleLoginModel = useRequest(login, {
     debounceWait: 300,
     manual: true,
@@ -91,10 +37,7 @@ export default () => {
   return {
     language,
     cardFormState,
-    formConfigState,
     handleCheckForm,
-    handleSetLoginConfigState,
-    validateRule,
     handleLoginModel,
   };
 };

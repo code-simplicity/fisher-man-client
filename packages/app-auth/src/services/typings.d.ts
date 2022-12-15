@@ -23,4 +23,12 @@ declare namespace SERVICE {
     avatar?: string;
     phone?: string;
   };
+  // 忘记密码
+  type ForgetPasswordType = {
+    password: string;
+    confirmPassword: string;
+    captcha: string;
+    email: string;
+    emailCode: string;
+  };
 }

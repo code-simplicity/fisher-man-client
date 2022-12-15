@@ -40,4 +40,6 @@ export default {
   placeholderEmailCode: 'Please enter email code',
   getEmailCode: 'Email verification code',
   emailFormatError: 'The email format is incorrect',
+  updatePassword: 'Changing the password',
+  placeholderConfirmPassword: 'Please confirm the password again',
 };
