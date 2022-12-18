@@ -1,8 +1,9 @@
 import { useRequest } from 'ahooks';
 import {
   getEmailCodeService,
-  getInitAvatar,
-  registerUser,
+  getInitAvatarService,
+  registerUserService,
+  uploadAvatarService,
 } from '@/services/auth';
 import { message } from 'antd';
 
@@ -10,9 +11,7 @@ export default () => {
   /**
    * 请求初始化头像
    */
-  const handleInitAvatar = useRequest(() => {
-    return getInitAvatar();
-  });
+  const handleInitAvatar = useRequest(getInitAvatarService);
 
   // 用户注册置空
   const clearRegisterUserState = () => {
@@ -35,8 +34,17 @@ export default () => {
   });
 
   // 注册接口的调用
-  const handleRegisterUser = useRequest(registerUser, {
+  const handleRegisterUser = useRequest(registerUserService, {
     debounceWait: 300,
+    manual: true,
+    onSuccess: (data) => {
+      message.success(data.message);
+    },
+  });
+
+  // 上传头像的接口
+  const handleUploadAvatarModel = useRequest(uploadAvatarService, {
+    debounceWait: 200,
     manual: true,
     onSuccess: (data) => {
       message.success(data.message);
@@ -46,5 +54,6 @@ export default () => {
     handleInitAvatar,
     handleRegisterUser,
     handleSendEmailCode,
+    handleUploadAvatarModel,
   };
 };

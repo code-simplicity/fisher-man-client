@@ -10,8 +10,8 @@ declare namespace SERVICE {
     email: string;
   };
   type UploadAvatarType = {
-    params: object;
-    body: object;
+    params?: object;
+    body?: object;
     file?: File;
   };
   type RegisterUserType = {

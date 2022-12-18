@@ -1,8 +1,11 @@
 import type { RequestConfig } from '@umijs/max';
 import type { RequestOptions } from '@@/plugin-request/request';
 import { message } from 'antd';
+import { serveUrlMap } from '../../../config/proxy';
 
 const appMessage = message;
+
+const { UMI_ENV } = process.env;
 
 /**
  * 错误状态
@@ -54,6 +57,7 @@ export const appRequestConfig: RequestConfig = {
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },
+  baseURL: serveUrlMap[UMI_ENV || 'dev'],
   // 错误处理
   errorConfig: {
     // 错误抛出

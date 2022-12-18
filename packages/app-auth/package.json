@@ -25,6 +25,7 @@
     "@icon-park/react": "^1.4.2",
     "ahooks": "^3.7.2",
     "antd": "5.x",
+    "antd-img-crop": "^4.5.2",
     "chroma-js": "^2.4.2",
     "color": "^4.2.3",
     "qrcode.react": "^3.1.0",

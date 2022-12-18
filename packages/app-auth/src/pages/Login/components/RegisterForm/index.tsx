@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { ComponentsProps } from '@/pages/Login/interface';
 import {
   Avatar,
@@ -23,9 +23,12 @@ import {
   UploadPicture,
   User,
 } from '@icon-park/react';
-import AppCaptcha from '@/components/AppCaptcha';
+import AppCaptcha, { IAppCaptchaRef } from '@/components/AppCaptcha';
 import AppEmailCountDown from '@/components/AppEmailCountDown';
 import AppSvgIcon from '@/components/AppSvgIcon';
+import ImgCrop from 'antd-img-crop';
+import './index.less';
+import AppSpin from '@/components/AppSpin';
 
 const { Item } = Form;
 
@@ -34,73 +37,110 @@ type RegisterFormProps = ComponentsProps;
 // 注册表单
 const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
   const { handleCheckForm } = useModel('loginModel');
-  const { handleInitAvatar, handleRegisterUser, handleSendEmailCode } =
-    useModel('registerModel');
+  const {
+    handleInitAvatar,
+    handleRegisterUser,
+    handleSendEmailCode,
+    handleUploadAvatarModel,
+  } = useModel('registerModel');
   const { appSettingConfigData, onFormValidateRule } =
     useModel('appSettingModel');
+  // 获取验证码子组件的ref
+  const appCaptchaRef = useRef<IAppCaptchaRef | any>();
   // 注册表单的hooks
   const [registerModelForm] = Form.useForm<SERVICE.RegisterUserType>();
-
   // 注册
   const handleRegister = (values: any) => {
     const data = {
       ...values,
-      // avatar: handleInitAvatar.data?.data?.avatarUrl,
+      avatar: values.avatar || handleInitAvatar.data?.data?.avatarUrl,
     };
-    // 设置数据
-    console.log('values ==>', data);
     // 执行
-    handleRegisterUser.run(data);
+    handleRegisterUser.runAsync(values).then(() => {
+      // 清除注册列表的数据
+      registerModelForm.resetFields([
+        'username',
+        'password',
+        'email',
+        'emailCode',
+        'captcha',
+        'phone',
+      ]);
+      // 验证码更新
+      appCaptchaRef?.current?.onRefreshCaptcha();
+    });
+  };
+
+  // 控制头像上传
+  const handleUploadAvatar = (file: File) => {
+    handleUploadAvatarModel.runAsync({ file: file }).then((res) => {
+      // 设置头像的数据
+      registerModelForm.setFieldValue('avatar', res?.data?.url);
+    });
   };
 
   /**
    * 头像上传的参数
    */
   const uploadAvatarProps: UploadProps = {
-    name: 'avatar', // 上传的名称
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76', // 上传的地址
-    headers: {
-      authorization: 'authorization-text',
-    }, // 鉴权
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
+    accept: 'image/png, image/jpeg, image/jpg, image/gif',
+    showUploadList: false,
+    // 手动上传，上传之前的回调
+    beforeUpload: (file) => {
+      handleUploadAvatar(file);
+      // 直接在这里进行接口请求就行
+      return Upload.LIST_IGNORE;
     },
+  };
+
+  // 头像剪切参数配置
+  const ImgCropProps = {
+    rotate: true,
+    zoom: true,
+    modalTitle: '头像剪切',
+    modalWidth: '420px',
   };
 
   // 上传头像的组件
   const UploadAvatar = () => {
     return (
       <div className={`flex items-center justify-center flex-col`}>
-        <Item
-          name="avatar"
-          rules={onFormValidateRule({
-            required: false,
-          })}
-          noStyle
-        >
-          <Avatar
-            icon={<User theme="outline" size="24" />}
-            size={48}
-            src={handleInitAvatar.data?.data?.avatarUrl}
-            alt={intl.formatMessage({ id: 'avatar' })}
-          />
-        </Item>
-        <Upload {...uploadAvatarProps}>
-          <Button
-            className="mt-2"
-            size="small"
-            icon={<UploadPicture theme="outline" size="12" />}
-          >
-            {intl.formatMessage({ id: 'uploadAvatar' })}
-          </Button>
-        </Upload>
+        <ImgCrop {...ImgCropProps}>
+          <Upload {...uploadAvatarProps}>
+            <Item
+              name="avatar"
+              rules={onFormValidateRule({
+                required: false,
+              })}
+              noStyle
+            >
+              {handleUploadAvatarModel.loading ? (
+                <Avatar icon={<AppSpin />} size={68} />
+              ) : (
+                <Avatar
+                  icon={
+                    <AppSvgIcon>
+                      <User theme="outline" size="36" />
+                    </AppSvgIcon>
+                  }
+                  size={68}
+                  src={
+                    registerModelForm.getFieldValue('avatar') ||
+                    handleInitAvatar.data?.data?.avatarUrl
+                  }
+                  alt={intl.formatMessage({ id: 'avatar' })}
+                />
+              )}
+            </Item>
+            <div className="upload-avatar-btn">
+              <Button
+                size="small"
+                shape="circle"
+                icon={<UploadPicture theme="outline" size="12" />}
+              />
+            </div>
+          </Upload>
+        </ImgCrop>
       </div>
     );
   };
@@ -257,22 +297,6 @@ const RegisterForm: FC<RegisterFormProps> = ({ intl }) => {
             placeholder={intl.formatMessage({ id: 'placeholderPhone' })}
           />
         </Item>
-
-        {/*<Item*/}
-        {/*  name="sign"*/}
-        {/*  rules={onFormValidateRule({*/}
-        {/*    required: false,*/}
-        {/*    message: intl.formatMessage({ id: 'placeholderSign' }),*/}
-        {/*  })}*/}
-        {/*>*/}
-        {/*  <Input.TextArea*/}
-        {/*    bordered={appSettingConfigData.border}*/}
-        {/*    allowClear*/}
-        {/*    showCount*/}
-        {/*    maxLength={120}*/}
-        {/*    placeholder={intl.formatMessage({ id: 'placeholderSign' })}*/}
-        {/*  />*/}
-        {/*</Item>*/}
         <Item>
           <Button
             block

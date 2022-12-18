@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { useRequest } from 'ahooks';
-import { getVerifyCode } from '@/services/auth';
+import { getVerifyCodeService } from '@/services/auth';
 import { Button } from 'antd';
 import './index.less';
 
@@ -15,7 +15,7 @@ export interface IAppCaptchaProps {}
  * @constructor
  */
 const AppCaptcha = (props: any, ref: React.Ref<unknown> | undefined) => {
-  const { data, run } = useRequest(getVerifyCode, {
+  const { data, run } = useRequest(getVerifyCodeService, {
     debounceWait: 200,
   });
   // 执行更新方法

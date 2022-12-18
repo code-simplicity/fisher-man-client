@@ -30,7 +30,7 @@ const LoginForm: FC<LoginFormProps> = ({ intl }) => {
    */
   const handleLogin = (data: SERVICE.LoginType) => {
     handleLoginModel.runAsync(data).then(() => {
-      // 执行之后刷新验证码，不管是失败还是啥
+      // 验证码更新
       appCaptchaRef?.current?.onRefreshCaptcha();
       // 登录成功之后清除控制台
       loginForm.resetFields(['username', 'password', 'captcha']);

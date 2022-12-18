@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { LoginEnum } from '@/utils';
 import { useRequest } from 'ahooks';
 import { message } from 'antd';
-import { login } from '@/services/auth';
+import { loginService } from '@/services/auth';
 
 /**
  * 验证函数参数类型
@@ -26,7 +26,7 @@ export default () => {
     setCardFromState(state);
   };
 
-  const handleLoginModel = useRequest(login, {
+  const handleLoginModel = useRequest(loginService, {
     debounceWait: 300,
     manual: true,
     onSuccess: (data) => {

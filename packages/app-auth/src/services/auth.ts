@@ -5,7 +5,7 @@ import { request } from '@umijs/max';
  * 登陆接口
  * @param data
  */
-export const login = async (data: SERVICE.LoginType) => {
+export const loginService = async (data: SERVICE.LoginType) => {
   return request('/ucenter/user/login', {
     method: 'POST',
     data: data,
@@ -23,7 +23,7 @@ export const getEmailCodeService = async (params: SERVICE.EmailCodeType) => {
   });
 };
 
-export const getInitAvatar = () => {
+export const getInitAvatarService = () => {
   return request('/ucenter/user/init/avatar', {
     method: 'GET',
   });
@@ -33,7 +33,7 @@ export const getInitAvatar = () => {
  * 注册用户
  * @param data
  */
-export const registerUser = (data: SERVICE.RegisterUserType) => {
+export const registerUserService = (data: SERVICE.RegisterUserType) => {
   return request('/ucenter/user/register', {
     method: 'POST',
     data: data,
@@ -65,7 +65,7 @@ export const uploadAvatarService = async ({
 /**
  * 获取图灵验证码
  */
-export const getVerifyCode = () => {
+export const getVerifyCodeService = () => {
   return request('/ucenter/verify/code', {
     method: 'GET',
   });
@@ -75,7 +75,9 @@ export const getVerifyCode = () => {
  * 更新用户密码
  * @param data
  */
-export const updateUserPassword = async (data: SERVICE.ForgetPasswordType) => {
+export const updateUserPasswordService = async (
+  data: SERVICE.ForgetPasswordType,
+) => {
   return request('/ucenter/user/forget/password', {
     method: 'POST',
     data,
