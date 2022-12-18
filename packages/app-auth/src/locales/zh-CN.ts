@@ -42,4 +42,5 @@ export default {
   emailFormatError: '邮箱格式不正确',
   updatePassword: '更新密码',
   placeholderConfirmPassword: '请再次确认密码',
+  placeholderErrorConfirmPassword: '两次输入密码不一致',
 };

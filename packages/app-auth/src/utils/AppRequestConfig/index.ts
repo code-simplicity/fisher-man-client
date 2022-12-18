@@ -83,12 +83,17 @@ export const appRequestConfig: RequestConfig = {
               break;
             case ErrorShowType.CREATED:
               break;
+            case ErrorShowType.BAD_REQUEST:
+              // 参数错误
+              appMessage.error(message);
+              break;
             case ErrorShowType.FORBIDDEN:
               appMessage.error(message);
               break;
             case ErrorShowType.INTERNAL_SERVER_ERROR:
               appMessage.error(message);
               break;
+
             default:
               appMessage.error(message);
           }

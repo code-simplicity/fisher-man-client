@@ -42,4 +42,5 @@ export default {
   emailFormatError: 'The email format is incorrect',
   updatePassword: 'Changing the password',
   placeholderConfirmPassword: 'Please confirm the password again',
+  placeholderErrorConfirmPassword: 'The two passwords are inconsistent',
 };

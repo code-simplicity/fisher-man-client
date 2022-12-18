@@ -1,7 +1,7 @@
 import React, { FC, useRef } from 'react';
 import { injectIntl } from '@@/plugin-locale';
 import { ComponentsProps } from '@/pages/Login/interface';
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Form, Input, message, Row } from 'antd';
 import { LoginEnum } from '@/utils';
 import { useModel } from 'umi';
 import {
@@ -24,12 +24,27 @@ const ForgetForm: FC<ForgetFormProps> = ({ intl }) => {
   const { handleCheckForm } = useModel('loginModel');
   const { appSettingConfigData, onFormValidateRule } =
     useModel('appSettingModel');
+  const { handleForgetPasswordModel } = useModel('forgetModel');
   const [forgetForm] = Form.useForm();
   // 获取验证码子组件的ref
   const appCaptchaRef = useRef<IAppCaptchaRef | any>();
 
+  /**
+   * 更新密码
+   * @param data
+   */
   const handleForget = (data: SERVICE.ForgetPasswordType) => {
-    console.log('data', data);
+    handleForgetPasswordModel.runAsync(data).then(() => {
+      appCaptchaRef?.current?.onRefreshCaptcha();
+      // 清除输入框
+      forgetForm.resetFields([
+        'password',
+        'confirmPassword',
+        'captcha',
+        'email',
+        'emailCode',
+      ]);
+    });
   };
 
   return (
@@ -84,7 +99,13 @@ const ForgetForm: FC<ForgetFormProps> = ({ intl }) => {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 } else {
-                  return Promise.reject(new Error('两次输入密码不一致'));
+                  return Promise.reject(
+                    new Error(
+                      intl.formatMessage({
+                        id: 'placeholderErrorConfirmPassword',
+                      }),
+                    ),
+                  );
                 }
               },
             }),

@@ -69,3 +69,14 @@ export const getVerifyCode = () => {
     method: 'GET',
   });
 };
+
+/**
+ * 更新用户密码
+ * @param data
+ */
+export const updateUserPassword = async (data: SERVICE.ForgetPasswordType) => {
+  return request('/ucenter/user/forget/password', {
+    method: 'POST',
+    data,
+  });
+};
