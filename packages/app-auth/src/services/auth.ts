@@ -1,4 +1,5 @@
 import { request } from '@umijs/max';
+// import request from 'umi-request';
 
 /**
  * 登陆接口

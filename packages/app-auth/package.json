@@ -30,7 +30,8 @@
     "qrcode.react": "^3.1.0",
     "rc-tween-one": "^3.0.6",
     "react-color": "^2.19.3",
-    "react-hook-form": "^7.38.0"
+    "react-hook-form": "^7.38.0",
+    "umi-request": "^1.4.0"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.1.4",
