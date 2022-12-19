@@ -2,6 +2,7 @@
   "name": "app-user-center",
   "private": true,
   "author": "DPY",
+  "version": "0.0.1",
   "scripts": {
     "build:APP-USER_CENTER": "max build",
     "dev:APP-USER_CENTER": "max dev",
@@ -23,7 +24,8 @@
     "color": "^4.2.3",
     "qrcode.react": "^3.1.0",
     "rc-tween-one": "^3.0.6",
-    "react-color": "^2.19.3"
+    "react-color": "^2.19.3",
+    "app-auth": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

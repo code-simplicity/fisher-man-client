@@ -1,7 +1,7 @@
 import { injectIntl } from '@@/plugin-locale';
 import { Button, Col, Form, Input, Row } from 'antd';
 import React, { FC, useRef } from 'react';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../../../type';
 import OtherLoginMode from '../OtherLoginMode';
 import { useModel } from 'umi';
 import { LoginEnum } from '@/utils';

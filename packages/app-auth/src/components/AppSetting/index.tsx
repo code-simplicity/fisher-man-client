@@ -1,4 +1,4 @@
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../type';
 import React, { FC, useState } from 'react';
 import { injectIntl } from '@@/plugin-locale';
 import { SettingOne, Tool } from '@icon-park/react';
@@ -18,22 +18,30 @@ import {
   Typography,
   FloatButton,
 } from 'antd';
-import AppSketchPicker from '@/components/AppSketchPicker';
-import AppTriggerLocales from '@/components/AppTriggerLocales';
-import AppText from '@/components/AppText';
+import type { FormInstance } from 'antd';
+import AppSketchPicker from '../AppSketchPicker';
+import AppTriggerLocales from '../AppTriggerLocales';
+import AppText from '../AppText';
 import { SketchPicker } from 'react-color';
 import { useModel } from '@umijs/max';
+import { IAppSettingConfigData } from '../../type';
 
-type AppSettingProps = ComponentsProps;
+interface AppSettingProps extends ComponentsProps {
+  appSettingForm?: FormInstance; // 表单配置
+  appSettingConfigData?: IAppSettingConfigData; // 配置数据
+  onAppSettingConfigData?: React.Dispatch<
+    React.SetStateAction<IAppSettingConfigData>
+  >; // 配置数据的方法
+  onHandleAppSettingConfig?: (
+    changedValues: { colorPrimary: any },
+    allValues: any,
+  ) => void;
+}
 
 // TODO:明天继续完善设置组件的编写，加入拖拽的组件，这里需要开发一个拖拽的组件，后面再继续的去实践
 
 const { Item } = Form;
 const { Title } = Typography;
-
-type AppSettingConfigData = {
-  colorPrimary: string;
-};
 
 const defaultAppSettingConfig = {
   colorPrimary: '#1677ff',
@@ -41,13 +49,13 @@ const defaultAppSettingConfig = {
 
 // 设置组件
 const AppSetting: FC<AppSettingProps> = (props) => {
-  const { intl } = props;
   const {
+    intl,
     appSettingForm,
-    appSettingConfigData,
-    setAppSettingConfigData,
-    handleAppSettingConfig,
-  } = useModel('appSettingModel');
+    appSettingConfigData = { colorPrimary: '#1677ff' },
+    onAppSettingConfigData,
+    onHandleAppSettingConfig,
+  } = props;
   const [openDrawer, setOpenDrawer] = useState(false);
 
   // 打开模态框进行设置
@@ -69,12 +77,12 @@ const AppSetting: FC<AppSettingProps> = (props) => {
     changedValues: { colorPrimary: any },
     allValues: any,
   ) => {
-    handleAppSettingConfig(changedValues, allValues);
+    onHandleAppSettingConfig(changedValues, allValues);
   };
 
   // 控制颜色
   const handleChangeColor = (colorPrimary: string) => {
-    setAppSettingConfigData({
+    onAppSettingConfigData({
       ...appSettingConfigData,
       colorPrimary,
     });
@@ -87,7 +95,7 @@ const AppSetting: FC<AppSettingProps> = (props) => {
 
   return (
     <ConfigProvider
-      theme={{ token: { colorPrimary: appSettingConfigData.colorPrimary } }}
+      theme={{ token: { colorPrimary: appSettingConfigData?.colorPrimary } }}
     >
       <div className="app-setting-container" onClick={handleOpenSetting}>
         <Tooltip title={intl.formatMessage({ id: 'appSetting' })}>
@@ -134,7 +142,7 @@ const AppSetting: FC<AppSettingProps> = (props) => {
             <Item valuePropName="color" name="themeColor" noStyle>
               <div className="flex-end">
                 <AppSketchPicker
-                  colorPrimary={appSettingConfigData.colorPrimary}
+                  colorPrimary={appSettingConfigData?.colorPrimary}
                   onChangeColor={handleChangeColor}
                 />
               </div>

@@ -30,6 +30,14 @@ export default defineConfig({
       modifyVars: mapToken,
     },
   },
+  // 多语言配置
+  locale: {
+    default: 'en-US',
+    antd: true,
+    title: false,
+    baseNavigator: true,
+    baseSeparator: '-',
+  },
   access: {},
   model: {},
   initialState: {},

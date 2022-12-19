@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { injectIntl, setLocale } from '@@/plugin-locale';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../type';
 import { Dropdown, Menu, Space } from 'antd';
 import { getLocale } from 'umi';
 import './index.less';

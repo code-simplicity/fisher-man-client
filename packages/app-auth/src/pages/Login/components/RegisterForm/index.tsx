@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../../../type';
 import {
   Avatar,
   Button,

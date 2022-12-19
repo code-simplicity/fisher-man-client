@@ -9,6 +9,7 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
+import AppSetting from 'app-auth/src/components/AppSetting';
 
 interface LayoutProps {
   children: ReactNode;
@@ -100,6 +101,10 @@ const AppLayout: FC<LayoutProps> = (props) => {
                     background: colorBgContainer,
                   }}
                 >
+                  <AppSetting
+                    appSettingConfigData={{ colorPrimary: '#1677ff' }}
+                  />
+
                   <Outlet />
                 </div>
               </Content>

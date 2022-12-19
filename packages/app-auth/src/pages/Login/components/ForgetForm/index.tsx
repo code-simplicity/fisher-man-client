@@ -1,6 +1,6 @@
 import React, { FC, useRef } from 'react';
 import { injectIntl } from '@@/plugin-locale';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../../../type';
 import { Button, Col, Form, Input, message, Row } from 'antd';
 import { LoginEnum } from '@/utils';
 import { useModel } from 'umi';

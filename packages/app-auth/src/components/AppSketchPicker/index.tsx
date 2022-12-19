@@ -1,8 +1,8 @@
 import { injectIntl } from '@@/plugin-locale';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../type';
 import { FC, MouseEventHandler, useLayoutEffect, useState } from 'react';
 import { SketchPicker } from 'react-color';
-import configurationColor from '@/utils/ConfigurationColor';
+import configurationColor from '../../utils/ConfigurationColor/index';
 import { ConfigProvider, Popover } from 'antd';
 import './index.less';
 

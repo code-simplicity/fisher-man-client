@@ -1,30 +1,9 @@
 import { Form } from 'antd';
 import { useState } from 'react';
 import { theme } from 'antd';
+import { IAppSettingConfigData } from '../type';
 
 const { useToken } = theme;
-
-type ILabelCol = {
-  xs?: {
-    span?: number;
-  };
-  sm?: {
-    span?: number;
-  };
-};
-
-type IFormItemLayout = {
-  labelCol: ILabelCol;
-  wrapperCol: ILabelCol;
-};
-
-// 配置config的接口
-type IAppSettingConfigData = {
-  colorPrimary?: string; // 主题颜色
-  border?: boolean; // 边框
-  formItemLayout?: IFormItemLayout; // 表单样式配置
-  formColon?: boolean; // 控制标签是否出现冒号
-};
 
 /**
  * 验证函数参数类型

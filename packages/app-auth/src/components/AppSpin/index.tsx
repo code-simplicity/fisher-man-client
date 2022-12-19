@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import { injectIntl } from '@@/plugin-locale';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../type';
 import { ConfigProvider, Spin } from 'antd';
 import { useModel } from '@umijs/max';
 

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../../../type';
 import { injectIntl } from '@@/plugin-locale';
 import { QRCodeSVG } from 'qrcode.react';
 import OtherLoginMode from '../OtherLoginMode';

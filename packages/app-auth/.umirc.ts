@@ -3,6 +3,7 @@ import routes from './config/routes';
 import { proxy } from './config/proxy';
 import { theme } from 'antd/lib';
 import { convertLegacyToken } from '@ant-design/compatible/lib';
+// const { ModuleFederationPlugin } = require('webpack').container;
 
 const { defaultAlgorithm, defaultSeed } = theme;
 const mapToken = defaultAlgorithm(defaultSeed);
@@ -68,4 +69,6 @@ export default defineConfig({
    * 网络请求配置
    */
   request: {},
+  // webpack5: {},
+  // dynamicImport: {},
 });

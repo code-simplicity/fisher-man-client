@@ -1,5 +1,5 @@
 import { injectIntl } from '@@/plugin-locale';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../type';
 import { FC } from 'react';
 import './index.less';
 import { Space } from 'antd';

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../../../type';
 import { injectIntl } from '@@/plugin-locale';
 import { Col, Divider, Row, Tooltip } from 'antd';
 import {

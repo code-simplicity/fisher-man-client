@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Form, Select, Tabs, Card, ConfigProvider } from 'antd';
+import { Form, Select, Tabs, Card, ConfigProvider, FormInstance } from 'antd';
 import { useIntl, useModel } from 'umi';
 import { LoginEnum } from '@/utils';
 import ForgetForm from '@/pages/Login/components/ForgetForm';
@@ -19,7 +19,13 @@ const { TabPane } = Tabs;
 const Login: FC = (props) => {
   const intl = useIntl();
   const { cardFormState } = useModel('loginModel');
-  const { appSettingConfigData } = useModel('appSettingModel');
+  const {
+    appSettingForm,
+    appSettingConfigData,
+    setAppSettingConfigData,
+    handleAppSettingConfig,
+  } = useModel('appSettingModel');
+
   const [headerTitle, setHeaderTitle] = useState(
     intl.formatMessage({ id: 'fisherManApp' }),
   );
@@ -77,7 +83,12 @@ const Login: FC = (props) => {
             </Card>
           </div>
         </div>
-        <AppSetting />
+        <AppSetting
+          appSettingForm={appSettingForm}
+          appSettingConfigData={appSettingConfigData}
+          onAppSettingConfigData={setAppSettingConfigData}
+          onHandleAppSettingConfig={handleAppSettingConfig}
+        />
       </div>
     </ConfigProvider>
   );

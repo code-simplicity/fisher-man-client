@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { Button, message } from 'antd';
 import { useCountDown } from 'ahooks';
 import { injectIntl } from '@@/plugin-locale';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../type';
 import { FormInstance } from 'rc-field-form/es/interface';
 import { useModel } from '@umijs/max';
 
