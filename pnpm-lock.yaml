@@ -14,7 +14,9 @@ importers:
     specifiers:
       '@commitlint/cli': ^17.1.2
       '@commitlint/config-conventional': ^17.1.0
+      '@icon-park/react': ^1.4.2
       '@umijs/lint': ^4.0.0
+      ahooks: ^3.7.2
       antd: ^5.0.7
       dumi: ^2.0.2
       eslint: ^8.23.0
@@ -30,7 +32,9 @@ importers:
     devDependencies:
       '@commitlint/cli': 17.3.0
       '@commitlint/config-conventional': 17.3.0
+      '@icon-park/react': 1.4.2_ef5jwxihqo6n7gxfmzogljlgcm
       '@umijs/lint': 4.0.38_ylqo62zdqvgdcdyt3x4fpzbddy
+      ahooks: 3.7.2_react@18.1.0
       antd: 5.0.7_ef5jwxihqo6n7gxfmzogljlgcm
       dumi: 2.0.16_4yz2mamtvolmgov2foe7ceogru
       eslint: 8.25.0
@@ -1854,6 +1858,17 @@ packages:
       react: '>=16.9'
       react-dom: '>=16.9'
     dev: false
+
+  /@icon-park/react/1.4.2_ef5jwxihqo6n7gxfmzogljlgcm:
+    resolution: {integrity: sha512-+MtQLjNiRuia3fC/NfpSCTIy5KH5b+NkMB9zYd7p3R4aAIK61AjK0OSraaICJdkKooU9jpzk8m0fY4g9A3JqhQ==}
+    engines: {node: '>= 8.0.0', npm: '>= 5.0.0'}
+    peerDependencies:
+      react: '>=16.9'
+      react-dom: '>=16.9'
+    dependencies:
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+    dev: true
 
   /@icons/material/0.2.4:
     resolution: {integrity: sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==}
@@ -3772,7 +3787,6 @@ packages:
 
   /@types/js-cookie/2.2.7:
     resolution: {integrity: sha512-aLkWa0C0vO5b4Sr798E26QgOkss68Un0bLjs7u9qxzPT5CG+8DuNTffWES58YzJs3hrVAOs1wonycqEBqNJubA==}
-    dev: false
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
@@ -5499,7 +5513,6 @@ packages:
 
   /ahooks-v3-count/1.0.0:
     resolution: {integrity: sha512-V7uUvAwnimu6eh/PED4mCDjE7tokeZQLKlxg9lCTMPhN+NjsSbtdacByVlR1oluXQzD3MOw55wylDmQo4+S9ZQ==}
-    dev: false
 
   /ahooks/3.7.2:
     resolution: {integrity: sha512-nJPsQJcmJnGaNXiqgZdfO7UMs+o926LQg6VyDYt2vzKhXU8Ze/U87NsA/FeIvlIZB0rQr/j7uotFb1bGPp627A==}
@@ -5516,6 +5529,23 @@ packages:
       resize-observer-polyfill: 1.5.1
       screenfull: 5.2.0
     dev: false
+
+  /ahooks/3.7.2_react@18.1.0:
+    resolution: {integrity: sha512-nJPsQJcmJnGaNXiqgZdfO7UMs+o926LQg6VyDYt2vzKhXU8Ze/U87NsA/FeIvlIZB0rQr/j7uotFb1bGPp627A==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@types/js-cookie': 2.2.7
+      ahooks-v3-count: 1.0.0
+      dayjs: 1.11.5
+      intersection-observer: 0.12.2
+      js-cookie: 2.2.1
+      lodash: 4.17.21
+      react: 18.1.0
+      resize-observer-polyfill: 1.5.1
+      screenfull: 5.2.0
+    dev: true
 
   /ajv-keywords/3.5.2_ajv@6.12.6:
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==}
@@ -10432,7 +10462,6 @@ packages:
 
   /intersection-observer/0.12.2:
     resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
-    dev: false
 
   /intl-format-cache/4.3.1:
     resolution: {integrity: sha512-OEUYNA7D06agqPOYhbTkl0T8HA3QKSuwWh1HiClEnpd9vw7N+3XsQt5iZ0GUEchp5CW1fQk/tary+NsbF3yQ1Q==}
@@ -10961,7 +10990,6 @@ packages:
 
   /js-cookie/2.2.1:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
-    dev: false
 
   /js-sdsl/4.1.5:
     resolution: {integrity: sha512-08bOAKweV2NUC1wqTtf3qZlnpOX/R2DU9ikpjOHs0H+ibQv3zpncVQg6um4uYtRtrwIX8M4Nh3ytK4HGlYAq7Q==}
@@ -16449,7 +16477,6 @@ packages:
   /screenfull/5.2.0:
     resolution: {integrity: sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==}
     engines: {node: '>=0.10.0'}
-    dev: false
 
   /scroll-into-view-if-needed/2.2.29:
     resolution: {integrity: sha512-hxpAR6AN+Gh53AdAimHM6C8oTN1ppwVZITihix+WqalywBeFcQ6LdQP5ABNl26nX8GTEL7VT+b8lKpdqq65wXg==}

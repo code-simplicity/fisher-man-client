@@ -1,3 +1,8 @@
+---
+title: Footer组件
+group:
+  title: 通用
+---
 # Foo
 
 This is an example component.

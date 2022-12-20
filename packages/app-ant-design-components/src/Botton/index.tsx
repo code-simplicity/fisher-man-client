@@ -3,7 +3,7 @@ import React from 'react';
 const Button = () => {
   return (
     <div>
-      <button>按钮</button>
+      <div>按钮</div>
     </div>
   );
 };

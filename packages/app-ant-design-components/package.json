@@ -43,21 +43,20 @@
     ],
     "*.{css,less}": [
       "stylelint --fix",
-      "prettier --write"
     ],
     "*.{js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --fix-dry-run",
     ],
     "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --parser=typescript --write"
+      "eslint --fix-dry-run",
     ]
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@icon-park/react": "^1.4.2",
     "@umijs/lint": "^4.0.0",
+    "ahooks": "^3.7.2",
     "antd": "^5.0.7",
     "dumi": "^2.0.2",
     "eslint": "^8.23.0",
