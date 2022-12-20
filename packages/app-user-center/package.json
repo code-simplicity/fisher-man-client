@@ -1,20 +1,31 @@
 {
-  "private": true,
   "name": "app-user-center",
-  "author":"DPY",
+  "private": true,
+  "author": "DPY",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "max dev",
-    "build": "max build",
-    "format": "prettier --cache --write .",
-    "postinstall": "max setup",
-    "setup": "max setup",
-    "start": "npm run dev"
+    "build:APP-USER_CENTER": "max build",
+    "dev:APP-USER_CENTER": "max dev",
+    "format:APP-USER_CENTER": "prettier --cache --write .",
+    "postinstall:APP-USER_CENTER": "max setup",
+    "setup:APP-USER_CENTER": "max setup",
+    "start:APP-USER_CENTER": "npm run dev"
   },
   "dependencies": {
+    "@ant-design/compatible": "^5.1.1",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.0.1",
+    "@icon-park/react": "^1.4.2",
     "@umijs/max": "^4.0.25",
-    "antd": "^4.20.7"
+    "ahooks": "^3.7.2",
+    "antd": "5.x",
+    "antd-img-crop": "^4.5.2",
+    "chroma-js": "^2.4.2",
+    "color": "^4.2.3",
+    "qrcode.react": "^3.1.0",
+    "rc-tween-one": "^3.0.6",
+    "react-color": "^2.19.3",
+    "app-auth": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

@@ -1,12 +1,13 @@
 .app-point-background-container {
   position: fixed;
-  left:0;
-  top:0;
+  left: 0;
+  top: 0;
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: #019BF0;
+  background: rgb(44 42 42 / 80%);
   z-index: 1;
+
   &-wrapper {
     position: absolute;
     width: 100%;
@@ -18,9 +19,11 @@
     right: -100%;
     margin: auto;
   }
+
   &-block {
     position: absolute;
-    transition: transform .45s ease;
+    transition: transform 0.45s ease;
+
     &-child {
       border-radius: 100%;
       width: 100%;

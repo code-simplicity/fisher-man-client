@@ -3,26 +3,37 @@
   "private": true,
   "author": "DPY",
   "scripts": {
-    "dev": "umi dev",
-    "build": "umi build",
-    "format": "prettier --cache --write .",
-    "postinstall": "umi setup",
-    "setup": "umi setup",
-    "start": "npm run dev"
+    "build:APP-AUTH": "max build",
+    "dev:APP-AUTH": "cross-env AUTH_APP_ENV=dev UMI_ENV=dev max dev",
+    "format:APP-AUTH": "prettier --cache --write .",
+    "postinstall:APP-AUTH": "max setup",
+    "precommit": "lint-staged",
+    "prod:APP-AUTH": "cross-env AUTH_APP_ENV=prod UMI_ENV=prod max dev",
+    "setup:APP-AUTH": "max setup",
+    "start:APP-AUTH": "npm run dev",
+    "uat:APP-AUTH": "cross-env AUTH_APP_ENV=uat UMI_ENV=uat max dev"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,less}": [
+      "umi lint"
+    ]
   },
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
+    "@ant-design/compatible": "^5.1.1",
     "@ant-design/icons": "^4.7.0",
     "@icon-park/react": "^1.4.2",
     "ahooks": "^3.7.2",
-    "antd": "^4.20.7",
+    "antd": "5.x",
+    "antd-img-crop": "^4.5.2",
+    "app-user-center": "^0.0.1",
     "chroma-js": "^2.4.2",
     "color": "^4.2.3",
     "qrcode.react": "^3.1.0",
     "rc-tween-one": "^3.0.6",
     "react-color": "^2.19.3",
     "react-hook-form": "^7.38.0",
-    "umi": "^4.0.25"
+    "umi-request": "^1.4.0"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.1.4",
@@ -31,14 +42,19 @@
     "@types/react-color": "^3.0.6",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.25",
+    "@umijs/max": "^4.0.25",
     "@umijs/plugins": "^4.0.26",
+    "cross-env": "^7.0.3",
     "eslint": "^8.25.0",
+    "less": "^4.1.3",
+    "less-loader": "^11.1.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^2",
     "prettier-plugin-packagejson": "^2",
     "stylelint": "^14.14.0",
     "tailwindcss": "^3",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "webpack": "^5.75.0"
   }
 }

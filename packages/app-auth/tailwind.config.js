@@ -8,6 +8,9 @@ module.exports = {
     sans: ['Graphik', 'sans-serif'],
     serif: ['Merriweather', 'serif'],
   },
+  // corePlugins: {
+  //   preflight: false,
+  // },
   theme: {
     screens: {
       sm: { min: '340px', max: '767px' },

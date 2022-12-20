@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "fisher-man-client",
   "private": true,
   "scripts": {
     "dev": "pnpm -r --parallel --filter=./packages/* run dev",
@@ -13,9 +13,11 @@
     "build": "rm -rf dist && rollup --config",
     "test": "jest",
     "clear": "lerna clean",
-    "version": "lerna version 0.0.2"
+    "version": "lerna version 0.0.2",
+    "prepare": "husky install"
   },
   "devDependencies": {
+    "husky": "^8.0.2",
     "lerna": "^5.5.2"
   }
 }

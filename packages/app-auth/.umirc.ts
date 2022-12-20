@@ -1,27 +1,46 @@
-import { defineConfig } from 'umi';
+import { defineConfig } from '@umijs/max';
 import routes from './config/routes';
+import { proxy } from './config/proxy';
+import { theme } from 'antd/lib';
+import { convertLegacyToken } from '@ant-design/compatible/lib';
+// const { ModuleFederationPlugin } = require('webpack').container;
+
+const { defaultAlgorithm, defaultSeed } = theme;
+const mapToken = defaultAlgorithm(defaultSeed);
+const v4Token = convertLegacyToken(mapToken);
+
+const { UMI_ENV } = process.env;
 
 export default defineConfig({
   npmClient: 'pnpm',
-  plugins: [
-    '@umijs/plugins/dist/antd',
-    '@umijs/plugins/dist/locale',
-    '@umijs/plugins/dist/tailwindcss',
-    '@umijs/plugins/dist/dva',
-    '@umijs/plugins/dist/model',
-  ],
   antd: {
     // dark: true,
-    configProvider: {},
+    import: false, // 关闭自动导入
+    configProvider: {
+      message: {
+        left: 200,
+        bottom: 200,
+        duration: 2,
+        maxCount: 3,
+        rtl: true,
+      },
+    },
+    theme: {
+      token: {
+        // colorPrimary: '#ff1818',
+      },
+    },
   },
   // 加载器实现颜色的更改
-  // lessLoader: {
-  //   modifyVars: {
-  //     '@ant-prefix': 'fisher',
-  //     'primary-color': '#a70000',
-  //   },
-  //   javascriptEnabled: true,
-  // },
+  lessLoader: {
+    lessOptions: {
+      modifyVars: mapToken,
+    },
+    // modifyVars: mapToken,
+  },
+  // 配置代理
+  proxy: proxy[UMI_ENV || 'dev'],
+  // 开启Module Federation
   mfsu: {
     strategy: 'normal',
     shared: {
@@ -30,8 +49,6 @@ export default defineConfig({
       },
     },
   },
-
-  // 开启Module Federation
   // 多语言配置
   locale: {
     default: 'en-US',
@@ -48,4 +65,10 @@ export default defineConfig({
   targets: {
     ie: 11,
   },
+  /**
+   * 网络请求配置
+   */
+  request: {},
+  // webpack5: {},
+  // dynamicImport: {},
 });

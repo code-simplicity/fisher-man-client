@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { injectIntl } from '@@/plugin-locale';
-import { ComponentsProps } from '@/pages/Login/interface';
+import { ComponentsProps } from '../../type';
 import { Card, Col, Row } from 'antd';
 
 interface AppCardProps extends ComponentsProps {
