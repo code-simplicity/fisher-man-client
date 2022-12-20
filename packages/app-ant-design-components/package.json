@@ -43,12 +43,15 @@
     ],
     "*.{css,less}": [
       "stylelint --fix",
+      "prettier --write"
     ],
     "*.{js,jsx}": [
       "eslint --fix-dry-run",
+      "prettier --write"
     ],
     "*.{ts,tsx}": [
       "eslint --fix-dry-run",
+      "prettier --parser=typescript --write"
     ]
   },
   "devDependencies": {

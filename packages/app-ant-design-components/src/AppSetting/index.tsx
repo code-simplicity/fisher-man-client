@@ -16,6 +16,8 @@ export interface IAppSettingProps {
   children?: ReactNode;
 }
 
+// TODO：明天继续完善这个组件，包括类型设计这些都和antd这边做一个统一
+
 /**
  * 系统级别的组件
  * @constructor
