@@ -1,5 +1,6 @@
 ---
 title: Footer组件
+order: 3
 group:
   title: 通用
 ---

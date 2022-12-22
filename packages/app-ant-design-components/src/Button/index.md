@@ -1,7 +1,9 @@
 ---
 title: Button组件
+order: 1
 group:
   title: 通用
+toc: content
 ---
 
 # 自定义 Button

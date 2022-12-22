@@ -14,13 +14,20 @@
     "url": "https://github.com/dpy0912/fisher-man-client/tree/develop/packages/app-ant-design-components"
   },
   "license": "MIT",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "unpkg": "dist/antd.min.js",
+  "types": "es/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "es",
+    "lib"
   ],
+  "bugs": {
+    "url": "https://github.com/dpy0912/fisher-man-client/tree/develop/packages/app-ant-design-components/issues"
+  },
   "scripts": {
-    "build:APP-AND-DESIGN-COMPONENTS": "father build",
+    "build:APP-AND-DESIGN-COMPONENTS": "father build --clean=true",
     "build:watch": "father dev",
     "dev:APP-AND-DESIGN-COMPONENTS": "dumi dev",
     "docs:build": "dumi build",
@@ -32,6 +39,11 @@
     "prepublishOnly": "father doctor && npm run build",
     "start:APP-AND-DESIGN-COMPONENTS": "npm run dev"
   },
+  "peerDependencies": {
+    "antd": ">=5.x",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -42,16 +54,13 @@
       "prettier --write --no-error-on-unmatched-pattern"
     ],
     "*.{css,less}": [
-      "stylelint --fix",
-      "prettier --write"
+      "stylelint --fix"
     ],
     "*.{js,jsx}": [
-      "eslint --fix-dry-run",
-      "prettier --write"
+      "eslint --fix-dry-run"
     ],
     "*.{ts,tsx}": [
-      "eslint --fix-dry-run",
-      "prettier --parser=typescript --write"
+      "eslint --fix-dry-run"
     ]
   },
   "devDependencies": {
@@ -83,5 +92,8 @@
   "authors": [
     "dupyi0912@gmail.com"
   ],
-  "title": "app-ant-design-components"
+  "title": "app-ant-design-components",
+  "dependencies": {
+    "react-draggable": "^4.4.5"
+  }
 }

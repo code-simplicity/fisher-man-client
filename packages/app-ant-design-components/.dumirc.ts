@@ -1,5 +1,7 @@
 import { defineConfig } from 'dumi';
 // @ts-ignore
+import path from 'path';
+// @ts-ignore
 import { repository } from './package.json';
 
 export default defineConfig({
@@ -58,4 +60,12 @@ export default defineConfig({
   },
   // 样式设置
   styles: [],
+  apiParser: {},
+  resolve: {
+    entryFile: './src/index.ts',
+  },
+  alias: {
+    'app-antd-components/lib': path.join(__dirname, 'components'),
+    'app-antd-components/es': path.join(__dirname, 'components'),
+  },
 });
