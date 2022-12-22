@@ -1,15 +1,15 @@
-import React, { FC, ReactNode, useState } from 'react';
-import { Outlet } from 'umi';
-import { Breadcrumb, ConfigProvider, Layout, Menu, theme } from 'antd';
 import { StyleProvider } from '@ant-design/cssinjs';
-import routes from '../../config/routes';
-import './index.less';
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import AppSetting from 'app-auth/src/components/AppSetting';
+import { Breadcrumb, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { AppSetting } from 'app-ant-design-components';
+import React, { FC, ReactNode, useState } from 'react';
+import { Outlet } from 'umi';
+import routes from '../../config/routes';
+import './index.less';
 
 interface LayoutProps {
   children: ReactNode;
@@ -36,7 +36,21 @@ const AppLayout: FC<LayoutProps> = (props) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  console.log('colorBgContainer', colorBgContainer);
+  const [draggableState, setDraggableState] = useState<any>({
+    activeDrags: 0,
+    deltaPosition: {
+      x: 0,
+      y: 0,
+    },
+    controlledPosition: {
+      x: -400,
+      y: 200,
+    },
+  });
+  const handleAppSetting = (data: any) => {
+    console.log('data ==>', data);
+  };
+
   return (
     <ConfigProvider>
       <StyleProvider hashPriority="high">
@@ -101,12 +115,9 @@ const AppLayout: FC<LayoutProps> = (props) => {
                     background: colorBgContainer,
                   }}
                 >
-                  <AppSetting
-                    appSettingConfigData={{ colorPrimary: '#1677ff' }}
-                  />
-
                   <Outlet />
                 </div>
+                <AppSetting onSubmit={handleAppSetting} />
               </Content>
             </Layout>
           </Layout>

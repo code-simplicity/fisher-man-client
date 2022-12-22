@@ -9,18 +9,25 @@
     "react",
     "dumi"
   ],
+  "bugs": {
+    "url": "https://github.com/dpy0912/fisher-man-client/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/dpy0912/fisher-man-client/tree/develop/packages/app-ant-design-components"
   },
   "license": "MIT",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "unpkg": "dist/antd.min.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "es",
+    "lib"
   ],
   "scripts": {
-    "build:APP-AND-DESIGN-COMPONENTS": "father build",
+    "build:APP-AND-DESIGN-COMPONENTS": "father build --clean=true",
     "build:watch": "father dev",
     "dev:APP-AND-DESIGN-COMPONENTS": "dumi dev",
     "docs:build": "dumi build",
@@ -42,22 +49,24 @@
       "prettier --write --no-error-on-unmatched-pattern"
     ],
     "*.{css,less}": [
-      "stylelint --fix",
-      "prettier --write"
+      "stylelint --fix"
     ],
     "*.{js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --fix-dry-run"
     ],
     "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --parser=typescript --write"
+      "eslint --fix-dry-run"
     ]
+  },
+  "dependencies": {
+    "react-draggable": "^4.4.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@icon-park/react": "^1.4.2",
     "@umijs/lint": "^4.0.0",
+    "ahooks": "^3.7.2",
     "antd": "^5.0.7",
     "dumi": "^2.0.2",
     "eslint": "^8.23.0",

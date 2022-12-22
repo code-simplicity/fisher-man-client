@@ -4,12 +4,13 @@
   "author": "DPY",
   "version": "0.0.1",
   "scripts": {
-    "build:APP-USER_CENTER": "max build",
-    "dev:APP-USER_CENTER": "max dev",
-    "format:APP-USER_CENTER": "prettier --cache --write .",
-    "postinstall:APP-USER_CENTER": "max setup",
-    "setup:APP-USER_CENTER": "max setup",
-    "start:APP-USER_CENTER": "npm run dev"
+    "build:APP-USER-CENTER": "max build",
+    "dev:APP-USER-CENTER": "max dev",
+    "format:APP-USER-CENTER": "prettier --cache --write .",
+    "postinstall:APP-USER-CENTER": "max setup",
+    "setup:APP-USER-CENTER": "max setup",
+    "start:APP-USER-CENTER": "npm run dev",
+    "install:APP-USER-CENTER": "pnpm i"
   },
   "dependencies": {
     "@ant-design/compatible": "^5.1.1",
@@ -20,12 +21,14 @@
     "ahooks": "^3.7.2",
     "antd": "5.x",
     "antd-img-crop": "^4.5.2",
+    "app-ant-design-components": "workspace:*",
+    "app-auth": "workspace:*",
     "chroma-js": "^2.4.2",
     "color": "^4.2.3",
     "qrcode.react": "^3.1.0",
     "rc-tween-one": "^3.0.6",
     "react-color": "^2.19.3",
-    "app-auth": "workspace:*"
+    "react-draggable": "^4.4.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
