@@ -1,5 +1,5 @@
 import { ConfigProvider } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import AppSetting from '../index';
 
 /**
@@ -7,12 +7,18 @@ import AppSetting from '../index';
  * @constructor
  */
 export default () => {
+  const [loadingState, setLoadingState] = useState(false);
   const handleSubmit = (data: any) => {
     console.log('e', data);
+    setLoadingState(true);
   };
   return (
     <ConfigProvider theme={{ token: { colorPrimary: '#e82b2b' } }}>
-      <AppSetting onSubmit={handleSubmit} colorPrimary="#e82b2b" />
+      <AppSetting
+        loading={loadingState}
+        onSubmit={handleSubmit}
+        colorPrimary="#e82b2b"
+      />
     </ConfigProvider>
   );
 };

@@ -22,11 +22,13 @@ export interface IAppSettingProps extends DrawerProps {
   colorPrimary?: string;
   // app显示的按钮图标的内联样式
   appSettingStyle?: CSSProperties;
+  // 表单提交的按钮loading
+  loading?: boolean;
   // 关闭弹窗的方法
   onCloseDrawer?: (e: MouseEvent | KeyboardEvent) => void;
   onOpenDrawer?: (e) => void;
   // 提交数据
   onSubmit: (data: any) => void;
   // 设置按钮组合
-  floatButtonChildrenList: IFloatButtonChildrenListProps[];
+  floatButtonChildrenList?: IFloatButtonChildrenListProps[];
 }

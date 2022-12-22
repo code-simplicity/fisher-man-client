@@ -12,26 +12,22 @@ import { IAppSettingProps } from './app-setting';
  */
 const AppSetting: FC<IAppSettingProps> = (props) => {
   const {
-    toolTipTitle,
     appSettingStyle,
     children,
     drawerOkText,
     drawerCloseText,
     colorPrimary,
     floatButtonChildrenList,
+    loading,
     onSubmit,
     ...otherProps
   } = props;
-  // 弹窗的配置
-  const [drawerState, setDrawerState] = useState({
-    open: false,
-  });
+  // 弹窗的配置，内部自己维护这个状态就行，其他的采用props传递
+  const [drawerOpenState, setDrawerOpenState] = useState(false);
 
   // 取消
   const onCloseDrawer = () => {
-    setDrawerState({
-      open: false,
-    });
+    setDrawerOpenState(false);
   };
 
   // 确认，发送请求的回调
@@ -46,17 +42,16 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
         style={{ right: 24 }}
         icon={<SettingTwo theme="outline" size="18" />}
       >
-        {floatButtonChildrenList?.length > 0 &&
-          floatButtonChildrenList?.map((item) => {
-            return (
-              <Fragment key={item.key}>
-                <FloatButton
-                  onClick={() => item.onChange({ setDrawerState })}
-                  {...item}
-                />
-              </Fragment>
-            );
-          })}
+        {floatButtonChildrenList?.map((item) => {
+          return (
+            <Fragment key={item.key}>
+              <FloatButton
+                onClick={() => item.onChange({ setDrawerOpenState })}
+                {...item}
+              />
+            </Fragment>
+          );
+        })}
       </FloatButton.Group>
       <Drawer
         closeIcon={
@@ -66,14 +61,12 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
             <CloseOne theme="outline" size="22" />
           </AppSvgIcon>
         }
-        open={drawerState.open}
-        mask={true}
-        maskClosable={false}
+        open={drawerOpenState}
         onClose={onCloseDrawer}
         extra={
           <Space>
             <Button onClick={onCloseDrawer}>{drawerCloseText}</Button>
-            <Button type="primary" onClick={onSubmitSetting}>
+            <Button loading={loading} type="primary" onClick={onSubmitSetting}>
               {drawerOkText}
             </Button>
           </Space>
@@ -91,19 +84,21 @@ AppSetting.defaultProps = {
   drawerCloseText: '关闭',
   drawerOkText: '确认',
   width: 'calc(60vw)',
-  toolTipTitle: '摸鱼君-系统设置',
   colorPrimary: '#e82b2b',
+  // 是否展示遮罩
+  mask: true,
+  // 点击遮罩是否可以关闭
+  maskClosable: false,
+  loading: false,
   floatButtonChildrenList: [
     {
       key: 'fisher-man-system',
       icon: <System theme="outline" size="18" />,
       type: 'primary',
       tooltip: '摸鱼君-系统设置',
-      onChange: ({ setDrawerState }) => {
+      onChange: ({ setDrawerOpenState }) => {
         // 打开弹窗的回调
-        setDrawerState({
-          open: true,
-        });
+        setDrawerOpenState(true);
       },
     },
     {

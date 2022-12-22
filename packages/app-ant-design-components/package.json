@@ -9,23 +9,23 @@
     "react",
     "dumi"
   ],
+  "bugs": {
+    "url": "https://github.com/dpy0912/fisher-man-client/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/dpy0912/fisher-man-client/tree/develop/packages/app-ant-design-components"
   },
   "license": "MIT",
   "main": "lib/index.js",
-  "module": "es/index.js",
   "unpkg": "dist/antd.min.js",
+  "module": "es/index.js",
   "types": "es/index.d.ts",
   "files": [
     "dist",
     "es",
     "lib"
   ],
-  "bugs": {
-    "url": "https://github.com/dpy0912/fisher-man-client/tree/develop/packages/app-ant-design-components/issues"
-  },
   "scripts": {
     "build:APP-AND-DESIGN-COMPONENTS": "father build --clean=true",
     "build:watch": "father dev",
@@ -38,11 +38,6 @@
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
     "start:APP-AND-DESIGN-COMPONENTS": "npm run dev"
-  },
-  "peerDependencies": {
-    "antd": ">=5.x",
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
   },
   "commitlint": {
     "extends": [
@@ -62,6 +57,9 @@
     "*.{ts,tsx}": [
       "eslint --fix-dry-run"
     ]
+  },
+  "dependencies": {
+    "react-draggable": "^4.4.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -92,8 +90,5 @@
   "authors": [
     "dupyi0912@gmail.com"
   ],
-  "title": "app-ant-design-components",
-  "dependencies": {
-    "react-draggable": "^4.4.5"
-  }
+  "title": "app-ant-design-components"
 }
