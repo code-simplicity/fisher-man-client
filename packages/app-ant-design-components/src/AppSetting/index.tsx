@@ -1,6 +1,7 @@
 import { CloseOne, HeadsetOne, SettingTwo, System } from '@icon-park/react';
 import { Button, Drawer, FloatButton, Space } from 'antd';
 import React, { Fragment, useState, type FC } from 'react';
+import AppSpin from '../AppSpin/index';
 import AppSvgIcon from '../AppSvgIcon/index';
 import { IAppSettingProps } from './app-setting';
 
@@ -19,6 +20,7 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
     colorPrimary,
     floatButtonChildrenList,
     loading,
+    drawerContentLoading,
     onSubmit,
     ...otherProps
   } = props;
@@ -54,6 +56,7 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
         })}
       </FloatButton.Group>
       <Drawer
+        {...otherProps}
         closeIcon={
           <AppSvgIcon
             svgIconStyle={{ ...appSettingStyle, color: colorPrimary }}
@@ -66,14 +69,22 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
         extra={
           <Space>
             <Button onClick={onCloseDrawer}>{drawerCloseText}</Button>
-            <Button loading={loading} type="primary" onClick={onSubmitSetting}>
+            <Button
+              loading={loading}
+              type="primary"
+              htmlType="submit"
+              onClick={onSubmitSetting}
+            >
               {drawerOkText}
             </Button>
           </Space>
         }
-        {...otherProps}
+        destroyOnClose={true}
       >
-        {children}
+        <AppSpin
+          spinning={drawerContentLoading}
+          spinComponent={children}
+        ></AppSpin>
       </Drawer>
     </>
   );
@@ -83,13 +94,16 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
 AppSetting.defaultProps = {
   drawerCloseText: '关闭',
   drawerOkText: '确认',
-  width: 'calc(60vw)',
+  width: 'calc(24vw)',
   colorPrimary: '#e82b2b',
   // 是否展示遮罩
   mask: true,
   // 点击遮罩是否可以关闭
   maskClosable: false,
+  // 按钮提交的loading
   loading: false,
+  // 侧拉内容区的loading状态
+  drawerContentLoading: false,
   floatButtonChildrenList: [
     {
       key: 'fisher-man-system',
