@@ -5,8 +5,8 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Breadcrumb, ConfigProvider, Layout, Menu, theme } from 'antd';
-import { AppSetting } from 'app-ant-design-components';
-import React, { FC, ReactNode, useState } from 'react';
+import { AppSetting, AppSpin } from 'app-ant-design-components';
+import React, { ReactNode, useEffect, useState, type FC } from 'react';
 import { Outlet } from 'umi';
 import routes from '../../config/routes';
 import './index.less';
@@ -36,17 +36,19 @@ const AppLayout: FC<LayoutProps> = (props) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const [draggableState, setDraggableState] = useState<any>({
-    activeDrags: 0,
-    deltaPosition: {
-      x: 0,
-      y: 0,
-    },
-    controlledPosition: {
-      x: -400,
-      y: 200,
-    },
+
+  const [appSettingConfig, setAppSettingConfig] = useState({
+    loading: true,
   });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAppSettingConfig((prevState) => {
+        return { ...prevState, loading: false };
+      });
+    }, 1000);
+  }, []);
+
   const handleAppSetting = (data: any) => {
     console.log('data ==>', data);
   };
@@ -111,11 +113,23 @@ const AppLayout: FC<LayoutProps> = (props) => {
                 <div
                   style={{
                     padding: 12,
+                    height: '100%',
                     minHeight: 'calc(100%)',
                     background: colorBgContainer,
+                    position: 'relative',
                   }}
                 >
-                  <Outlet />
+                  <AppSpin
+                    spinning={appSettingConfig.loading}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      height: '100%',
+                    }}
+                    spinComponent={<Outlet />}
+                  />
                 </div>
                 <AppSetting onSubmit={handleAppSetting} />
               </Content>

@@ -52,9 +52,7 @@ export default defineConfig({
   // 可以直接擦查看不被编译的源码 eval
   devtool: 'source-map',
   // 用 esbuild 做依赖预编译
-  // mfsu: {
-  //   esbuild: true,
-  // },
+  // mfsu: true,
   theme: {
     '@primary-color': '#a51d41',
   },
@@ -65,7 +63,7 @@ export default defineConfig({
     entryFile: './src/index.ts',
   },
   alias: {
-    'app-antd-components/lib': path.join(__dirname, 'components'),
-    'app-antd-components/es': path.join(__dirname, 'components'),
+    'app-antd-components/lib': path.join(__dirname, 'src'),
+    'app-antd-components/es': path.join(__dirname, 'src'),
   },
 });

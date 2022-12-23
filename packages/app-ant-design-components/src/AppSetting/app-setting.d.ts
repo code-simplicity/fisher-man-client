@@ -24,6 +24,8 @@ export interface IAppSettingProps extends DrawerProps {
   appSettingStyle?: CSSProperties;
   // 表单提交的按钮loading
   loading?: boolean;
+  // 侧拉内容去的加载表示
+  drawerContentLoading?: boolean;
   // 关闭弹窗的方法
   onCloseDrawer?: (e: MouseEvent | KeyboardEvent) => void;
   onOpenDrawer?: (e) => void;
