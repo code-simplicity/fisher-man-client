@@ -62,13 +62,15 @@
     "antd-img-crop": "^4.5.2",
     "lodash": "^4.17.21",
     "react-draggable": "^4.4.5",
-    "react-viewer": "^3.2.2"
+    "react-viewer": "^3.2.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@icon-park/react": "^1.4.2",
     "@types/lodash": "^4.14.191",
+    "@types/uuid": "^9.0.0",
     "@umijs/lint": "^4.0.0",
     "ahooks": "^3.7.2",
     "antd": "^5.0.7",

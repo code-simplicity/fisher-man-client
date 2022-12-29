@@ -4,6 +4,8 @@ title: AppViewer 图片预览组件
 order: 5
 group:
   title: 通用
+demo:
+  cols: 2
 ---
 
 # AppViewer 图片预览组件
@@ -13,6 +15,7 @@ group:
 ## 居中展示
 
 <code src="./demos/basic.tsx">单张图片展示</code>
+<code src="./demos/multiple.tsx">多张图片展示</code>
 
 ## API
 
