@@ -1,7 +1,7 @@
 import { AllApplication } from '@icon-park/react';
 import { Tooltip } from 'antd';
+import { AppSvgIcon } from 'app-ant-design-components';
 import React from 'react';
-import AppSvgIcon from '../index';
 
 /**
  * 自定义的svg包裹组件

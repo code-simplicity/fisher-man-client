@@ -94,7 +94,7 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
 AppSetting.defaultProps = {
   drawerCloseText: '关闭',
   drawerOkText: '确认',
-  width: 'calc(24vw)',
+  width: 'calc(38vw)',
   colorPrimary: '#e82b2b',
   // 是否展示遮罩
   mask: true,

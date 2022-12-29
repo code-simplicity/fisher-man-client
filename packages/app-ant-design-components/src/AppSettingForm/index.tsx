@@ -1,5 +1,7 @@
-import { Form, Input } from 'antd';
+import { Checkbox, Form, Input, Radio } from 'antd';
 import React, { type FC } from 'react';
+import AppImgUpload from '../AppImgUpload';
+import AppSketchPicker from '../AppSketchPicker/index';
 import { IAppSettingFormProps } from './app-setting-form';
 
 const { Item } = Form;
@@ -11,20 +13,59 @@ const { Item } = Form;
  * @constructor
  */
 const AppSettingForm: FC<IAppSettingFormProps> = (props) => {
-  const { layout, settingFormItemList, children, ...otherProps } = props;
+  const {
+    layout,
+    settingFormItemList,
+    supportLanguageOptions,
+    navigationBarPreferencesOptions,
+    navigationBarPreferencesProps,
+    languageOptions,
+    form,
+    children,
+    ...otherProps
+  } = props;
+  const handleColorChange = (color: string) => {
+    form?.setFieldValue('systemThemeColor', color);
+  };
   return (
     <>
-      <Form {...otherProps} layout={layout}>
-        <>
-          {settingFormItemList?.map((item) => {
-            return (
-              <Item key={item.id} name={item.name} label={item.label}>
-                {item.children}
-              </Item>
-            );
-          })}
-          {children}
-        </>
+      <Form {...otherProps} form={form} layout={layout}>
+        <Item name="systemTitle" label="系统标题">
+          <Input placeholder="请输入系统标题" />
+        </Item>
+        <Item name="systemIcon" label="系统图标">
+          <AppImgUpload></AppImgUpload>
+        </Item>
+        <Item name="systemSupportLanguage" label="系统支持语言">
+          <Checkbox.Group
+            options={supportLanguageOptions}
+            defaultValue={['zh-CN']}
+          ></Checkbox.Group>
+        </Item>
+        <Item name="systemLanguage" label="系统默认语言">
+          <Radio.Group
+            options={languageOptions}
+            defaultValue={'zh-CN'}
+          ></Radio.Group>
+        </Item>
+        <Item name="systemThemeColor" label="系统主题色">
+          <AppSketchPicker
+            color={form?.getFieldValue('systemThemeColor')}
+            onChange={handleColorChange}
+          />
+        </Item>
+        <Item name="systemNavigationBarPreferences" label="顶部导航栏偏好设置">
+          <Radio.Group
+            {...navigationBarPreferencesProps}
+            options={navigationBarPreferencesOptions}
+          ></Radio.Group>
+        </Item>
+        <Item name="systemSidebarPreferences" label="侧边导航栏偏好设置">
+          <Radio.Group
+            {...navigationBarPreferencesProps}
+            options={navigationBarPreferencesOptions}
+          ></Radio.Group>
+        </Item>
       </Form>
     </>
   );
@@ -41,45 +82,63 @@ AppSettingForm.defaultProps = {
   wrapperCol: { span: 16, offset: 2 },
   // 标签对其方式
   labelAlign: 'left',
-  // 表单项的配置，推荐使用
-  settingFormItemList: [
+  // 系统支持语言配置
+  supportLanguageOptions: [
     {
-      id: 'setting-title',
-      name: 'settingTitle',
-      label: '系统标题',
-      children: <Input placeholder="请输入系统标题" />,
+      label: '简体中文',
+      value: 'zh-CN',
     },
     {
-      id: 'setting-icon',
-      name: 'settingIcon',
-      label: '系统图标',
-      children: <Input placeholder="请输入系统标题" />,
+      label: '繁体中文',
+      value: 'zh-TW',
     },
     {
-      id: 'setting-support-language',
-      name: 'supportLanguage',
-      label: '系统支持语言',
-      children: <Input placeholder="请输入系统标题" />,
-    },
-    {
-      id: 'setting-theme-color',
-      name: 'themeColor',
-      label: '系统主题色',
-      children: <Input placeholder="请输入系统标题" />,
-    },
-    {
-      id: 'setting-navigation-bar-preferences',
-      name: 'navigationBarPreferences',
-      label: '顶部导航栏偏好设置',
-      children: <Input placeholder="请输入系统标题" />,
-    },
-    {
-      id: 'setting--sidebar-preferences',
-      name: 'sidebarPreferences',
-      label: '侧边导航栏偏好设置',
-      children: <Input placeholder="请输入系统标题" />,
+      label: 'English',
+      value: 'en-US',
     },
   ],
+  // 系统语言配置
+  languageOptions: [
+    {
+      label: '简体中文',
+      value: 'zh-CN',
+    },
+    {
+      label: '繁体中文',
+      value: 'zh-TW',
+    },
+    {
+      label: 'English',
+      value: 'en-US',
+    },
+  ],
+  // 顶部导航栏配置
+  navigationBarPreferencesProps: {
+    buttonStyle: 'solid',
+    optionType: 'button',
+    size: 'middle',
+  },
+  // 顶部导航栏配置数据
+  navigationBarPreferencesOptions: [
+    {
+      label: '默认',
+      value: 'defaultColor',
+    },
+    {
+      label: '主题色',
+      value: 'primaryColor',
+    },
+    {
+      label: '深色',
+      value: 'darkColor',
+    },
+    {
+      label: '浅色',
+      value: 'lightColor',
+    },
+  ],
+  // 表单项的配置，推荐使用
+  settingFormItemList: [],
 };
 
 export default AppSettingForm;

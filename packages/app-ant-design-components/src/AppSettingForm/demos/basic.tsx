@@ -1,5 +1,5 @@
+import { AppSettingForm } from 'app-ant-design-components';
 import React from 'react';
-import AppSettingForm from '../index';
 
 export default () => {
   return (
