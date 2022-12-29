@@ -1,5 +1,5 @@
+import { AppViewer } from 'app-ant-design-components';
 import React, { useState } from 'react';
-import AppViewer from '../index';
 
 export default () => {
   const [viewerState, setViewer] = useState({ visible: false, activeIndex: 0 });
@@ -14,7 +14,6 @@ export default () => {
     visible: boolean;
     activeIndex: number;
   }) => {
-    console.log('activeIndex ==>', activeIndex);
     setViewer({ ...viewerState, visible: visible, activeIndex: activeIndex });
   };
 

@@ -24,6 +24,7 @@ const AppViewer: FC<IAppViewerProps> = (props) => {
     onViewerClose,
     width,
     height,
+    imageShow,
   } = props;
   // 控制是否显示遮罩层，通过index下标的唯一值进行判断，本来是想通id进行判断的，发现id是随机可变的，所以导致出现一点问题，后期可能会使用另外的方法
   const [previewState, setPreview] = useState('');
@@ -88,26 +89,27 @@ const AppViewer: FC<IAppViewerProps> = (props) => {
   };
   return (
     <>
-      {formattedImage(images)?.map((item, index) => {
-        return (
-          <div key={item.id} className="app-viewer">
-            <Image
-              style={imageStyle}
-              rootClassName={rootClassName}
-              src={item.src}
-              preview={false}
-              width={width}
-              height={height}
-              onClick={() =>
-                onViewerOpen?.({ visible: true, activeIndex: index })
-              }
-              onMouseEnter={() => handleMouse(index.toString(), true)}
-              onMouseLeave={() => handleMouse(index.toString(), false)}
-            />
-            <MergedPreview {...item} index={index.toString()} />
-          </div>
-        );
-      })}
+      {imageShow &&
+        formattedImage(images)?.map((item, index) => {
+          return (
+            <div key={item.id} className="app-viewer">
+              <Image
+                style={imageStyle}
+                rootClassName={rootClassName}
+                src={item.src}
+                preview={false}
+                width={width}
+                height={height}
+                onClick={() =>
+                  onViewerOpen?.({ visible: true, activeIndex: index })
+                }
+                onMouseEnter={() => handleMouse(index.toString(), true)}
+                onMouseLeave={() => handleMouse(index.toString(), false)}
+              />
+              <MergedPreview {...item} index={index.toString()} />
+            </div>
+          );
+        })}
       <Viewer
         visible={visible}
         images={formattedImage(images)}
@@ -119,6 +121,7 @@ const AppViewer: FC<IAppViewerProps> = (props) => {
 };
 
 AppViewer.defaultProps = {
+  imageShow: true,
   visible: true,
   images: [
     {

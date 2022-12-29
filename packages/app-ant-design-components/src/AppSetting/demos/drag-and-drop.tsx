@@ -1,7 +1,6 @@
 import { ConfigProvider, Form } from 'antd';
+import { AppSetting, AppSettingForm } from 'app-ant-design-components';
 import React, { useState } from 'react';
-import AppSettingForm from '../../AppSettingForm';
-import AppSetting from '../index';
 
 /**
  * 跟随主题色改变的demo

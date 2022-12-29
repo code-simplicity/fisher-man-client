@@ -4,6 +4,8 @@ import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload';
 import React, { useState, type FC } from 'react';
 import AppSvgIcon from '../AppSvgIcon/index';
+import AppViewer from '../AppViewer';
+import { ImageDecoratorProps } from '../AppViewer/app-viewer';
 import { IAppImgUploadProps } from './app-img-upload';
 
 /**
@@ -23,6 +25,13 @@ const AppImgUpload: FC<IAppImgUploadProps> = (props) => {
       url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
     },
   ]);
+  // 预览图片的数据封装
+  const [previewImage, setPreviewImage] = useState<
+    ImageDecoratorProps[] | ImageDecoratorProps
+  >({
+    src: '',
+  });
+  const [viewerState, setViewer] = useState({ visible: false, activeIndex: 0 });
 
   /**
    * 改变的方法
@@ -34,9 +43,10 @@ const AppImgUpload: FC<IAppImgUploadProps> = (props) => {
 
   /**
    * 图片预览，这里会封装一个图片图片预览的组件
+   * 使用该预览组件即可预览数据，这里推荐使用数据的方式进行数据的统一封装触发，通过list数据，不过目前看来单个的设置也还不错，这样也可以实现
    * @param file
    */
-  const onPreview = async (file: UploadFile) => {
+  const handlePreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
       src = await new Promise((resolve) => {
@@ -45,10 +55,26 @@ const AppImgUpload: FC<IAppImgUploadProps> = (props) => {
         reader.onload = () => resolve(reader.result as string);
       });
     }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
+    // 设置图片的预览
+    setPreviewImage({ src: src });
+    // 图片预览的状态改变
+    setViewer({ ...viewerState, visible: true, activeIndex: 1 });
+  };
+
+  // 打开预览
+  const handleViewerOpen = ({
+    visible,
+    activeIndex,
+  }: {
+    visible: boolean;
+    activeIndex: number;
+  }) => {
+    setViewer({ ...viewerState, visible: visible, activeIndex: activeIndex });
+  };
+
+  // 关闭预览
+  const handleViewClose = ({ visible }: { visible: boolean }) => {
+    setViewer({ ...viewerState, visible: visible });
   };
 
   return (
@@ -59,7 +85,7 @@ const AppImgUpload: FC<IAppImgUploadProps> = (props) => {
             {...uploadProps}
             fileList={fileList}
             onChange={onChange}
-            onPreview={onPreview}
+            onPreview={handlePreview}
           >
             <AppSvgIcon>
               <UploadOne theme="outline" size="32" />
@@ -71,13 +97,20 @@ const AppImgUpload: FC<IAppImgUploadProps> = (props) => {
           {...uploadProps}
           fileList={fileList}
           onChange={onChange}
-          onPreview={onPreview}
+          onPreview={handlePreview}
         >
           <AppSvgIcon>
             <UploadOne theme="outline" size="32" />
           </AppSvgIcon>
         </Upload>
       )}
+      <AppViewer
+        imageShow={false}
+        images={previewImage}
+        visible={viewerState.visible}
+        onViewerOpen={handleViewerOpen}
+        onViewerClose={handleViewClose}
+      />
     </>
   );
 };

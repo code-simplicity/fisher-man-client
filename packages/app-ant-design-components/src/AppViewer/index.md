@@ -22,6 +22,7 @@ demo:
 | 参数          | 说明                             | 类型                                                           | 默认值 |
 | ------------- | -------------------------------- | -------------------------------------------------------------- | ------ |
 | images        | 图片列表                         | `ImageDecorator[] \| ImageDecorator`                           | -      |
+| imageShow     | 是否以列表的形式展示             | `boolean`                                                      | true   |
 | imageStyle    | 图片的内联样式                   | `ReactNode`                                                    | -      |
 | onViewerClose | 图片预览关闭方法                 | `({ visible: boolean, ...args }) => void`                      | -      |
 | onViewerOpen  | 图片预览打开方法                 | `({ visible: boolean, activeIndex: number, ...args }) => void` | -      |

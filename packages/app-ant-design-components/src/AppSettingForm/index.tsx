@@ -1,5 +1,6 @@
 import { Checkbox, Form, Input, Radio } from 'antd';
 import React, { type FC } from 'react';
+import AppImgUpload from '../AppImgUpload';
 import AppSketchPicker from '../AppSketchPicker/index';
 import { IAppSettingFormProps } from './app-setting-form';
 
@@ -33,8 +34,7 @@ const AppSettingForm: FC<IAppSettingFormProps> = (props) => {
           <Input placeholder="请输入系统标题" />
         </Item>
         <Item name="systemIcon" label="系统图标">
-          <></>
-          <Input placeholder="请输入系统标题" />
+          <AppImgUpload></AppImgUpload>
         </Item>
         <Item name="systemSupportLanguage" label="系统支持语言">
           <Checkbox.Group

@@ -1,5 +1,5 @@
+import { AppSpin } from 'app-ant-design-components';
 import React from 'react';
-import AppSpin from '../index';
 import '../index.less';
 
 export default () => {

@@ -4,11 +4,14 @@ title: AppImgUpload组件
 order: 5
 group:
   title: 通用系统级别
+demo:
+  cols: 2
 ---
 
 # AppImgUpload 图片上传组件
 
-<code src="./demos/basic.tsx">基础的网站设置组件</code>
+<code src="./demos/basic.tsx">限制只能上传单张图片</code>
+<code src="./demos/open-img-crop.tsx">不开且图片上传之前的剪切</code>
 
 ## API 参数
 

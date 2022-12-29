@@ -10,6 +10,8 @@ export interface ImageDecoratorProps extends ImageDecorator {
 export interface IAppViewerProps extends ViewerProps, ImageProps {
   // 需要进行浏览的图片地址，可以为数组对象，也可以是对象，支持这两种数据格式
   images: ImageDecoratorProps[] | ImageDecoratorProps;
+  // 是否开启图片列表显示
+  imageShow?: boolean;
   // 支持图片的内联样式
   imageStyle?: CSSProperties;
   // 关闭图片预览的方法

@@ -1,5 +1,5 @@
+import { AppViewer } from 'app-ant-design-components';
 import React, { useState } from 'react';
-import AppViewer from '../index';
 
 export default () => {
   const [viewerState, setViewer] = useState({ visible: false, activeIndex: 0 });
