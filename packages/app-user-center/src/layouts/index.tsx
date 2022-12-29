@@ -4,8 +4,9 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, ConfigProvider, Form, Layout, Menu, theme } from 'antd';
 import { AppSetting, AppSpin } from 'app-ant-design-components';
+import AppSettingForm from 'app-ant-design-components/src/AppSettingForm/index';
 import React, { ReactNode, useEffect, useState, type FC } from 'react';
 import { Outlet } from 'umi';
 import routes from '../../config/routes';
@@ -41,6 +42,8 @@ const AppLayout: FC<LayoutProps> = (props) => {
     loading: true,
   });
 
+  const [appSettingForm] = Form.useForm<{ settingTitle: string }>();
+
   useEffect(() => {
     setTimeout(() => {
       setAppSettingConfig((prevState) => {
@@ -48,9 +51,20 @@ const AppLayout: FC<LayoutProps> = (props) => {
       });
     }, 1000);
   }, []);
-
   const handleAppSetting = (data: any) => {
-    console.log('data ==>', data);
+    console.log('e', data);
+    // setLoadingState(true);
+    console.log(
+      'data ==>',
+      appSettingForm.getFieldsValue([
+        'settingTitle',
+        'settingIcon',
+        'supportLanguage',
+        'themeColor',
+        'navigationBarPreferences',
+        'sidebarPreferences',
+      ]),
+    );
   };
 
   return (
@@ -131,7 +145,12 @@ const AppLayout: FC<LayoutProps> = (props) => {
                     spinComponent={<Outlet />}
                   />
                 </div>
-                <AppSetting onSubmit={handleAppSetting} />
+                <AppSetting onSubmit={handleAppSetting}>
+                  <AppSettingForm
+                    form={appSettingForm}
+                    onFinish={handleAppSetting}
+                  />
+                </AppSetting>
               </Content>
             </Layout>
           </Layout>

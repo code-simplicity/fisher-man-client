@@ -1,5 +1,5 @@
 import { Popover, Tag } from 'antd';
-import React, { type FC } from 'react';
+import React, { useCallback, useState, type FC } from 'react';
 import { SketchPicker } from 'react-color';
 import { IAppSketchPickerProps } from './app-sketch-picker';
 
@@ -11,24 +11,31 @@ import { IAppSketchPickerProps } from './app-sketch-picker';
  */
 const AppSketchPicker: FC<IAppSketchPickerProps> = (props) => {
   const { color, onChange } = props;
+  // 组件自己维护自己的状态和数据，这个就不抽出来，后续的回调就添加数据就行
+  const [colorState, handleUpdateColor] = useState(color);
   /**
    *  颜色更改的回调
    * @param color string
    */
-  const handleOnChange = (color: string) => {
-    onChange(color);
-  };
+  const handleOnChange = useCallback(
+    (color: string) => {
+      handleUpdateColor(color);
+      // 回调改变的参数
+      onChange(color);
+    },
+    [color],
+  );
   return (
     <>
       <Popover
         content={
           <SketchPicker
-            color={color}
+            color={colorState}
             onChange={({ hex }) => handleOnChange(hex)}
           />
         }
       >
-        <Tag color={color}>{color}</Tag>
+        <Tag color={colorState}>{colorState}</Tag>
       </Popover>
     </>
   );

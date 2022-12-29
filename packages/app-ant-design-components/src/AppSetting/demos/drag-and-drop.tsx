@@ -16,12 +16,12 @@ export default () => {
     console.log(
       'data ==>',
       appSettingForm.getFieldsValue([
-        'settingTitle',
-        'settingIcon',
-        'supportLanguage',
-        'themeColor',
-        'navigationBarPreferences',
-        'sidebarPreferences',
+        'systemTitle',
+        'systemIcon',
+        'systemSupportLanguage',
+        'systemThemeColor',
+        'systemNavigationBarPreferences',
+        'systemSidebarPreferences',
       ]),
     );
   };
