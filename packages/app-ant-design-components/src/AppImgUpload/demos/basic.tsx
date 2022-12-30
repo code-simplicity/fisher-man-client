@@ -1,6 +1,14 @@
+import { UploadFile, UploadProps } from 'antd';
 import { AppImgUpload } from 'app-ant-design-components';
-import React from 'react';
+import React, { useState } from 'react';
 
 export default () => {
-  return <AppImgUpload />;
+  const [fileList, setFileList] = useState<UploadFile[]>();
+
+  const handleFileList: UploadProps['onChange'] = ({
+    fileList: newFileList,
+  }) => {
+    setFileList(fileList);
+  };
+  return <AppImgUpload fileList={fileList} onChange={handleFileList} />;
 };
