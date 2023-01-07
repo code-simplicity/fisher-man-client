@@ -29,7 +29,7 @@
   "scripts": {
     "build:APP-AND-DESIGN-COMPONENTS": "father build --clean=true",
     "build:watch": "father dev",
-    "dev:APP-AND-DESIGN-COMPONENTS": "dumi dev -watch",
+    "dev:APP-AND-DESIGN-COMPONENTS": "dumi dev --watch",
     "docs:build": "dumi build",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",

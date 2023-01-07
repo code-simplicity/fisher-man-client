@@ -51,7 +51,7 @@ interface ResponseStructure {
 /**
  * 网络请求统一配置和处理
  */
-export const appRequestConfig: RequestConfig = {
+export const requestConfig: RequestConfig = {
   // 请求的统一配置
   timeout: 60 * 1000,
   headers: {

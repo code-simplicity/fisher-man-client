@@ -1,8 +1,9 @@
-import { Checkbox, Form, Input, Radio } from 'antd';
+import { Checkbox, Form, Input, message, Radio, UploadFile, UploadProps } from "antd";
 import React, { type FC } from 'react';
 import AppImgUpload from '../AppImgUpload';
 import AppSketchPicker from '../AppSketchPicker/index';
 import { IAppSettingFormProps } from './app-setting-form';
+import { RcFile, UploadChangeParam } from "antd/es/upload";
 
 const { Item } = Form;
 
@@ -21,12 +22,14 @@ const AppSettingForm: FC<IAppSettingFormProps> = (props) => {
     navigationBarPreferencesProps,
     languageOptions,
     form,
+    uploadProps,
     children,
     ...otherProps
   } = props;
   const handleColorChange = (color: string) => {
     form?.setFieldValue('systemThemeColor', color);
   };
+
   return (
     <>
       <Form {...otherProps} form={form} layout={layout}>
@@ -34,7 +37,7 @@ const AppSettingForm: FC<IAppSettingFormProps> = (props) => {
           <Input placeholder="请输入系统标题" />
         </Item>
         <Item name="systemIcon" label="系统图标">
-          <AppImgUpload></AppImgUpload>
+          <AppImgUpload listType="picture-card" maxCount={1} {...uploadProps}></AppImgUpload>
         </Item>
         <Item name="systemSupportLanguage" label="系统支持语言">
           <Checkbox.Group

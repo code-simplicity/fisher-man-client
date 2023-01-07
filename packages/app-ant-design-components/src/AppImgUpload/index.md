@@ -13,6 +13,8 @@ demo:
 <code src="./demos/basic.tsx">限制只能上传单张图片</code>
 <code src="./demos/open-img-crop.tsx">不开启图片上传之前的剪切</code>
 
+<code src="./demos/manual-upload.tsx">手动上传图片的表单</code>
+
 ## API 参数
 
 | 参数         | 说明                               | 类型                             | 默认值           |
