@@ -1,24 +1,32 @@
 import { usePrevious } from 'ahooks';
-import { Form } from 'antd';
+import { Form, type FormInstance } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import AppSubmitter from 'app-ant-design-components/AppSubmitter';
+import classNames from 'classnames';
 import deepEqual from 'deep-equal';
+import omit from 'omit.js';
+import useMergedState from 'rc-util/es/hooks/useMergedState';
 import get from 'rc-util/es/utils/get';
 import set from 'rc-util/es/utils/set';
 import { noteOnce } from 'rc-util/es/warning';
 import React, {
   cloneElement,
   isValidElement,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useMemo,
+  useRef,
   type FC,
 } from 'react';
-import { useRefFn } from '../utils/hooks/useRefFn';
 import {
-  IAppBaseFormComponentsProps,
-  IAppBaseFormProps,
-} from './app-base-form';
+  AppProFormContext,
+  IAppProFormInstanceType,
+} from '../utils/context/AppProFormContext';
+import { AppProFormEditOrReadOnlyContext } from '../utils/context/AppProFormEditOrReadOnlyContext';
+import { useFetchData } from '../utils/hooks/useFetchData';
+import { useRefFn } from '../utils/hooks/useRefFn';
+import { IAppBaseFormComponentsProps, IAppBaseFormProps } from './typing';
 
 /**
  * form的name装换成数组 ['name']
@@ -29,6 +37,11 @@ const covertFormName = (name?: NamePath) => {
   if (Array.isArray(name)) return name;
   return [name];
 };
+
+/**
+ * 超级表单的实例类型
+ */
+type AppProFormInstance<T = any> = FormInstance<T> & IAppProFormInstanceType<T>;
 
 /**
  * 基础表单的组件
@@ -240,8 +253,17 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
     );
   }, [props?.initialValues]);
 
-  return <>{content}</>;
+  return (
+    <AppProFormContext.Provider value={formatValues}>
+      {content}
+    </AppProFormContext.Provider>
+  );
 };
+
+/**
+ * 请求表单触发的id
+ */
+let requestFormCacheId = 0;
 
 const AppBaseForm: FC<IAppBaseFormProps> = (props) => {
   const {
@@ -252,21 +274,83 @@ const AppBaseForm: FC<IAppBaseFormProps> = (props) => {
     formItemProps,
     onInit,
     form,
+    formRef: propsFormRef,
     initialValues,
+    request,
+    params,
+    formKey = requestFormCacheId,
+    omitNlUd,
     ...otherProps
   } = props;
+  // 表单的ref
+  const formRef = useRef<AppProFormInstance<any>>({} as any);
+  const [loading, setLoading] = useMergedState<boolean>(false);
   /**
    * 表单的提交
    */
   const handleFinish = useRefFn(async () => {});
+
+  /**
+   * 装换数据格式
+   */
+  const transformKey = useCallback(
+    (values: any, paramsOmitNlUn: boolean, parentKey?: NamePath) => {
+      // 数据格式的装换
+    },
+    [],
+  );
+
+  useEffect(() => {
+    requestFormCacheId += 0;
+  }, []);
+
+  /**
+   * 获取接口请求的初始化数据
+   */
+  const [initialData] = useFetchData({ request, params, proFieldKey: formKey });
+
+  /**
+   * 暴露ref给父组件
+   */
+  useImperativeHandle(
+    propsFormRef,
+    () => {
+      return formRef?.current;
+    },
+    [!initialData],
+  );
+
   return (
-    <Form
-      autoComplete="off"
-      form={form}
-      initialValues={initialValues}
-      className={props.className}
-      onFinish={handleFinish}
-    ></Form>
+    <AppProFormEditOrReadOnlyContext.Provider
+      value={{ mode: props.readonly ? 'read' : 'edit' }}
+    >
+      <Form
+        {...omit(otherProps, ['labelWidth', 'autoFocusFirstInput'] as any[])}
+        autoComplete="off"
+        form={form}
+        initialValues={initialValues}
+        className={classNames(props.className)}
+        onValuesChange={(changedValues, values) => {
+          otherProps?.onValuesChange?.(
+            transformKey(changedValues, !!omitNlUd),
+            transformKey(values, !!omitNlUd),
+          );
+        }}
+        onFinish={handleFinish}
+      >
+        <AppBaseFormComponents
+          transformKey={transformKey}
+          autoComplete="auto"
+          loading={loading}
+          {...props}
+          formRef={formRef}
+          initialValues={{
+            ...initialValues,
+            ...initialData,
+          }}
+        />
+      </Form>
+    </AppProFormEditOrReadOnlyContext.Provider>
   );
 };
 

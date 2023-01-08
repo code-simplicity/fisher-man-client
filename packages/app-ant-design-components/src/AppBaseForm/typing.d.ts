@@ -2,6 +2,7 @@ import type { FormInstance, FormItemProps, FormProps } from 'antd';
 import type { NamePath } from 'antd/es/form/interface';
 import { MutableRefObject, ReactElement, ReactNode, RefObject } from 'react';
 import { ISubmitterProps } from '../typing';
+import { IProRequest } from '../utils/hooks/useFetchData';
 
 /**
  * 表单通用的属性
@@ -62,7 +63,11 @@ export interface ICommonFormProps<
   /**
    * 请求，返回值会覆盖掉initialValues
    */
-  request?: any;
+  request?: IProRequest<T, U>;
+  /**
+   * 用于控制form 是否相同的key，高阶用法
+   */
+  formKey?: string;
 }
 
 /**
@@ -114,7 +119,7 @@ export interface IAppBaseFormComponentsProps extends IAppBaseFormProps {
   /**
    * 加载loading
    */
-  loading: boolean;
+  loading?: boolean;
   /**
    * 数据变换
    * @param values key存储
