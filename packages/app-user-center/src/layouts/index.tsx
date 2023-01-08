@@ -4,9 +4,20 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, ConfigProvider, Form, Layout, Menu, theme } from 'antd';
-import { AppSetting, AppSpin } from 'app-ant-design-components';
-import AppSettingForm from 'app-ant-design-components/src/AppSettingForm/index';
+import { useModel } from '@umijs/max';
+import {
+  Breadcrumb,
+  ConfigProvider,
+  Form,
+  Layout,
+  Menu,
+  message,
+  theme,
+  Upload,
+  UploadProps,
+} from 'antd';
+import { RcFile } from 'antd/es/upload';
+import { AppSetting, AppSettingForm, AppSpin } from 'app-ant-design-components';
 import React, { ReactNode, useEffect, useState, type FC } from 'react';
 import { Outlet } from 'umi';
 import routes from '../../config/routes';
@@ -34,6 +45,7 @@ const { Header, Sider, Content } = Layout;
 const AppLayout: FC<LayoutProps> = (props) => {
   const { children } = props;
   console.log('routes 111 ==>', routes);
+  const { handleUploadFileModel } = useModel('fileModel');
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -41,6 +53,9 @@ const AppLayout: FC<LayoutProps> = (props) => {
   const [appSettingConfig, setAppSettingConfig] = useState({
     loading: true,
   });
+
+  // 是否展示上传文件
+  const [showUploadList, setShowUploadList] = useState(false);
 
   const [appSettingForm] = Form.useForm<{ settingTitle: string }>();
 
@@ -51,20 +66,61 @@ const AppLayout: FC<LayoutProps> = (props) => {
       });
     }, 1000);
   }, []);
-  const handleAppSetting = (data: any) => {
-    console.log('e', data);
+
+  // 用户设置网站的配置
+  const handleAppSetting = () => {
     // setLoadingState(true);
     console.log(
       'data ==>',
       appSettingForm.getFieldsValue([
-        'settingTitle',
-        'settingIcon',
-        'supportLanguage',
-        'themeColor',
-        'navigationBarPreferences',
-        'sidebarPreferences',
+        'systemTitle',
+        'systemIcon',
+        'systemSupportLanguage',
+        'systemLanguage',
+        'systemThemeColor',
+        'systemNavigationBarPreferences',
+        'systemSidebarPreferences',
       ]),
     );
+  };
+
+  // 控制上传
+  const handleUploadFile = (file: RcFile) => {
+    handleUploadFileModel.runAsync({ file: file }).then((res) => {
+      setShowUploadList(true);
+      // 设置系统图标
+      appSettingForm.setFieldValue('systemIcon', res?.data?.url);
+    });
+  };
+
+  const handleBeforeUpload = (file: RcFile) => {
+    const isJpgOrPng =
+      file.type === 'image/jpeg' ||
+      file.type === 'image/png' ||
+      file.type === 'image/' ||
+      file.type === 'image/jpg';
+    const isLt4M = file.size / 1024 / 1024 < 4;
+    if (!isJpgOrPng) {
+      message.error('您只能上传JPG/PNG/GIF类型的图片!');
+      return false;
+    }
+    if (!isLt4M) {
+      message.error('上传图片大小最多4MB!');
+      return false;
+    }
+    handleUploadFile(file);
+    return Upload.LIST_IGNORE;
+  };
+
+  /**
+   * 自定义上传
+   */
+  const uploadProps: UploadProps = {
+    accept: 'image/png, image/jpeg, image/jpg, image/gif',
+    // 是否展示上传的列表
+    showUploadList: showUploadList,
+    // 手动上传，上传之前的回调
+    beforeUpload: (file) => handleBeforeUpload(file),
   };
 
   return (
@@ -149,6 +205,7 @@ const AppLayout: FC<LayoutProps> = (props) => {
                   <AppSettingForm
                     form={appSettingForm}
                     onFinish={handleAppSetting}
+                    uploadProps={uploadProps}
                   />
                 </AppSetting>
               </Content>

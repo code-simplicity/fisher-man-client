@@ -32,10 +32,6 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
     setDrawerOpenState(false);
   };
 
-  // 确认，发送请求的回调
-  const onSubmitSetting = () => {
-    onSubmit('1');
-  };
   return (
     <>
       <FloatButton.Group
@@ -72,8 +68,7 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
             <Button
               loading={loading}
               type="primary"
-              htmlType="submit"
-              onClick={onSubmitSetting}
+              onClick={onSubmit}
             >
               {drawerOkText}
             </Button>

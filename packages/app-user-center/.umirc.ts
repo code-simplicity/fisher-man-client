@@ -1,11 +1,14 @@
-import { defineConfig } from '@umijs/max';
-import routes from './config/routes';
-import { theme } from 'antd/lib';
 import { convertLegacyToken } from '@ant-design/compatible';
+import { defineConfig } from '@umijs/max';
+import { theme } from 'antd/lib';
+import routes from './config/routes';
+import { proxy } from './config/proxy';
 
 const { defaultAlgorithm, defaultSeed } = theme;
 const mapToken = defaultAlgorithm(defaultSeed);
 const v4Token = convertLegacyToken(mapToken);
+const { UMI_ENV } = process.env;
+
 export default defineConfig({
   antd: {
     import: false, // 关闭自动导入
@@ -59,4 +62,6 @@ export default defineConfig({
   qiankun: {
     slave: {},
   },
+  // 配置代理
+  proxy: proxy[UMI_ENV || 'dev'],
 });

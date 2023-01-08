@@ -11,15 +11,16 @@ demo:
 # AppImgUpload 图片上传组件
 
 <code src="./demos/basic.tsx">限制只能上传单张图片</code>
-<code src="./demos/open-img-crop.tsx">不开且图片上传之前的剪切</code>
+<code src="./demos/open-img-crop.tsx">不开启图片上传之前的剪切</code>
+
+<code src="./demos/manual-upload.tsx">手动上传图片的表单</code>
 
 ## API 参数
 
-| 参数         | 说明                               | 类型                             | 默认值            |
-| ------------ | ---------------------------------- | -------------------------------- | ----------------- |
-| openImgCrop  | 是否开启图片剪切                   | `ReactNode`                      | `()=> ReactNode`  |
-| uploadProps  | 上传图片的配置， 具体配置如下所示  | `UploadProps`                    | `摸鱼君-系统设置` |
-| imgCropProps | 图片剪切的配置，具体配置在下面查看 | `Omit<ImgCropProps, 'children'>` | `确认`            |
+| 参数         | 说明                               | 类型                             | 默认值           |
+| ------------ | ---------------------------------- | -------------------------------- | ---------------- |
+| openImgCrop  | 是否开启图片剪切                   | `ReactNode`                      | `()=> ReactNode` |
+| imgCropProps | 图片剪切的配置，具体配置在下面查看 | `Omit<ImgCropProps, 'children'>` | `确认`           |
 
 ### UploadProps
 
@@ -55,3 +56,29 @@ demo:
 | onRemove              | 点击移除文件时的回调，返回值为 false 时不移除。支持返回一个 Promise 对象，Promise 对象 resolve(false) 或 reject 时不移除                                                                                                                                                                               | function(file): boolean \| Promise                                                                                                                                                                                                                                                 | -                                                                                                                                        |                 |
 
 ### ImgCropProps
+
+该属性可以去[antd-img-crop](https://github.com/nanxiaobei/antd-img-crop)寻找，下面也列举出来了，不过可能官网会更新，以官网的为准。
+
+| 属性                    | 类型                 | 默认         | 说明                                                   |
+| ----------------------- | -------------------- | ------------ | ------------------------------------------------------ |
+| aspect                  | `number`             | `1 / 1`      | 裁切区域宽高比，`width / height`                       |
+| shape                   | `string`             | `'rect'`     | 裁切区域形状，`'rect'` 或 `'round'`                    |
+| grid                    | `boolean`            | `false`      | 显示裁切区域网格（九宫格）                             |
+| quality                 | `number`             | `0.4`        | 图片质量，`0 ~ 1`                                      |
+| fillColor               | `string`             | `'white'`    | 裁切图像小于画布时的填充颜色                           |
+| zoom                    | `boolean`            | `true`       | 启用图片缩放                                           |
+| rotate                  | `boolean`            | `false`      | 启用图片旋转                                           |
+| minZoom                 | `number`             | `1`          | 最小缩放倍数                                           |
+| maxZoom                 | `number`             | `3`          | 最大缩放倍数                                           |
+| modalTitle              | `string`             | `'编辑图片'` | 弹窗标题                                               |
+| modalWidth              | `number` \| `string` | `520`        | 弹窗宽度，`px` 的数值或百分比                          |
+| modalOk                 | `string`             | `'确定'`     | 弹窗确定按钮文字                                       |
+| modalCancel             | `string`             | `'取消'`     | 弹窗取消按钮文字                                       |
+| modalMaskTransitionName | `string`             | `'fade'`     | 弹窗遮罩过渡效果, 设为 `'none'` 可禁用默认过渡效果     |
+| modalClassName          | `string`             | `''`         | 为 Modal 容器提供您自己的类名                          |
+| modalTransitionName     | `string`             | `'fade'`     | 弹窗过渡效果, 设为 `'none'` 可禁用默认过渡效果         |
+| onModalOK               | `function`           | -            | 点击弹窗确定回调                                       |
+| onModalCancel           | `function`           | -            | 点击弹窗遮罩层、右上角叉、取消的回调                   |
+| beforeCrop              | `function`           | -            | 弹窗打开前调用，若返回 `false`，弹框将不会打开         |
+| onUploadFail            | `function`           | -            | 上传失败时的回调                                       |
+| cropperProps            | `object`             | -            | [react-easy-crop] 的 props（\* [已有 props] 无法重写） |

@@ -1,16 +1,18 @@
 {
   "name": "app-user-center",
+  "version": "0.0.1",
   "private": true,
   "author": "DPY",
-  "version": "0.0.1",
   "scripts": {
     "build:APP-USER-CENTER": "max build",
-    "dev:APP-USER-CENTER": "max dev",
+    "dev:APP-USER-CENTER": "cross-env UMI_ENV=dev max dev",
     "format:APP-USER-CENTER": "prettier --cache --write .",
+    "install:APP-USER-CENTER": "pnpm i",
     "postinstall:APP-USER-CENTER": "max setup",
+    "prod:APP-USER-CENTER": "cross-env UMI_ENV=prod max dev",
     "setup:APP-USER-CENTER": "max setup",
     "start:APP-USER-CENTER": "npm run dev",
-    "install:APP-USER-CENTER": "pnpm i"
+    "uat:APP-USER-CENTER": "cross-env UMI_ENV=uat max dev"
   },
   "dependencies": {
     "@ant-design/compatible": "^5.1.1",
@@ -33,6 +35,7 @@
   "devDependencies": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "cross-env": "^7.0.3",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^2",

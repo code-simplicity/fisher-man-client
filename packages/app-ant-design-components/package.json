@@ -29,7 +29,7 @@
   "scripts": {
     "build:APP-AND-DESIGN-COMPONENTS": "father build --clean=true",
     "build:watch": "father dev",
-    "dev:APP-AND-DESIGN-COMPONENTS": "dumi dev -watch",
+    "dev:APP-AND-DESIGN-COMPONENTS": "dumi dev --watch",
     "docs:build": "dumi build",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
@@ -60,7 +60,11 @@
   },
   "dependencies": {
     "antd-img-crop": "^4.5.2",
+    "classnames": "^2.3.2",
+    "deep-equal": "^2.2.0",
     "lodash": "^4.17.21",
+    "omit.js": "^2.0.2",
+    "rc-util": "^5.27.1",
     "react-draggable": "^4.4.5",
     "react-viewer": "^3.2.2",
     "uuid": "^9.0.0"
@@ -69,6 +73,7 @@
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@icon-park/react": "^1.4.2",
+    "@types/deep-equal": "^1.0.1",
     "@types/lodash": "^4.14.191",
     "@types/uuid": "^9.0.0",
     "@umijs/lint": "^4.0.0",

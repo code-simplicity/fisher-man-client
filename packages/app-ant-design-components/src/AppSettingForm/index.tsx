@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input, Radio } from 'antd';
+import { Checkbox, Form, Input, Radio, UploadFile } from 'antd';
 import React, { type FC } from 'react';
 import AppImgUpload from '../AppImgUpload';
 import AppSketchPicker from '../AppSketchPicker/index';
@@ -21,20 +21,48 @@ const AppSettingForm: FC<IAppSettingFormProps> = (props) => {
     navigationBarPreferencesProps,
     languageOptions,
     form,
+    uploadProps,
     children,
     ...otherProps
   } = props;
   const handleColorChange = (color: string) => {
     form?.setFieldValue('systemThemeColor', color);
   };
+
+  /**
+   * 表单提交的回调
+   * @param value
+   */
+  const onFinish = (value: any) => {
+    // 没有设置onFinish就返回
+    if (!otherProps.onFinish) return;
+    // 自定义loading
+    // 返回数据
+    otherProps.onFinish(value);
+  };
+
+  // 移除文件清除掉表单的数据
+  const handleRemoveFile = (file: UploadFile) => {
+    console.log('file ==>', file);
+    if (file) {
+      // 删除文件，移除表单
+      form?.setFieldValue('systemIcon', null);
+    }
+  };
+
   return (
     <>
-      <Form {...otherProps} form={form} layout={layout}>
+      <Form {...otherProps} form={form} layout={layout} onFinish={onFinish}>
         <Item name="systemTitle" label="系统标题">
           <Input placeholder="请输入系统标题" />
         </Item>
         <Item name="systemIcon" label="系统图标">
-          <AppImgUpload></AppImgUpload>
+          <AppImgUpload
+            listType="picture-card"
+            maxCount={1}
+            onRemove={handleRemoveFile}
+            {...uploadProps}
+          ></AppImgUpload>
         </Item>
         <Item name="systemSupportLanguage" label="系统支持语言">
           <Checkbox.Group
