@@ -68,8 +68,7 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
             <Button
               loading={loading}
               type="primary"
-              htmlType="submit"
-              onClick={onSubmitSetting}
+              onClick={onSubmit}
             >
               {drawerOkText}
             </Button>

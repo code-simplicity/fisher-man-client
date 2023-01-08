@@ -1,12 +1,12 @@
-import { message, Upload, UploadProps } from 'antd';
+import { Form, message, Upload, UploadProps } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import { AppSettingForm } from 'app-ant-design-components';
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 export default () => {
-
   // 是否展示上传文件
   const [showUploadList, setShowUploadList] = useState(false);
+  const [appSettingForm] = Form.useForm<{ settingTitle: string }>();
 
   // 控制上传，接口卸载此处就行
   const handleUploadFile = (file: RcFile) => {
@@ -31,7 +31,7 @@ export default () => {
       message.error('上传图片大小最多4MB!');
       return false;
     }
-    setShowUploadList(true)
+    setShowUploadList(true);
     handleUploadFile(file);
     return Upload.LIST_IGNORE;
   };
@@ -47,9 +47,18 @@ export default () => {
     beforeUpload: (file) => handleBeforeUpload(file),
   };
 
+  // 完成数据的回调
+  const handleFinish = (value: any) => {
+    console.log('value ==>', value);
+  };
+
   return (
     <>
-      <AppSettingForm uploadProps={uploadProps} />
+      <AppSettingForm
+        uploadProps={uploadProps}
+        form={appSettingForm}
+        onFinish={handleFinish}
+      />
     </>
   );
 };
