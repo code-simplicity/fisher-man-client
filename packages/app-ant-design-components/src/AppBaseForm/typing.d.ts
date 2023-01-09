@@ -128,3 +128,14 @@ export interface IAppBaseFormComponentsProps extends IAppBaseFormProps {
    */
   transformKey: (values: any, omit: boolean, parentKey?: NamePath) => any;
 }
+
+/**
+ * 超级表单的props
+ */
+export type IAppProFormProps<T = Record<string, any>> = Omit<
+  FormProps<T>,
+  'onFinish'
+> &
+  ICommonFormProps<T> & {
+    children?: ReactNode[] | ReactNode;
+  };
