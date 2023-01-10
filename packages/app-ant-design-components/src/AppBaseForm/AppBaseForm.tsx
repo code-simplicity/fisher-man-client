@@ -1,7 +1,6 @@
 import { usePrevious } from 'ahooks';
 import { Form, type FormInstance } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
-import AppSubmitter from 'app-ant-design-components/AppSubmitter';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
 import omit from 'omit.js';
@@ -19,6 +18,7 @@ import React, {
   useRef,
   type FC,
 } from 'react';
+import AppSubmitter from '../AppSubmitter';
 import {
   AppProFormContext,
   IAppProFormInstanceType,

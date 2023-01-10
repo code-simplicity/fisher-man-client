@@ -1,2 +1,3 @@
 import AppBaseForm from './AppBaseForm';
-export default AppBaseForm;
+import AppDrawerForm from './layouts/AppDrawerForm';
+export { AppBaseForm, AppDrawerForm };

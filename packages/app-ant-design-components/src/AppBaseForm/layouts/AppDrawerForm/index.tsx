@@ -1,23 +1,23 @@
 import type { DrawerProps, FormProps } from 'antd';
 import { Drawer } from 'antd';
 import { ICommonFormProps } from 'app-ant-design-components';
-import { useRefFn } from 'app-ant-design-components/utils/hooks/useRefFn';
 import { merge } from 'lodash';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import React, {
+  cloneElement,
   FC,
   Fragment,
   RefCallback,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { Simulate } from 'react-dom/test-utils';
+import { useRefFn } from '../../../utils/hooks/useRefFn';
 import AppBaseForm from '../../AppBaseForm';
 import { IAppProFormProps } from '../../typing';
-import input = Simulate.input;
 
 /**
  * 侧拉props
@@ -40,6 +40,10 @@ export type IAppDrawerFormProps<T = Record<string, any>> = Omit<
      */
     appDrawerProps?: Omit<DrawerProps, 'visible'>;
     /**
+     * 触发弹窗打开的dom节点，只能设置一个
+     */
+    trigger?: JSX.Element;
+    /**
      * 控制是否打开弹窗
      */
     visible?: boolean;
@@ -48,7 +52,7 @@ export type IAppDrawerFormProps<T = Record<string, any>> = Omit<
      */
     open?: DrawerProps['open'];
     /**
-     * 返回一个Boolean，true在底部展示， false就在底部区域展示，提供默认值为true
+     * 返回一个Boolean，true在底部展示， false就在顶部区域展示，提供默认值为true
      */
     isFooter?: boolean;
     /**
@@ -76,6 +80,7 @@ const AppDrawerForm: FC<IAppDrawerFormProps> = (props) => {
     visible,
     open: propsOpen,
     appDrawerProps,
+    trigger,
     isFooter,
     footerOperationDirection,
     onFinish,
@@ -87,6 +92,7 @@ const AppDrawerForm: FC<IAppDrawerFormProps> = (props) => {
    */
   const footerRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(false);
+  const [, forceUpdate] = useState([]);
   /**
    * 打开侧拉的控制
    */
@@ -94,6 +100,24 @@ const AppDrawerForm: FC<IAppDrawerFormProps> = (props) => {
     value: propsOpen || visible,
     onChange: onOpenDrawChange,
   });
+  /**
+   * 打开弹窗的dom节点
+   */
+  const triggerDom = useMemo(() => {
+    // 首先就是判断空处理
+    if (!trigger) return null;
+    /**
+     * 克隆dom，并且返回
+     */
+    return cloneElement(trigger, {
+      key: 'trigger',
+      ...trigger.props,
+      onClick: async (e: any) => {
+        setOpen(!open);
+        trigger.props?.onClick?.(e);
+      },
+    });
+  }, [setOpen, open, trigger]);
   /**
    * 表单的ref
    */
@@ -104,15 +128,24 @@ const AppDrawerForm: FC<IAppDrawerFormProps> = (props) => {
   const handleFinish = useRefFn(async (values) => {
     const response = onFinish?.(values);
   });
+
   /**
    * 底部的ref，也可以作为顶部，通过props进行操作
    */
   const footerDomRef: RefCallback<HTMLDivElement> = useCallback((el) => {
     if (!footerRef.current && el) {
       // 刷新，使用一个占位进行
+      forceUpdate([]);
     }
     footerRef.current = el;
   }, []);
+
+  useEffect(() => {
+    if (open && (propsOpen || visible)) {
+      onOpenDrawChange?.(true);
+    }
+    console.log('footerDomRef ==>', footerDomRef);
+  }, [visible, open]);
 
   /**
    * 关闭弹窗
@@ -129,23 +162,20 @@ const AppDrawerForm: FC<IAppDrawerFormProps> = (props) => {
    * 渲染内容
    * createPortal 将子节点渲染到dom节点的方式
    */
-  const contentRender = useCallback(
-    (formDom: any, submitter: any) => {
-      return (
-        <>
-          {formDom}
-          {footerRef.current && submitter ? (
-            <Fragment key="submitter">
-              {createPortal(submitter, footerRef.current)}
-            </Fragment>
-          ) : (
-            submitter
-          )}
-        </>
-      );
-    },
-    [input],
-  );
+  const contentRender = useCallback((formDom: any, submitter: any) => {
+    return (
+      <>
+        {formDom}
+        {footerRef.current && submitter ? (
+          <Fragment key="submitter">
+            {createPortal(submitter, footerRef.current)}
+          </Fragment>
+        ) : (
+          submitter
+        )}
+      </>
+    );
+  }, []);
   /**
    * 重置表单
    * 使用useCallback，otherProps.form, otherProps.formRef, appDrawerProps?.destroyOnClose 任意一个改变都会触发
@@ -195,50 +225,54 @@ const AppDrawerForm: FC<IAppDrawerFormProps> = (props) => {
   }, [otherProps.submitter, loading, setOpen, appDrawerProps]);
 
   return (
-    <Drawer
-      title={title}
-      width={width}
-      {...appDrawerProps}
-      onClose={handleClose}
-      afterOpenChange={(e) => {
-        if (!e) handleResetFields();
-        // 关闭之后的回调
-        appDrawerProps?.afterOpenChange?.(e);
-      }}
-      footer={
-        !otherProps.submitter &&
-        isFooter && (
-          <div
-            ref={footerDomRef}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: footerOperationDirection
-                ? 'flex-start'
-                : 'flex-end',
-            }}
-          ></div>
-        )
-      }
-      extra={
-        !otherProps.submitter && !isFooter && <div ref={footerDomRef}></div>
-      }
-    >
-      <AppBaseForm
-        formType="AppDrawerForm"
-        contentRender={contentRender}
-        formRef={formRef}
-        layout="vertical"
-        {...otherProps}
-        submitter={submitterConfig}
-        onFinish={async (values) => {
-          const result = await handleFinish(values);
-          return result;
+    <>
+      <Drawer
+        title={title}
+        width={width}
+        open={open}
+        {...appDrawerProps}
+        onClose={handleClose}
+        afterOpenChange={(e) => {
+          if (!e) handleResetFields();
+          // 关闭之后的回调
+          appDrawerProps?.afterOpenChange?.(e);
         }}
+        footer={
+          !otherProps.submitter &&
+          isFooter && (
+            <div
+              ref={footerDomRef}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: footerOperationDirection
+                  ? 'flex-start'
+                  : 'flex-end',
+              }}
+            ></div>
+          )
+        }
+        extra={
+          !otherProps.submitter && !isFooter && <div ref={footerDomRef}></div>
+        }
       >
-        {children}
-      </AppBaseForm>
-    </Drawer>
+        <AppBaseForm
+          formType="AppDrawerForm"
+          contentRender={contentRender}
+          formRef={formRef}
+          layout="vertical"
+          {...otherProps}
+          submitter={submitterConfig}
+          onFinish={async (values) => {
+            const result = await handleFinish(values);
+            return result;
+          }}
+        >
+          {children}
+        </AppBaseForm>
+      </Drawer>
+      {triggerDom}
+    </>
   );
 };
 
