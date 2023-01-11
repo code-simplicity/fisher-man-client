@@ -49,13 +49,13 @@
       "prettier --write --no-error-on-unmatched-pattern"
     ],
     "*.{css,less}": [
-      "stylelint --fix"
+      "stylelint --fix --quiet"
     ],
     "*.{js,jsx}": [
-      "eslint --fix-dry-run"
+      "eslint --fix --quiet"
     ],
     "*.{ts,tsx}": [
-      "eslint --fix-dry-run"
+      "eslint --fix --quiet"
     ]
   },
   "dependencies": {
