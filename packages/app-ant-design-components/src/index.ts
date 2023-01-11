@@ -1,4 +1,4 @@
-export { default as AppBaseForm } from './AppBaseForm';
+export { AppBaseForm, AppDrawerForm } from './AppBaseForm';
 export { AppProForm } from './AppBaseForm/layouts';
 export type {
   IAppBaseFormComponentsProps,

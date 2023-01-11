@@ -1,7 +1,6 @@
 import { usePrevious } from 'ahooks';
-import { Form, type FormInstance } from 'antd';
+import { ConfigProvider, Form } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
-import AppSubmitter from 'app-ant-design-components/AppSubmitter';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
 import omit from 'omit.js';
@@ -13,20 +12,24 @@ import React, {
   cloneElement,
   isValidElement,
   useCallback,
+  useContext,
   useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   type FC,
 } from 'react';
+import AppSubmitter from '../AppSubmitter';
+import { AppProFormContext, AppProFormEditOrReadOnlyContext } from '../context';
+import { useFetchData, useRefFn } from '../hooks';
+import { runFunction } from '../utils';
+import { GridContext } from './context';
+import { useGridHelpers } from './helpers';
 import {
-  AppProFormContext,
-  IAppProFormInstanceType,
-} from '../utils/context/AppProFormContext';
-import { AppProFormEditOrReadOnlyContext } from '../utils/context/AppProFormEditOrReadOnlyContext';
-import { useFetchData } from '../utils/hooks/useFetchData';
-import { useRefFn } from '../utils/hooks/useRefFn';
-import { IAppBaseFormComponentsProps, IAppBaseFormProps } from './typing';
+  AppProFormInstance,
+  IAppBaseFormComponentsProps,
+  IAppBaseFormProps,
+} from './typing';
 
 /**
  * form的name装换成数组 ['name']
@@ -39,9 +42,21 @@ const covertFormName = (name?: NamePath) => {
 };
 
 /**
- * 超级表单的实例类型
+ * 返回原始的参数
+ * @param syncUrl 同步url
+ * @param params 参数
+ * @param type 类型，是get还是set
  */
-type AppProFormInstance<T = any> = FormInstance<T> & IAppProFormInstanceType<T>;
+const referenceParams = (
+  syncUrl: IAppBaseFormProps<any>['syncToUrl'],
+  params: Record<string, any>,
+  type: 'get' | 'set',
+) => {
+  if (syncUrl === true) {
+    return params;
+  }
+  return runFunction(syncUrl, params, type);
+};
 
 /**
  * 基础表单的组件
@@ -62,15 +77,27 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
     onReset,
     omitNlUd = true,
     transformKey,
-    serviceUrl,
-    extraUrlParams,
+    syncToUrl,
+    extraUrlParams = {},
+    grid,
+    colProps,
+    rowProps,
+    onInit,
+    onUrlSearchChange,
     ...otherProps
   } = props;
+
+  /**
+   * 获取antd提供出来的size注入，从而控制组件大小
+   */
+  const sizeContextValue = useContext(ConfigProvider.SizeContext);
 
   /**
    * form实例
    */
   const formInstance = Form.useFormInstance();
+
+  const { RowWrapper } = useGridHelpers({ grid, rowProps });
 
   /**
    * 使用useRefFn获取到组件的实例数据
@@ -183,16 +210,18 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
     // 清除数据
     submitterProps?.onReset?.(finalValues);
     onReset?.(finalValues);
-    // 判断是否存在请求地址，存在就清除数据
-    if (serviceUrl) {
+    // 同步url
+    if (syncToUrl) {
+      // 获取参数，使用reduce进行参数的累加计算
       const params = Object.keys(
-        transformKey(formRef?.current.getFieldsValue(), false),
+        transformKey(formRef?.current?.getFieldsValue(), false),
       ).reduce((pre, next) => {
         return {
           ...pre,
           [next]: finalValues[next] || undefined,
         };
       }, extraUrlParams);
+      onUrlSearchChange?.(referenceParams(syncToUrl, params, 'set'));
     }
   };
 
@@ -203,8 +232,8 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
     if (!submitter) return undefined;
     return (
       <AppSubmitter
-        {...submitterProps}
         key="submitter"
+        {...submitterProps}
         onReset={handleReset}
         submitButtonProps={{ loading, ...submitterProps?.submitButtonProps }}
       ></AppSubmitter>
@@ -212,32 +241,34 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
   }, [
     submitter,
     loading,
+    submitterProps,
     transformKey,
     onReset,
     omitNlUd,
-    serviceUrl,
+    syncToUrl,
     extraUrlParams,
+    onUrlSearchChange,
   ]);
 
   /**
    * 渲染内容
    */
   const content = useMemo(() => {
-    const wrapItems = formItems;
+    const wrapItems = grid ? <RowWrapper>{formItems}</RowWrapper> : formItems;
     if (contentRender) {
       return contentRender(wrapItems, submitterNode, formRef?.current);
     }
     return wrapItems;
-  }, [formItems, contentRender, submitterNode]);
+  }, [formItems, contentRender, submitterNode, grid, formItems]);
 
   /**
-   * 获取上一次的值
+   * 获取上一次初始值
    */
   const preInitialValues = usePrevious(props.initialValues);
 
   useEffect(() => {
     if (
-      serviceUrl ||
+      syncToUrl ||
       !props.initialValues ||
       !preInitialValues ||
       otherProps.request
@@ -252,10 +283,26 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
       'initialValues只会在form初始化的时候生效，如果需要异步加载推荐使用request，或者是initialValues ? <Form/> : null',
     );
   }, [props?.initialValues]);
+  /**
+   * 获取当前表单最后的值
+   */
+  useEffect(() => {
+    const finalValues = transformKey(
+      formRef?.current.getFieldsValue?.(true),
+      omitNlUd,
+    );
+    onInit?.(finalValues, formRef?.current);
+  }, []);
 
   return (
     <AppProFormContext.Provider value={formatValues}>
-      {content}
+      <ConfigProvider.SizeContext.Provider
+        value={otherProps.size || sizeContextValue}
+      >
+        <GridContext.Provider value={{ grid, colProps }}>
+          {content}
+        </GridContext.Provider>
+      </ConfigProvider.SizeContext.Provider>
     </AppProFormContext.Provider>
   );
 };

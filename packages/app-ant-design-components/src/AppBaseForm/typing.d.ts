@@ -1,8 +1,45 @@
-import type { FormInstance, FormItemProps, FormProps } from 'antd';
+import type { ColProps, FormInstance, FormItemProps, FormProps } from 'antd';
 import type { NamePath } from 'antd/es/form/interface';
 import { MutableRefObject, ReactElement, ReactNode, RefObject } from 'react';
+import { IAppProFormInstanceType } from '../context/AppProFormContext/index';
+import { IProRequest } from '../hooks';
 import { ISubmitterProps } from '../typing';
-import { IProRequest } from '../utils/hooks/useFetchData';
+
+/**
+ * 超级表单的实例类型
+ */
+export type AppProFormInstance<T = any> = FormInstance<T> &
+  IAppProFormInstanceType<T>;
+
+/**
+ * 表单栅格布局的配置
+ */
+export interface AppProFormGridConfig {
+  /**
+   * 是否开启栅格布局
+   * 默认false
+   */
+  grid?: boolean;
+  /**
+   * 栅格布局的行
+   * {gutter: 8}
+   */
+  rowProps?: ColProps;
+  /**
+   * 栅格布局的列
+   * 使用例子
+   * {span: 12}
+   * {
+   *   xs: {
+   *     span: 12
+   *   },
+   *   sm: {
+   *     xxx
+   *   }
+   * }
+   */
+  colProps?: ColProps;
+}
 
 /**
  * 表单通用的属性
@@ -10,7 +47,7 @@ import { IProRequest } from '../utils/hooks/useFetchData';
 export interface ICommonFormProps<
   T = Record<string, any>,
   U = Record<string, any>,
-> {
+> extends AppProFormGridConfig {
   /**
    * 自定义提交
    */
@@ -49,9 +86,9 @@ export interface ICommonFormProps<
    */
   omitNlUd?: boolean;
   /**
-   * 服务的配置
+   * 同步url，如果是一个函数，那么就会执行这个函数
    */
-  serviceUrl?: ((values: T, type: 'get' | 'set') => T) | false;
+  syncToUrl?: ((values: T, type: 'get' | 'set') => T) | boolean;
   /**
    * 额外的url参数
    */
@@ -83,7 +120,7 @@ export interface IAppBaseFormProps<T = Record<string, any>>
    * @param form 表单
    */
   contentRender?: (
-    item: ReactNode[],
+    items: ReactNode[] | JSX.Element,
     submitter: ReactElement | undefined,
     form: FormInstance<any>,
   ) => ReactNode;
@@ -91,10 +128,6 @@ export interface IAppBaseFormProps<T = Record<string, any>>
    * 表单字段的属性
    */
   fieldProps?: FieldProps<unknown>;
-  /**
-   * 表单初始化，form就位，可以进行操作
-   */
-  onInit?: () => void;
   /**
    * 表单项的配置
    */
@@ -110,6 +143,12 @@ export interface IAppBaseFormProps<T = Record<string, any>>
    * QueryFilter 列表查询过滤表单
    */
   formType?: 'AppDrawerForm' | 'AppModalForm' | 'QueryFilter';
+  /**
+   * 表单初始化，form就位，可以进行操作
+   * @param values 表单收集的数据
+   * @param form 表单的实例
+   */
+  onInit?: (values: T, form: AppProFormInstance<any>) => void;
 }
 
 /**
@@ -127,6 +166,11 @@ export interface IAppBaseFormComponentsProps extends IAppBaseFormProps {
    * @param parentKey 父节点key
    */
   transformKey: (values: any, omit: boolean, parentKey?: NamePath) => any;
+  /**
+   * 同步url转换的函数
+   * @param value
+   */
+  onUrlSearchChange?: (value: Record<string, string | number>) => void;
 }
 
 /**
