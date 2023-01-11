@@ -1,6 +1,5 @@
 import type { DrawerProps, FormProps } from 'antd';
 import { Drawer } from 'antd';
-import { ICommonFormProps } from 'app-ant-design-components';
 import { merge } from 'lodash';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import React, {
@@ -15,9 +14,9 @@ import React, {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { useRefFn } from '../../../utils/hooks/useRefFn';
+import { useRefFn } from '../../../hooks';
 import AppBaseForm from '../../AppBaseForm';
-import { IAppProFormProps } from '../../typing';
+import { IAppProFormProps, ICommonFormProps } from '../../typing';
 
 /**
  * 侧拉props

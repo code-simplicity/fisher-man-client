@@ -26,7 +26,7 @@ export const useFetchData = <
   request?: IProRequest<T, U>;
   params?: U;
   proFieldKey?: Key;
-}): [unknown, boolean] => {
+}): [T | any, boolean] => {
   /**
    * 缓存的key，该key变化之后会触发接口的重新查询，可以用于表单筛选项选择条件进行查询，默认值开启的
    */
