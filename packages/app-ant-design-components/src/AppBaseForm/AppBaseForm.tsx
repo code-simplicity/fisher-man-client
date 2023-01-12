@@ -71,7 +71,6 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
     submitter,
     loading,
     form,
-    formRef,
     formType,
     isKeyPressSubmit,
     onReset,
@@ -97,6 +96,14 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
    */
   const formInstance = Form.useFormInstance();
 
+  /**
+   * 同步url上传的参数
+   */
+  const formRef = useRef<AppProFormInstance>((form || formInstance) as any);
+
+  /**
+   * 布局
+   */
   const { RowWrapper } = useGridHelpers({ grid, rowProps });
 
   /**
