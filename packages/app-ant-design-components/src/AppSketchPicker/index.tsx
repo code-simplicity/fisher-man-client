@@ -1,7 +1,7 @@
 import { Popover, Tag } from 'antd';
 import React, { useCallback, useState, type FC } from 'react';
 import { SketchPicker } from 'react-color';
-import { IAppSketchPickerProps } from './app-sketch-picker';
+import { AppSketchPickerProps } from './typing';
 
 /**
  * 颜色拾取器组件
@@ -9,7 +9,7 @@ import { IAppSketchPickerProps } from './app-sketch-picker';
  * @param props
  * @constructor
  */
-const AppSketchPicker: FC<IAppSketchPickerProps> = (props) => {
+const AppSketchPicker: FC<AppSketchPickerProps> = (props) => {
   const { color, onChange } = props;
   // 组件自己维护自己的状态和数据，这个就不抽出来，后续的回调就添加数据就行
   const [colorState, handleUpdateColor] = useState(color);

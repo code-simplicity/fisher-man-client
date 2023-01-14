@@ -1,11 +1,8 @@
 import { AppProConfigProvider } from './AppProConfigProvider';
-import {
-  AppProFormContext,
-  IAppProFormInstanceType,
-} from './AppProFormContext';
+import { AppProFormContext, AppProFormInstanceType } from './AppProFormContext';
 import { AppProFormEditOrReadOnlyContext } from './AppProFormEditOrReadOnlyContext';
 
-export type { IAppProFormInstanceType };
+export type { AppProFormInstanceType };
 export {
   AppProFormEditOrReadOnlyContext,
   AppProFormContext,

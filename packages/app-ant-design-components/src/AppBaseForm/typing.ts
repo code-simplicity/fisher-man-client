@@ -1,125 +1,15 @@
-import type {
-  ColProps,
-  FormInstance,
-  FormItemProps,
-  FormProps,
-  LabelTooltipType,
-  NamePath,
-  SpaceProps,
-} from 'antd';
-import {
-  CSSProperties,
-  MutableRefObject,
-  ReactElement,
-  ReactNode,
-  Ref,
-  RefObject,
-} from 'react';
-import { IAppProFormInstanceType } from '../context/AppProFormContext/index';
-import { IProRequest } from '../hooks';
-import { ISubmitterProps } from '../typing';
-
-/**
- * 分组的props
- */
-export type GroupProps = {
-  /**
-   * 分组标题
-   */
-  title?: ReactNode;
-  /**
-   * 分组标签
-   */
-  label?: ReactNode;
-  /**
-   * 自定义提示信息
-   * 可以嵌套任意组件进行展示
-   */
-  toolTip?: LabelTooltipType | string;
-  /**
-   * 额外的配置，用于配置标题另外一边的内容
-   */
-  extra?: ReactNode;
-  /**
-   * 组件之间的间隔
-   */
-  size?: SpaceProps['size'];
-  /**
-   * 组件的内联样式
-   */
-  style?: CSSProperties;
-  /**
-   * 标题的内联样式
-   */
-  title?: CSSProperties;
-  /**
-   * 自定义标题render
-   * @param title 标题
-   * @param props props
-   */
-  titleRender?: (title: ReactNode, props: GroupProps) => ReactNode;
-  /**
-   * 对其方式
-   * 参数 'start' | 'end' | 'center' | 'baseline';
-   */
-  align?: SpaceProps['align'];
-  /**
-   * 子项目排列方式
-   * 'horizontal' | 'vertical';
-   */
-  direction?: SpaceProps['direction'];
-  /**
-   * 标签和项目的对其方式
-   * 单行、两行
-   */
-  labelLayout?: 'inline' | 'twoLine';
-  /**
-   * 是否折叠
-   */
-  collapsed?: boolean;
-  /**
-   * 是否可折叠
-   */
-  collapsible?: boolean;
-  /**
-   * 默认折叠状态
-   */
-  defaultCollapsed?: boolean;
-  /**
-   * 自定义选择一个input进行聚焦
-   */
-  autoFocus?: boolean;
-  children?: ReactNode;
-  /**
-   * 折叠状态的修改
-   * @param collapsed 折叠状态
-   */
-  onCollapse?: (collapsed: boolean) => void;
-} & AppProFormGridConfig;
-
-/**
- * 字段的props
- */
-export type FieldProps<K> = {
-  /**
-   * 字段样式
-   */
-  style?: CSSProperties;
-  /**
-   * 宽度
-   */
-  width?: string;
-  /**
-   * ref
-   */
-  ref?: Ref<K>;
-};
+import type { ColProps, FormInstance, FormItemProps, FormProps } from 'antd';
+import type { NamePath } from 'antd/es/form/interface';
+import { MutableRefObject, ReactElement, ReactNode, RefObject } from 'react';
+import { AppProFormInstanceType } from '../context/AppProFormContext/index';
+import { ProRequest } from '../hooks';
+import { FieldProps, GroupProps, SubmitterProps } from '../typing';
 
 /**
  * 超级表单的实例类型
  */
 export type AppProFormInstance<T = any> = FormInstance<T> &
-  IAppProFormInstanceType<T>;
+  AppProFormInstanceType<T>;
 
 /**
  * 表单栅格布局的配置
@@ -154,7 +44,7 @@ export interface AppProFormGridConfig {
 /**
  * 表单通用的属性
  */
-export interface ICommonFormProps<
+export interface CommonFormProps<
   T = Record<string, any>,
   U = Record<string, any>,
 > extends AppProFormGridConfig {
@@ -162,7 +52,7 @@ export interface ICommonFormProps<
    * 自定义提交
    */
   submitter?:
-    | ISubmitterProps<{
+    | SubmitterProps<{
         form?: FormInstance<any>;
       }>
     | false;
@@ -210,7 +100,7 @@ export interface ICommonFormProps<
   /**
    * 请求，返回值会覆盖掉initialValues
    */
-  request?: IProRequest<T, U>;
+  request?: ProRequest<T, U>;
   /**
    * 用于控制form 是否相同的key，高阶用法
    */
@@ -220,9 +110,9 @@ export interface ICommonFormProps<
 /**
  * 基础表单的组件搭建
  */
-export interface IAppBaseFormProps<T = Record<string, any>>
+export interface AppBaseFormProps<T = Record<string, any>>
   extends Omit<FormProps, 'onFinish'>,
-    ICommonFormProps<T> {
+    CommonFormProps<T> {
   /**
    * 内容的渲染
    * @param item 自定义表单项内容
@@ -265,7 +155,7 @@ export interface IAppBaseFormProps<T = Record<string, any>>
 /**
  * 表单项的组件参数
  */
-export interface IAppBaseFormComponentsProps extends IAppBaseFormProps {
+export interface AppBaseFormComponentsProps extends AppBaseFormProps {
   /**
    * 加载loading
    */
@@ -287,10 +177,10 @@ export interface IAppBaseFormComponentsProps extends IAppBaseFormProps {
 /**
  * 超级表单的props
  */
-export type IAppProFormProps<T = Record<string, any>> = Omit<
+export type AppProFormProps<T = Record<string, any>> = Omit<
   FormProps<T>,
   'onFinish'
 > &
-  ICommonFormProps<T> & {
+  CommonFormProps<T> & {
     children?: ReactNode[] | ReactNode;
   };

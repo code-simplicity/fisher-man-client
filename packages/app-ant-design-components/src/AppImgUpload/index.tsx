@@ -5,14 +5,14 @@ import { RcFile } from 'antd/es/upload';
 import React, { useState, type FC } from 'react';
 import AppSvgIcon from '../AppSvgIcon/index';
 import AppViewer from '../AppViewer';
-import { ImageDecoratorProps } from '../AppViewer/app-viewer';
-import { IAppImgUploadProps } from './app-img-upload';
+import { ImageDecoratorProps } from '../AppViewer/typing';
+import { AppImgUploadProps } from './typing';
 
 /**
  * 封装的图片上传组件
  * @constructor
  */
-const AppImgUpload: FC<IAppImgUploadProps> = (props) => {
+const AppImgUpload: FC<AppImgUploadProps> = (props) => {
   const { openImgCrop, imgCropProps, children, ...otherProps } = props;
 
   // 预览图片的数据封装
@@ -44,18 +44,12 @@ const AppImgUpload: FC<IAppImgUploadProps> = (props) => {
   };
 
   // 打开预览
-  const handleViewerOpen = ({
-    visible,
-    activeIndex,
-  }: {
-    visible: boolean;
-    activeIndex: number;
-  }) => {
+  const handleViewerOpen = (visible: boolean, activeIndex: number) => {
     setViewer({ ...viewerState, visible: visible, activeIndex: activeIndex });
   };
 
   // 关闭预览
-  const handleViewClose = ({ visible }: { visible: boolean }) => {
+  const handleViewClose = (visible: boolean) => {
     setViewer({ ...viewerState, visible: visible });
   };
 

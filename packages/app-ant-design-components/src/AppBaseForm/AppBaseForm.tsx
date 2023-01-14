@@ -20,15 +20,19 @@ import React, {
   type FC,
 } from 'react';
 import AppSubmitter from '../AppSubmitter';
-import { AppProFormContext, AppProFormEditOrReadOnlyContext } from '../context';
+import {
+  AppProConfigProvider,
+  AppProFormContext,
+  AppProFormEditOrReadOnlyContext,
+} from '../context';
 import { useFetchData, useRefFn } from '../hooks';
 import { runFunction } from '../utils';
 import { GridContext } from './context';
 import { useGridHelpers } from './helpers';
 import {
+  AppBaseFormComponentsProps,
+  AppBaseFormProps,
   AppProFormInstance,
-  IAppBaseFormComponentsProps,
-  IAppBaseFormProps,
 } from './typing';
 
 /**
@@ -48,7 +52,7 @@ const covertFormName = (name?: NamePath) => {
  * @param type 类型，是get还是set
  */
 const referenceParams = (
-  syncUrl: IAppBaseFormProps<any>['syncToUrl'],
+  syncUrl: AppBaseFormProps<any>['syncToUrl'],
   params: Record<string, any>,
   type: 'get' | 'set',
 ) => {
@@ -63,7 +67,7 @@ const referenceParams = (
  * @param props
  * @constructor
  */
-const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
+const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
   const {
     contentRender,
     children,
@@ -326,7 +330,7 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
  */
 let requestFormCacheId = 0;
 
-const AppBaseForm: FC<IAppBaseFormProps> = (props) => {
+const AppBaseForm: FC<AppBaseFormProps> = (props) => {
   const {
     children,
     contentRender,
@@ -385,32 +389,34 @@ const AppBaseForm: FC<IAppBaseFormProps> = (props) => {
     <AppProFormEditOrReadOnlyContext.Provider
       value={{ mode: props.readonly ? 'read' : 'edit' }}
     >
-      <Form
-        {...omit(otherProps, ['labelWidth', 'autoFocusFirstInput'] as any[])}
-        autoComplete="off"
-        form={form}
-        initialValues={initialValues}
-        className={classNames(props.className)}
-        onValuesChange={(changedValues, values) => {
-          otherProps?.onValuesChange?.(
-            transformKey(changedValues, !!omitNlUd),
-            transformKey(values, !!omitNlUd),
-          );
-        }}
-        onFinish={handleFinish}
-      >
-        <AppBaseFormComponents
-          transformKey={transformKey}
-          autoComplete="auto"
-          loading={loading}
-          {...props}
-          formRef={formRef}
-          initialValues={{
-            ...initialValues,
-            ...initialData,
+      <AppProConfigProvider needDeps>
+        <Form
+          {...omit(otherProps, ['labelWidth', 'autoFocusFirstInput'] as any[])}
+          autoComplete="off"
+          form={form}
+          initialValues={initialValues}
+          className={classNames(props.className)}
+          onValuesChange={(changedValues, values) => {
+            otherProps?.onValuesChange?.(
+              transformKey(changedValues, !!omitNlUd),
+              transformKey(values, !!omitNlUd),
+            );
           }}
-        />
-      </Form>
+          onFinish={handleFinish}
+        >
+          <AppBaseFormComponents
+            transformKey={transformKey}
+            autoComplete="off"
+            loading={loading}
+            {...props}
+            formRef={formRef}
+            initialValues={{
+              ...initialValues,
+              ...initialData,
+            }}
+          />
+        </Form>
+      </AppProConfigProvider>
     </AppProFormEditOrReadOnlyContext.Provider>
   );
 };

@@ -1,6 +1,6 @@
-import { IProRequest, useFetchData } from './useFetchData';
+import { ProRequest, useFetchData } from './useFetchData';
 import { usePrevious } from './usePrevious';
 import { useRefFn } from './useRefFn';
 
-export type { IProRequest };
+export type { ProRequest };
 export { useFetchData, usePrevious, useRefFn };

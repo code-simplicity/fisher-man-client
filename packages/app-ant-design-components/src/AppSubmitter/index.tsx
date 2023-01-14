@@ -1,14 +1,14 @@
 import { Button, Form, Space } from 'antd';
 import omit from 'omit.js';
 import React, { type FC } from 'react';
-import { IAppSubmitterProps } from './app-submitter';
+import { AppSubmitterProps } from './typing';
 
 /**
  * 提交组合的按钮
  * @param props
  * @constructor
  */
-const AppSubmitter: FC<IAppSubmitterProps> = (props) => {
+const AppSubmitter: FC<AppSubmitterProps> = (props) => {
   const {
     render,
     onSubmit,
@@ -38,7 +38,7 @@ const AppSubmitter: FC<IAppSubmitterProps> = (props) => {
 
   const dom = [];
   // 重置
-  if (!resetButtonProps) {
+  if (resetButtonProps !== false) {
     dom.push(
       <Button
         {...omit(resetButtonProps, ['preventDefault'])}
@@ -53,15 +53,15 @@ const AppSubmitter: FC<IAppSubmitterProps> = (props) => {
     );
   }
   // 提交
-  if (!submitButtonProps) {
+  if (submitButtonProps !== false) {
     dom.push(
       <Button
-        {...omit(submitButtonProps, ['preventDefault'])}
         type="primary"
+        {...omit(submitButtonProps, ['preventDefault'])}
         key="submit"
         onClick={(e) => {
-          if (!resetButtonProps?.preventDefault) handleSubmit();
-          resetButtonProps?.onClick?.(e);
+          if (!submitButtonProps?.preventDefault) handleSubmit();
+          submitButtonProps?.onClick?.(e);
         }}
       >
         {submitText}

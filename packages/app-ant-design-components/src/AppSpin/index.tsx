@@ -1,7 +1,7 @@
 import { Spin } from 'antd';
 import React, { type FC } from 'react';
-import { IAppSpinProps } from './app-spin';
 import './index.less';
+import { AppSpinProps } from './typing';
 
 /**
  * AppSpin 加载组件，属性和antd的spin一样，参考spin就行
@@ -9,7 +9,7 @@ import './index.less';
  * @param props
  * @constructor
  */
-const AppSpin: FC<IAppSpinProps> = (props) => {
+const AppSpin: FC<AppSpinProps> = (props) => {
   const { children, spinning, spinComponent, className, ...otherProps } = props;
   return (
     <>

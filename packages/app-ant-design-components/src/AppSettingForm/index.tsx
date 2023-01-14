@@ -2,17 +2,17 @@ import { Checkbox, Form, Input, Radio, UploadFile } from 'antd';
 import React, { type FC } from 'react';
 import AppImgUpload from '../AppImgUpload';
 import AppSketchPicker from '../AppSketchPicker/index';
-import { IAppSettingFormProps } from './app-setting-form';
+import { AppSettingFormProps } from './typing';
 
 const { Item } = Form;
 
 /**
  * 设置组件的表单配置
  * 该组件是一个业务组件，服务于业务的，但是可以拓展，提供了数据的渲染子节点表单的方式， settingFormItemList就是实现这样的功能，当然也可以使用children
- * @param props IAppSettingFormProps
+ * @param props AppSettingFormProps
  * @constructor
  */
-const AppSettingForm: FC<IAppSettingFormProps> = (props) => {
+const AppSettingForm: FC<AppSettingFormProps> = (props) => {
   const {
     layout,
     settingFormItemList,

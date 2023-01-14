@@ -1,20 +1,20 @@
 import AppBaseForm from './AppBaseForm';
 import AppDrawerForm from './layouts/AppDrawerForm';
 import {
+  AppBaseFormComponentsProps,
+  AppBaseFormProps,
   AppProFormGridConfig,
   AppProFormInstance,
-  IAppBaseFormComponentsProps,
-  IAppBaseFormProps,
-  IAppProFormProps,
-  ICommonFormProps,
+  AppProFormProps,
+  CommonFormProps,
 } from './typing';
 
 export type {
   AppProFormGridConfig,
-  ICommonFormProps,
-  IAppBaseFormProps,
-  IAppBaseFormComponentsProps,
-  IAppProFormProps,
+  CommonFormProps,
+  AppBaseFormProps,
+  AppBaseFormComponentsProps,
+  AppProFormProps,
   AppProFormInstance,
 };
 export { AppBaseForm, AppDrawerForm };
