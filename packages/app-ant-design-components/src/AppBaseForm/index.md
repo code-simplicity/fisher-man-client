@@ -16,7 +16,7 @@ group:
 
 ### 基本使用
 
-<code scr="./demos/base.tsx" title="基本表单使用" />
+<code src="./demos/base.tsx">基本表单使用</code>
 
 <code src="./demos/drawer-form.tsx">基础的弹窗表单</code>
 
