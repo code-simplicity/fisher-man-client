@@ -6,6 +6,13 @@
     "esModuleInterop": true,
     "jsx": "react",
     "baseUrl": "./",
+    "target": "ESNext", // 指定es
+    "sourceMap": true, // 源码模式
+    "moduleResolution": "node", // 处理模块 node
+    "forceConsistentCasingInFileNames": true, // 是否强制代码中使用的模块文件名必须和文件系统中的文件名保持大小写一致
+    "noImplicitReturns": true, // 不是函数的所有返回路径都有返回值时报错
+    "suppressImplicitAnyIndexErrors": true, // 阻止 --noImplicitAny对缺少索引签名的索引对象报错
+    "experimentalDecorators": true, // 启用实验性的ES装饰器
     "paths": {
       "@@/*": [".dumi/tmp/*"],
       "app-ant-design-components": ["src"],
