@@ -13,6 +13,8 @@
     "noImplicitReturns": true, // 不是函数的所有返回路径都有返回值时报错
     "suppressImplicitAnyIndexErrors": true, // 阻止 --noImplicitAny对缺少索引签名的索引对象报错
     "experimentalDecorators": true, // 启用实验性的ES装饰器
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@@/*": [".dumi/tmp/*"],
       "app-ant-design-components": ["src"],
