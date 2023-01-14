@@ -3,17 +3,11 @@ import React, { useState } from 'react';
 
 export default () => {
   const [viewerState, setViewer] = useState({ visible: false, activeIndex: 0 });
-  const handleViewClose = ({ visible }: { visible: boolean }) => {
+  const handleViewClose = (visible: boolean) => {
     setViewer({ ...viewerState, visible: visible });
   };
 
-  const handleViewerOpen = ({
-    visible,
-    activeIndex,
-  }: {
-    visible: boolean;
-    activeIndex: number;
-  }) => {
+  const handleViewerOpen = (visible: boolean, activeIndex: number) => {
     setViewer({ ...viewerState, visible: visible, activeIndex: activeIndex });
   };
 
