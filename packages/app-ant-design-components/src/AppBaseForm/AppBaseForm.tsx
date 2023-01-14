@@ -83,6 +83,10 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
     rowProps,
     onInit,
     onUrlSearchChange,
+    formRef: propsFormRef,
+    fieldProps,
+    formItemProps,
+    groupProps,
     ...otherProps
   } = props;
 
@@ -187,7 +191,7 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
    * 暴露出表单项的ref给外部使用
    */
   useImperativeHandle(
-    formRef,
+    propsFormRef,
     () => {
       return {
         ...formRef?.current,
@@ -228,6 +232,9 @@ const AppBaseFormComponents: FC<IAppBaseFormComponentsProps> = (props) => {
           [next]: finalValues[next] || undefined,
         };
       }, extraUrlParams);
+      /**
+       * 同步url，进行参数转换
+       */
       onUrlSearchChange?.(referenceParams(syncToUrl, params, 'set'));
     }
   };

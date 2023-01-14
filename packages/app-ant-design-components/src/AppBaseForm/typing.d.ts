@@ -1,9 +1,119 @@
-import type { ColProps, FormInstance, FormItemProps, FormProps } from 'antd';
-import type { NamePath } from 'antd/es/form/interface';
-import { MutableRefObject, ReactElement, ReactNode, RefObject } from 'react';
+import type {
+  ColProps,
+  FormInstance,
+  FormItemProps,
+  FormProps,
+  LabelTooltipType,
+  NamePath,
+  SpaceProps,
+} from 'antd';
+import {
+  CSSProperties,
+  MutableRefObject,
+  ReactElement,
+  ReactNode,
+  Ref,
+  RefObject,
+} from 'react';
 import { IAppProFormInstanceType } from '../context/AppProFormContext/index';
 import { IProRequest } from '../hooks';
 import { ISubmitterProps } from '../typing';
+
+/**
+ * 分组的props
+ */
+export type GroupProps = {
+  /**
+   * 分组标题
+   */
+  title?: ReactNode;
+  /**
+   * 分组标签
+   */
+  label?: ReactNode;
+  /**
+   * 自定义提示信息
+   * 可以嵌套任意组件进行展示
+   */
+  toolTip?: LabelTooltipType | string;
+  /**
+   * 额外的配置，用于配置标题另外一边的内容
+   */
+  extra?: ReactNode;
+  /**
+   * 组件之间的间隔
+   */
+  size?: SpaceProps['size'];
+  /**
+   * 组件的内联样式
+   */
+  style?: CSSProperties;
+  /**
+   * 标题的内联样式
+   */
+  title?: CSSProperties;
+  /**
+   * 自定义标题render
+   * @param title 标题
+   * @param props props
+   */
+  titleRender?: (title: ReactNode, props: GroupProps) => ReactNode;
+  /**
+   * 对其方式
+   * 参数 'start' | 'end' | 'center' | 'baseline';
+   */
+  align?: SpaceProps['align'];
+  /**
+   * 子项目排列方式
+   * 'horizontal' | 'vertical';
+   */
+  direction?: SpaceProps['direction'];
+  /**
+   * 标签和项目的对其方式
+   * 单行、两行
+   */
+  labelLayout?: 'inline' | 'twoLine';
+  /**
+   * 是否折叠
+   */
+  collapsed?: boolean;
+  /**
+   * 是否可折叠
+   */
+  collapsible?: boolean;
+  /**
+   * 默认折叠状态
+   */
+  defaultCollapsed?: boolean;
+  /**
+   * 自定义选择一个input进行聚焦
+   */
+  autoFocus?: boolean;
+  children?: ReactNode;
+  /**
+   * 折叠状态的修改
+   * @param collapsed 折叠状态
+   */
+  onCollapse?: (collapsed: boolean) => void;
+} & AppProFormGridConfig;
+
+/**
+ * 字段的props
+ */
+export type FieldProps<K> = {
+  /**
+   * 字段样式
+   */
+  style?: CSSProperties;
+  /**
+   * 宽度
+   */
+  width?: string;
+  /**
+   * ref
+   */
+  ref?: Ref<K>;
+};
 
 /**
  * 超级表单的实例类型
@@ -132,6 +242,7 @@ export interface IAppBaseFormProps<T = Record<string, any>>
    * 表单项的配置
    */
   formItemProps?: FormItemProps;
+  groupProps?: GroupProps;
   /**
    * 是否开启回车提交
    */
