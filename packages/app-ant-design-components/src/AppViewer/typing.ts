@@ -18,5 +18,5 @@ export type AppViewerProps = {
   onViewerClose?: (visible: boolean, ...args: any) => void;
   // 打开图片预览的方法
   onViewerOpen?: (visible: boolean, activeIndex: number, ...args: any) => void;
-} & Omit<ViewerProps, 'onChange'> &
+} & Omit<ViewerProps, 'onChange' | 'images'> &
   ImageProps;
