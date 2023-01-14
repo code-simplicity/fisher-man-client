@@ -5,6 +5,7 @@ export type {
   AppBaseFormProps,
   CommonFormProps,
 } from './AppBaseForm/typing';
+export { default as AppFooter } from './AppFooter';
 export { default as AppImgUpload } from './AppImgUpload';
 export type { AppImgUploadProps } from './AppImgUpload/typing';
 export { default as AppSetting } from './AppSetting';
@@ -20,4 +21,3 @@ export type { AppSvgIconProps } from './AppSvgIcon/typing';
 export { default as AppViewer } from './AppViewer';
 export type { AppViewerProps } from './AppViewer/typing';
 export { default as Button } from './Button';
-export { default as Foo } from './Foo';
