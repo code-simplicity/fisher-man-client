@@ -6,9 +6,9 @@ interface AppProFormInstanceType<T> {
   /**
    * 获取格式化之后的所有数据
    * @param nameList boolean
-   * @param omitNlUd boolean
+   * @param omitNil boolean
    */
-  getFieldsFormatValue?: (nameList?: true, omitNlUd?: boolean) => T;
+  getFieldsFormatValue?: (nameList?: true, omitNil?: boolean) => T;
   /**
    * 获取格式化之后的单个数据
    * @param nameList
