@@ -10,10 +10,10 @@ import { AppSpinProps } from './typing';
  * @constructor
  */
 const AppSpin: FC<AppSpinProps> = (props) => {
-  const { children, spinning, spinComponent, className, ...otherProps } = props;
+  const { children, spinComponent, className, ...otherProps } = props;
   return (
     <>
-      {spinning ? (
+      {props.spinning ? (
         <Spin {...otherProps} className={className}>
           {children}
         </Spin>

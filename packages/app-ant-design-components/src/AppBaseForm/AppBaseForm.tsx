@@ -1,3 +1,4 @@
+import { useUrlSearchParams } from '@umijs/use-params';
 import { usePrevious } from 'ahooks';
 import { ConfigProvider, Form } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
@@ -6,7 +7,7 @@ import deepEqual from 'deep-equal';
 import omit from 'omit.js';
 import useMergedState from 'rc-util/es/hooks/useMergedState';
 import get from 'rc-util/es/utils/get';
-import set from 'rc-util/es/utils/set';
+import Set from 'rc-util/es/utils/set';
 import { noteOnce } from 'rc-util/es/warning';
 import React, {
   cloneElement,
@@ -17,16 +18,25 @@ import React, {
   useImperativeHandle,
   useMemo,
   useRef,
+  useState,
   type FC,
 } from 'react';
+import { v4 as uuidV4 } from 'uuid';
+import AppSpin from '../AppSpin';
 import AppSubmitter from '../AppSubmitter';
 import {
+  AppFieldContext,
   AppProConfigProvider,
   AppProFormContext,
   AppProFormEditOrReadOnlyContext,
 } from '../context';
 import { useFetchData, useRefFn } from '../hooks';
-import { runFunction } from '../utils';
+import {
+  conversionMomentValue,
+  runFunction,
+  transformKeySubmitValue,
+} from '../utils';
+import { AppProFieldValueType, AppSearchTransformKeyFn } from '../utils/typing';
 import { GridContext } from './context';
 import { useGridHelpers } from './helpers';
 import {
@@ -75,10 +85,10 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
     submitter,
     loading,
     form,
-    formType,
+    formComponentType,
     isKeyPressSubmit,
     onReset,
-    omitNlUd = true,
+    omitNil = true,
     transformKey,
     syncToUrl,
     extraUrlParams = {},
@@ -129,7 +139,7 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
        * @param allData boolean
        */
       getFieldsFormatValue: (allData?: true) =>
-        transformKey(getFormInstance()?.getFieldsValue(allData!), omitNlUd),
+        transformKey(getFormInstance()?.getFieldsValue(allData!), omitNil),
       /**
        * 获取格式化之后的单个数据
        * @param paramsNameList
@@ -139,8 +149,8 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
         if (!nameList) throw new Error('nameList不能为空');
         // nameList!是作为非空判断，这里就一个语法而已
         const value = getFormInstance().getFieldValue(nameList!);
-        const obj = nameList ? set({}, nameList as string[], value) : value;
-        return get(transformKey(obj, omitNlUd, nameList), nameList as string[]);
+        const obj = nameList ? Set({}, nameList as string[], value) : value;
+        return get(transformKey(obj, omitNil, nameList), nameList as string[]);
       },
       /**
        * 获取格式化之后的单个数据
@@ -150,8 +160,8 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
       getFieldFormatValueObject: (paramsNameList?: NamePath) => {
         const nameList = covertFormName(paramsNameList);
         const value = getFormInstance()?.getFieldValue(nameList!);
-        const obj = nameList ? set({}, nameList as string[], value) : value;
-        return transformKey(obj, omitNlUd, nameList);
+        const obj = nameList ? Set({}, nameList as string[], value) : value;
+        return transformKey(obj, omitNil, nameList);
       },
       /**
        * 验证字段之后返回格式化之后的所有数据
@@ -162,12 +172,12 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
           throw new Error('nameList必须是一个数组');
         const values = await getFormInstance().validateFields(nameList);
         // 转换完成的
-        const transformedKey = transformKey(values, omitNlUd);
+        const transformedKey = transformKey(values, omitNil);
         return transformedKey ? transformedKey : {};
       },
       formRef,
     };
-  }, [omitNlUd, transformKey]);
+  }, [omitNil, transformKey]);
 
   /**
    * 返回表单的item
@@ -220,7 +230,7 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
     // 获取最后的值
     const finalValues = transformKey(
       formRef?.current?.getFieldsValue(),
-      omitNlUd,
+      omitNil,
     );
     // 清除数据
     submitterProps?.onReset?.(finalValues);
@@ -262,7 +272,7 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
     submitterProps,
     transformKey,
     onReset,
-    omitNlUd,
+    omitNil,
     syncToUrl,
     extraUrlParams,
     onUrlSearchChange,
@@ -307,7 +317,7 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
   useEffect(() => {
     const finalValues = transformKey(
       formRef?.current.getFieldsValue?.(true),
-      omitNlUd,
+      omitNil,
     );
     onInit?.(finalValues, formRef?.current);
   }, []);
@@ -335,34 +345,112 @@ const AppBaseForm: FC<AppBaseFormProps> = (props) => {
     children,
     contentRender,
     fieldProps,
-    formType,
     formItemProps,
-    onInit,
     form,
     formRef: propsFormRef,
     initialValues,
     request,
     params,
     formKey = requestFormCacheId,
-    omitNlUd,
+    omitNil = true,
+    formComponentType,
+    groupProps,
+    dateFormatter = 'string',
+    syncToUrl,
+    extraUrlParams = {},
+    syncToInitialValues = false,
+    syncToUrlAsImportant = true,
+    grid,
+    rowProps,
+    colProps,
+    readonly,
+    onReset,
+    onInit,
     ...otherProps
   } = props;
   // 表单的ref
   const formRef = useRef<AppProFormInstance<any>>({} as any);
   const [loading, setLoading] = useMergedState<boolean>(false);
+  // const curFormKey = useRef<string>(nanoid());
+  const curFormKey = useRef<string>(uuidV4());
+  const [urlSearch, setUrlSearch] = useUrlSearchParams(
+    {},
+    { disabled: !syncToUrl },
+  );
+
   /**
-   * 表单的提交
+   * url上的参数进行合并
    */
-  const handleFinish = useRefFn(async () => {});
+  const [urlParamsMergeInitialValue, setUrlParamsMergeInitialValue] = useState(
+    () => {
+      if (!syncToUrl) {
+        return {};
+      }
+      return referenceParams(syncToUrl, urlSearch, 'get');
+    },
+  );
+
+  useEffect(() => {
+    if (!syncToInitialValues) return;
+    setUrlParamsMergeInitialValue({});
+  }, [syncToInitialValues]);
+
+  useEffect(() => {
+    if (!syncToUrl) return;
+    setUrlSearch({
+      ...urlSearch,
+      ...extraUrlParams,
+    });
+  }, [extraUrlParams, syncToUrl]);
+
+  /**
+   * 获取到弹出的容器，主要是为了区别是在modal/drawer还是普通的
+   */
+  const getPopupContainer = useMemo(() => {
+    if (typeof window === 'undefined') return undefined;
+    // 如果是在DrawerForm或者是ModalForm就渲染到dom的父节点
+    if (formComponentType && ['AppDrawerForm'].includes(formComponentType)) {
+      return (e: HTMLElement) => e.parentNode || document.body;
+    }
+    return undefined;
+  }, [formComponentType]);
+
+  /**
+   * 保存 transformKeyRef，用于对表单的key进行转化
+   */
+  const transformKeyRef = useRef<
+    Record<string, AppSearchTransformKeyFn | undefined>
+  >({});
+
+  const fieldsValueType = useRef<
+    Record<
+      string,
+      {
+        valueType: AppProFieldValueType;
+        dateFormat: string;
+      }
+    >
+  >({});
 
   /**
    * 装换数据格式
    */
   const transformKey = useCallback(
-    (values: any, paramsOmitNlUn: boolean, parentKey?: NamePath) => {
+    (values: any, paramsOmitNil: boolean, parentKey?: NamePath) => {
       // 数据格式的装换
+      transformKeySubmitValue(
+        conversionMomentValue(
+          values,
+          dateFormatter,
+          fieldsValueType.current,
+          paramsOmitNil,
+          parentKey,
+        ),
+        transformKeyRef.current,
+        paramsOmitNil,
+      );
     },
-    [],
+    [dateFormatter],
   );
 
   useEffect(() => {
@@ -385,37 +473,144 @@ const AppBaseForm: FC<AppBaseFormProps> = (props) => {
     [!initialData],
   );
 
+  /**
+   * 表单的提交
+   */
+  const handleFinish = useRefFn(async () => {
+    /**
+     * 表单组件没有设置onFinish就不执行
+     */
+    if (!otherProps.onFinish) return;
+    /**
+     * 防止重复提交
+     */
+    if (loading) return;
+    /**
+     * loading中
+     */
+    setLoading(true);
+
+    try {
+      const finalValues = formRef?.current?.getFieldsValue?.();
+      /**
+       * 回调最终的value
+       */
+      await otherProps.onFinish(finalValues);
+      /**
+       * 同步url
+       */
+      if (syncToUrl) {
+        const syncToUrlParams = Object.keys(
+          formRef?.current?.getFieldsFormatValue?.(undefined, false),
+        ).reduce((pre, next) => {
+          return {
+            ...pre,
+            [next]: finalValues[next] ?? undefined,
+          };
+        }, extraUrlParams);
+        /**
+         * 当原来的url参数被删掉的时候，将params中的字段值设为undefined，触发url同步删除
+         */
+        Object.keys(urlSearch).forEach((key) => {
+          if (
+            syncToUrlParams[key] !== false &&
+            syncToUrlParams[key] !== 0 &&
+            !syncToUrlParams[key]
+          ) {
+            syncToUrlParams[key] = undefined;
+          }
+        });
+        setUrlSearch(referenceParams(syncToUrl, syncToUrlParams, 'set'));
+      }
+      /**
+       * loading关闭
+       */
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  });
+
+  /**
+   * 不是初始化并且是在请求就显示loading
+   */
+  if (!initialData && props.request) {
+    return <AppSpin></AppSpin>;
+  }
+
   return (
     <AppProFormEditOrReadOnlyContext.Provider
-      value={{ mode: props.readonly ? 'read' : 'edit' }}
+      value={{ mode: readonly ? 'read' : 'edit' }}
     >
       <AppProConfigProvider needDeps>
-        <Form
-          {...omit(otherProps, ['labelWidth', 'autoFocusFirstInput'] as any[])}
-          autoComplete="off"
-          form={form}
-          initialValues={initialValues}
-          className={classNames(props.className)}
-          onValuesChange={(changedValues, values) => {
-            otherProps?.onValuesChange?.(
-              transformKey(changedValues, !!omitNlUd),
-              transformKey(values, !!omitNlUd),
-            );
+        <AppFieldContext.Provider
+          value={{
+            formRef,
+            fieldProps,
+            formItemProps,
+            formComponentType,
+            groupProps,
+            getPopupContainer,
+            formKey: curFormKey.current,
+            setFieldValueType: (
+              name,
+              { valueType = 'text', dateFormat, transform },
+            ) => {
+              if (!Array.isArray(name)) return;
+              transformKeyRef.current = Set(
+                transformKeyRef.current,
+                name,
+                transform,
+              );
+              fieldsValueType.current = Set(fieldsValueType.current, name, {
+                valueType,
+                dateFormat,
+              });
+            },
           }}
-          onFinish={handleFinish}
         >
-          <AppBaseFormComponents
-            transformKey={transformKey}
+          <Form
+            {...omit(otherProps, [
+              'labelWidth',
+              'autoFocusFirstInput',
+            ] as any[])}
             autoComplete="off"
-            loading={loading}
-            {...props}
-            formRef={formRef}
-            initialValues={{
-              ...initialValues,
-              ...initialData,
+            form={form}
+            initialValues={
+              syncToInitialValues
+                ? {
+                    ...initialValues,
+                    ...initialData,
+                    ...urlParamsMergeInitialValue,
+                  }
+                : {
+                    ...urlParamsMergeInitialValue,
+                    ...initialValues,
+                    ...initialData,
+                  }
+            }
+            className={classNames(props.className)}
+            onValuesChange={(changedValues, values) => {
+              otherProps?.onValuesChange?.(
+                transformKey(changedValues, !!omitNil),
+                transformKey(values, !!omitNil),
+              );
             }}
-          />
-        </Form>
+            onFinish={handleFinish}
+          >
+            <AppBaseFormComponents
+              transformKey={transformKey}
+              autoComplete="off"
+              loading={loading}
+              {...props}
+              formRef={formRef}
+              initialValues={{
+                ...initialValues,
+                ...initialData,
+              }}
+            />
+          </Form>
+        </AppFieldContext.Provider>
       </AppProConfigProvider>
     </AppProFormEditOrReadOnlyContext.Provider>
   );

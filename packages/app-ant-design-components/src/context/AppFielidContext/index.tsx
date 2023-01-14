@@ -40,10 +40,17 @@ type AppFieldContextProps = {
    * 获取表单实例计数器
    */
   formKey?: string;
-  getPopupContainer?: (e: HTMLElement) => PannerNode;
-} & Pick<CommonFormProps, any>;
+  /**
+   * 获取表单弹出的容器
+   * @param e
+   */
+  getPopupContainer?: (e: HTMLElement) => ParentNode;
+} & Pick<CommonFormProps, 'formRef' | 'grid'>;
 
-const AppFielidContext = createContext<AppFieldContextProps>({});
+/**
+ * 获取字段的上下文
+ */
+const AppFieldContext = createContext<AppFieldContextProps>({});
 
 export type { AppFieldContextProps };
-export { AppFielidContext };
+export { AppFieldContext };

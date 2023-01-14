@@ -1,7 +1,8 @@
 import type { ColProps, FormInstance, FormItemProps, FormProps } from 'antd';
 import type { NamePath } from 'antd/es/form/interface';
+import dayjs from 'dayjs';
 import { MutableRefObject, ReactElement, ReactNode, RefObject } from 'react';
-import { AppProFormInstanceType } from '../context/AppProFormContext/index';
+import { AppProFormInstanceType } from '../context';
 import { ProRequest } from '../hooks';
 import { FieldProps, GroupProps, SubmitterProps } from '../typing';
 
@@ -84,11 +85,19 @@ export interface CommonFormProps<
   /**
    * 是否去掉值中null或者是undefined
    */
-  omitNlUd?: boolean;
+  omitNil?: boolean;
   /**
    * 同步url，如果是一个函数，那么就会执行这个函数
    */
   syncToUrl?: ((values: T, type: 'get' | 'set') => T) | boolean;
+  /**
+   * 当 syncToUrl 为 true，在页面回显示时，以url上的参数为主，默认为false
+   */
+  syncToUrlAsImportant?: boolean;
+  /**
+   * 同步结果到 initialValues,默认为true如果为false，reset的时将会忽略从url上获取的数据
+   */
+  syncToInitialValues?: boolean;
   /**
    * 额外的url参数
    */
@@ -105,6 +114,21 @@ export interface CommonFormProps<
    * 用于控制form 是否相同的key，高阶用法
    */
   formKey?: string;
+  /**
+   * 格式化 Date 的方式，默认转化为 string
+   *
+   * dateFormatter="string" : Moment -> YYYY-MM-DD
+   * dateFormatter="YYYY-MM-DD  HH:mm:SS" Moment -> YYYY-MM-DD  HH:mm:SS
+   * dateFormatter="HH:mm:SS" Moment -> HH:mm:SS
+   * dateFormatter="number" Moment -> timestamp
+   * dateFormatter=false Moment -> Moment
+   * dateFormatter={(value)=>value.format("YYYY-MM-DD")}
+   */
+  dateFormatter?:
+    | 'number'
+    | 'string'
+    | ((value: dayjs.Dayjs, valueType: string) => string | number)
+    | false;
 }
 
 /**
@@ -143,7 +167,7 @@ export interface AppBaseFormProps<T = Record<string, any>>
    * AppModalForm 弹窗表单
    * QueryFilter 列表查询过滤表单
    */
-  formType?: 'AppDrawerForm' | 'AppModalForm' | 'QueryFilter';
+  formComponentType?: 'AppDrawerForm' | 'AppModalForm' | 'QueryFilter';
   /**
    * 表单初始化，form就位，可以进行操作
    * @param values 表单收集的数据

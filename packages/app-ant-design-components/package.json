@@ -62,6 +62,7 @@
     "@ant-design/cssinjs": "^1.4.0",
     "antd-img-crop": "^4.5.2",
     "classnames": "^2.3.2",
+    "dayjs": "^1.11.7",
     "deep-equal": "^2.2.0",
     "lodash": "^4.17.21",
     "omit.js": "^2.0.2",
