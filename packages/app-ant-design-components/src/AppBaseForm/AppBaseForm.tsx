@@ -19,14 +19,17 @@ import React, {
   useRef,
   type FC,
 } from 'react';
+import { v4 as uuidV4 } from 'uuid';
 import AppSubmitter from '../AppSubmitter';
 import {
+  AppFieldContext,
   AppProConfigProvider,
   AppProFormContext,
   AppProFormEditOrReadOnlyContext,
 } from '../context';
 import { useFetchData, useRefFn } from '../hooks';
 import { runFunction } from '../utils';
+import { AppProFieldValueType, AppSearchTransformKeyFn } from '../utils/typing';
 import { GridContext } from './context';
 import { useGridHelpers } from './helpers';
 import {
@@ -75,7 +78,7 @@ const AppBaseFormComponents: FC<AppBaseFormComponentsProps> = (props) => {
     submitter,
     loading,
     form,
-    formType,
+    formComponentType,
     isKeyPressSubmit,
     onReset,
     omitNlUd = true,
@@ -335,7 +338,6 @@ const AppBaseForm: FC<AppBaseFormProps> = (props) => {
     children,
     contentRender,
     fieldProps,
-    formType,
     formItemProps,
     onInit,
     form,
@@ -345,11 +347,45 @@ const AppBaseForm: FC<AppBaseFormProps> = (props) => {
     params,
     formKey = requestFormCacheId,
     omitNlUd,
+    formComponentType,
+    groupProps,
     ...otherProps
   } = props;
   // 表单的ref
   const formRef = useRef<AppProFormInstance<any>>({} as any);
   const [loading, setLoading] = useMergedState<boolean>(false);
+  // const curFormKey = useRef<string>(nanoid());
+  const curFormKey = useRef<string>(uuidV4());
+
+  /**
+   * 获取到弹出的容器，主要是为了区别是在modal/drawer还是普通的
+   */
+  const getPopupContainer = useMemo(() => {
+    if (typeof window === 'undefined') return undefined;
+    // 如果是在DrawerForm或者是ModalForm就渲染到dom的父节点
+    if (formComponentType && ['AppDrawerForm'].includes(formComponentType)) {
+      return (e: HTMLElement) => e.parentNode || document.body;
+    }
+    return undefined;
+  }, [formComponentType]);
+
+  /**
+   * 保存 transformKeyRef，用于对表单的key进行转化
+   */
+  const transformKeyRef = useRef<
+    Record<string, AppSearchTransformKeyFn | undefined>
+  >({});
+
+  const fieldsValueType = useRef<
+    Record<
+      string,
+      {
+        valueType: AppProFieldValueType;
+        dateFormat: string;
+      }
+    >
+  >({});
+
   /**
    * 表单的提交
    */
@@ -390,32 +426,62 @@ const AppBaseForm: FC<AppBaseFormProps> = (props) => {
       value={{ mode: props.readonly ? 'read' : 'edit' }}
     >
       <AppProConfigProvider needDeps>
-        <Form
-          {...omit(otherProps, ['labelWidth', 'autoFocusFirstInput'] as any[])}
-          autoComplete="off"
-          form={form}
-          initialValues={initialValues}
-          className={classNames(props.className)}
-          onValuesChange={(changedValues, values) => {
-            otherProps?.onValuesChange?.(
-              transformKey(changedValues, !!omitNlUd),
-              transformKey(values, !!omitNlUd),
-            );
+        <AppFieldContext.Provider
+          value={{
+            formRef,
+            fieldProps,
+            formItemProps,
+            formComponentType,
+            groupProps,
+            getPopupContainer,
+            formKey: curFormKey.current,
+            setFieldValueType: (
+              name,
+              { valueType = 'text', dateFormat, transform },
+            ) => {
+              if (!Array.isArray(name)) return;
+              transformKeyRef.current = set(
+                transformKeyRef.current,
+                name,
+                transform,
+              );
+              fieldsValueType.current = set(fieldsValueType.current, name, {
+                valueType,
+                dateFormat,
+              });
+            },
           }}
-          onFinish={handleFinish}
         >
-          <AppBaseFormComponents
-            transformKey={transformKey}
+          <Form
+            {...omit(otherProps, [
+              'labelWidth',
+              'autoFocusFirstInput',
+            ] as any[])}
             autoComplete="off"
-            loading={loading}
-            {...props}
-            formRef={formRef}
-            initialValues={{
-              ...initialValues,
-              ...initialData,
+            form={form}
+            initialValues={initialValues}
+            className={classNames(props.className)}
+            onValuesChange={(changedValues, values) => {
+              otherProps?.onValuesChange?.(
+                transformKey(changedValues, !!omitNlUd),
+                transformKey(values, !!omitNlUd),
+              );
             }}
-          />
-        </Form>
+            onFinish={handleFinish}
+          >
+            <AppBaseFormComponents
+              transformKey={transformKey}
+              autoComplete="off"
+              loading={loading}
+              {...props}
+              formRef={formRef}
+              initialValues={{
+                ...initialValues,
+                ...initialData,
+              }}
+            />
+          </Form>
+        </AppFieldContext.Provider>
       </AppProConfigProvider>
     </AppProFormEditOrReadOnlyContext.Provider>
   );

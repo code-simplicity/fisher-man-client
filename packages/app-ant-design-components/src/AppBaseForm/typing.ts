@@ -143,7 +143,7 @@ export interface AppBaseFormProps<T = Record<string, any>>
    * AppModalForm 弹窗表单
    * QueryFilter 列表查询过滤表单
    */
-  formType?: 'AppDrawerForm' | 'AppModalForm' | 'QueryFilter';
+  formComponentType?: 'AppDrawerForm' | 'AppModalForm' | 'QueryFilter';
   /**
    * 表单初始化，form就位，可以进行操作
    * @param values 表单收集的数据
