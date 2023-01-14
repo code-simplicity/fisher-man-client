@@ -2,7 +2,7 @@ import { DrawerProps } from 'antd';
 import { FloatButtonProps } from 'antd/es/float-button/interface';
 import { CSSProperties, ReactNode } from 'react';
 
-export interface IFloatButtonChildrenListProps extends FloatButtonProps {
+export interface FloatButtonChildrenListProps extends FloatButtonProps {
   // 浮动按钮的key
   key: string;
   // 按钮的回调事件
@@ -10,7 +10,7 @@ export interface IFloatButtonChildrenListProps extends FloatButtonProps {
 }
 
 // 设置的类型
-export interface IAppSettingProps extends DrawerProps {
+export interface AppSettingProps extends DrawerProps {
   children?: ReactNode;
   // 设置框的提示标题 (多语言由自己维护传递进来)
   toolTipTitle?: string;
@@ -28,9 +28,9 @@ export interface IAppSettingProps extends DrawerProps {
   drawerContentLoading?: boolean;
   // 关闭弹窗的方法
   onCloseDrawer?: (e: MouseEvent | KeyboardEvent) => void;
-  onOpenDrawer?: (e) => void;
+  onOpenDrawer?: (e: boolean) => void;
   // 提交数据
   onSubmit: (data: any) => void;
   // 设置按钮组合
-  floatButtonChildrenList?: IFloatButtonChildrenListProps[];
+  floatButtonChildrenList?: FloatButtonChildrenListProps[];
 }

@@ -2,7 +2,7 @@ import type { FormInstance } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import { createContext, MutableRefObject } from 'react';
 
-interface IAppProFormInstanceType<T> {
+interface AppProFormInstanceType<T> {
   /**
    * 获取格式化之后的所有数据
    * @param nameList boolean
@@ -28,8 +28,8 @@ interface IAppProFormInstanceType<T> {
 }
 
 const AppProFormContext = createContext<
-  IAppProFormInstanceType<any> & {
+  AppProFormInstanceType<any> & {
     formRef?: MutableRefObject<FormInstance<any>>;
   }
 >({});
-export { AppProFormContext, IAppProFormInstanceType };
+export { AppProFormContext, AppProFormInstanceType };

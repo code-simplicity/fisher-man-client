@@ -3,7 +3,7 @@ import { Button, Drawer, FloatButton, Space } from 'antd';
 import React, { Fragment, useState, type FC } from 'react';
 import AppSpin from '../AppSpin/index';
 import AppSvgIcon from '../AppSvgIcon/index';
-import { IAppSettingProps } from './app-setting';
+import { AppSettingProps } from './typing';
 
 // TODO：明天继续完善这个组件，包括类型设计这些都和antd这边做一个统一
 
@@ -11,7 +11,7 @@ import { IAppSettingProps } from './app-setting';
  * 系统级别的组件
  * @constructor
  */
-const AppSetting: FC<IAppSettingProps> = (props) => {
+const AppSetting: FC<AppSettingProps> = (props) => {
   const {
     appSettingStyle,
     children,
@@ -65,11 +65,7 @@ const AppSetting: FC<IAppSettingProps> = (props) => {
         extra={
           <Space>
             <Button onClick={onCloseDrawer}>{drawerCloseText}</Button>
-            <Button
-              loading={loading}
-              type="primary"
-              onClick={onSubmit}
-            >
+            <Button loading={loading} type="primary" onClick={onSubmit}>
               {drawerOkText}
             </Button>
           </Space>

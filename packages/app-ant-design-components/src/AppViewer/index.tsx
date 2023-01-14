@@ -2,10 +2,10 @@ import { PreviewOpen } from '@icon-park/react';
 import { Image } from 'antd';
 import React, { useCallback, useState, type FC } from 'react';
 import Viewer from 'react-viewer';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidV4 } from 'uuid';
 import AppSvgIcon from '../AppSvgIcon';
-import { IAppViewerProps } from './app-viewer';
 import './index.less';
+import { AppViewerProps } from './typing';
 /**
  * 自定义图片预览组件，可以直接封装一个image，这样就可以实现全局的
  * 添加自定义图片容器进行展示
@@ -13,7 +13,7 @@ import './index.less';
  * @param props
  * @constructor
  */
-const AppViewer: FC<IAppViewerProps> = (props) => {
+const AppViewer: FC<AppViewerProps> = (props) => {
   const {
     images,
     visible,
@@ -33,18 +33,18 @@ const AppViewer: FC<IAppViewerProps> = (props) => {
    * 对不同的数据格式进行支持，单个对象数据进行数组化
    * @param images
    */
-  const formattedImage = (images: IAppViewerProps['images']) => {
+  const formattedImage = (images: AppViewerProps['images']) => {
     let resultData = images;
     // 如果是数组，进行id的添加
     if (Array.isArray(resultData)) {
       resultData.forEach((item) => {
-        item.id = uuidv4();
+        item.id = uuidV4();
       });
       return resultData;
     }
     // 判断是单独的对象
     if (resultData !== null && typeof resultData === 'object') {
-      resultData.id = uuidv4();
+      resultData.id = uuidV4();
       // 进行数据组装
       return [resultData];
     }
@@ -75,9 +75,7 @@ const AppViewer: FC<IAppViewerProps> = (props) => {
             className="app-viewer-preview-mask"
             onMouseEnter={() => handleMouse(item.index, true)}
             onMouseLeave={() => handleMouse(item.index, false)}
-            onClick={() =>
-              onViewerOpen?.({ visible: true, activeIndex: item.index })
-            }
+            onClick={() => onViewerOpen?.(true, item.index)}
           >
             <AppSvgIcon>
               <PreviewOpen theme="outline" size="24" />
@@ -100,9 +98,7 @@ const AppViewer: FC<IAppViewerProps> = (props) => {
                 preview={false}
                 width={width}
                 height={height}
-                onClick={() =>
-                  onViewerOpen?.({ visible: true, activeIndex: index })
-                }
+                onClick={() => onViewerOpen?.(true, index)}
                 onMouseEnter={() => handleMouse(index.toString(), true)}
                 onMouseLeave={() => handleMouse(index.toString(), false)}
               />
@@ -114,7 +110,7 @@ const AppViewer: FC<IAppViewerProps> = (props) => {
         visible={visible}
         images={formattedImage(images)}
         activeIndex={activeIndex}
-        onClose={() => onViewerClose?.({ visible: false })}
+        onClose={() => onViewerClose?.(false)}
       ></Viewer>
     </>
   );

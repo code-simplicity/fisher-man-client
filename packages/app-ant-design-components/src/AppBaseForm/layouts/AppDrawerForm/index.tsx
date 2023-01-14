@@ -16,16 +16,16 @@ import React, {
 import { createPortal } from 'react-dom';
 import { useRefFn } from '../../../hooks';
 import AppBaseForm from '../../AppBaseForm';
-import { IAppProFormProps, ICommonFormProps } from '../../typing';
+import { AppProFormProps, CommonFormProps } from '../../typing';
 
 /**
  * 侧拉props
  */
-export type IAppDrawerFormProps<T = Record<string, any>> = Omit<
+export type AppDrawerFormProps<T = Record<string, any>> = Omit<
   FormProps,
   'onFinish' | 'title'
 > &
-  ICommonFormProps<T> & {
+  CommonFormProps<T> & {
     /**
      * 弹窗的title
      */
@@ -71,7 +71,7 @@ export type IAppDrawerFormProps<T = Record<string, any>> = Omit<
     onFinish?: (values: T) => Promise<any>;
   };
 
-const AppDrawerForm: FC<IAppDrawerFormProps> = (props) => {
+const AppDrawerForm: FC<AppDrawerFormProps> = (props) => {
   const {
     title,
     width,
@@ -120,7 +120,7 @@ const AppDrawerForm: FC<IAppDrawerFormProps> = (props) => {
   /**
    * 表单的ref
    */
-  const formRef = useRef<IAppProFormProps>();
+  const formRef = useRef<AppProFormProps>();
   /**
    * 控制表单提交
    */

@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import AppBaseForm from '../../AppBaseForm';
-import { IAppProFormProps } from '../../typing';
+import { AppProFormProps } from '../../typing';
 
 /**
  * 基础的超级表单
  * @param props
  * @constructor
  */
-const AppProForm: FC<IAppProFormProps> = (props) => {
+const AppProForm: FC<AppProFormProps> = (props) => {
   return (
     <AppBaseForm
       submitter={{

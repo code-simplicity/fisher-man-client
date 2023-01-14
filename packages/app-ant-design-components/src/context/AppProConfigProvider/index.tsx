@@ -3,7 +3,7 @@ import React, { ReactNode, useContext, type FC } from 'react';
 
 import zh_CN from 'antd/es/locale/zh_CN';
 
-export interface IAppProConfigProvider {
+export interface AppProConfigProviderProps {
   /**
    * 内容
    */
@@ -22,7 +22,7 @@ export interface IAppProConfigProvider {
  * 组件库配置的提供数据
  * @constructor
  */
-const AppProConfigProvider: FC<IAppProConfigProvider> = (props) => {
+const AppProConfigProvider: FC<AppProConfigProviderProps> = (props) => {
   const { children, dark, needDeps } = props;
   const { locale, theme, ...otherProps } = useContext(
     AntdConfigProvider.ConfigContext,

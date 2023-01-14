@@ -9,7 +9,7 @@ let requestId = 0;
 /**
  * 请求的类型， 返回一个Promise
  */
-export type IProRequest<T, U = Record<string, any>> = (
+export type ProRequest<T, U = Record<string, any>> = (
   params: U,
   props: any,
 ) => Promise<T>;
@@ -23,7 +23,7 @@ export const useFetchData = <
   T,
   U extends Record<string, any> = Record<string, any>,
 >(props: {
-  request?: IProRequest<T, U>;
+  request?: ProRequest<T, U>;
   params?: U;
   proFieldKey?: Key;
 }): [T | any, boolean] => {

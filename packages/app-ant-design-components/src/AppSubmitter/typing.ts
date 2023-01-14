@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ISubmitterProps } from '../typing';
+import { SubmitterProps } from '../typing';
 
 /**
  * 搜索配置
@@ -15,7 +15,7 @@ export interface SearchConfig {
   resetText?: ReactNode;
 }
 
-export interface IAppSubmitterProps<T = Record<string, any>>
-  extends ISubmitterProps<T> {
+export interface AppSubmitterProps<T = Record<string, any>>
+  extends SubmitterProps<T> {
   searchConfig?: SearchConfig;
 }

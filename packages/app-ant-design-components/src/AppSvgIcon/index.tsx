@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { IAppSvgIconProps } from './app-svg-icon';
+import { AppSvgIconProps } from './typing';
 
 /**
  * svg图标组件
  * @param props
  * @constructor
  */
-const AppSvgIcon: FC<IAppSvgIconProps> = (props) => {
+const AppSvgIcon: FC<AppSvgIconProps> = (props) => {
   const { svgIconStyle, children } = props;
   return <span style={svgIconStyle}>{children}</span>;
 };

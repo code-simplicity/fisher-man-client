@@ -6,19 +6,19 @@ import { AppProFormGridConfig } from '../typing';
 /**
  * 当前helpers通用的props
  */
-interface ICommonProps {
+interface CommonProps {
   Wrapper?: FC<any>;
 }
 
-export interface IGridHelpers {
+export interface GridHelpers {
   /**
    * 行的包裹内容
    */
-  RowWrapper: FC<RowProps & ICommonProps>;
+  RowWrapper: FC<RowProps & CommonProps>;
   /**
    * 列的包裹内容
    */
-  ColWrapper: FC<RowProps & ICommonProps>;
+  ColWrapper: FC<RowProps & CommonProps>;
   /**
    * 是否开启栅格布局
    */
@@ -32,8 +32,8 @@ export interface IGridHelpers {
  * @param colProps 列
  */
 export const gridHelpers: (
-  config: AppProFormGridConfig & ICommonProps,
-) => IGridHelpers = ({ grid, rowProps, colProps }) => {
+  config: AppProFormGridConfig & CommonProps,
+) => GridHelpers = ({ grid, rowProps, colProps }) => {
   return {
     /**
      * 使用“！！”其实是undefined或者是null的时候，返回的是真的
@@ -89,7 +89,7 @@ export const gridHelpers: (
  * @param props
  */
 export const useGridHelpers = (
-  props?: (AppProFormGridConfig & ICommonProps) | boolean,
+  props?: (AppProFormGridConfig & CommonProps) | boolean,
 ) => {
   const config = useMemo(() => {
     {
