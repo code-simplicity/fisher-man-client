@@ -1,5 +1,9 @@
 import { AppFieldContext } from './AppFielidContext';
-import { AppProConfigProvider } from './AppProConfigProvider';
+import {
+  AppProConfigContext,
+  AppProConfigProvider,
+  AppProProvider,
+} from './AppProConfigContext';
 import { AppProFormContext, AppProFormInstanceType } from './AppProFormContext';
 import { AppProFormEditOrReadOnlyContext } from './AppProFormEditOrReadOnlyContext';
 
@@ -9,4 +13,6 @@ export {
   AppProFormContext,
   AppProConfigProvider,
   AppFieldContext,
+  AppProConfigContext,
+  AppProProvider,
 };
