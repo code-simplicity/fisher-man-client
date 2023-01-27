@@ -1,4 +1,5 @@
 import { AppFieldContext } from './AppFielidContext';
+import { AppFormListContext } from './AppFormListContext';
 import {
   AppBaseProFieldFC,
   AppProConfigContext,
@@ -35,4 +36,5 @@ export {
   AppProConfigContext,
   AppProProvider,
   zhCNIntl,
+  AppFormListContext,
 };
