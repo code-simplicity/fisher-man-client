@@ -10,6 +10,8 @@ import {
   AppProRenderFieldPropsType,
   AppProSchemaValueEnumType,
   ConfigContextPropsType,
+  findIntlKeyByAntdLocaleKey,
+  intlLanguageMap,
   IntlType,
   ParamsType,
   zhCNIntl,
@@ -37,4 +39,6 @@ export {
   AppProProvider,
   zhCNIntl,
   AppFormListContext,
+  findIntlKeyByAntdLocaleKey,
+  intlLanguageMap,
 };

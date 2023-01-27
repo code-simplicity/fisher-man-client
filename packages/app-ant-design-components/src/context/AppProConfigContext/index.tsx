@@ -243,16 +243,33 @@ const zhCNIntl = createIntl('zh_cn', zhCN);
 /**
  * 初始化一个对象存储多语言
  */
-const intlLanguageMap = {
+export const intlLanguageMap = {
   'zh-CN': zhCNIntl,
 };
 
 /**
  * 多语言的key
  */
-const intlMapKey = Object.keys(intlLanguageMap);
+const intlMapKeys = Object.keys(intlLanguageMap);
 
 export type ParamsType = Record<string, any>;
+
+/**
+ * 根据antd的key来找到locale插件的key
+ * @param localeKey
+ */
+export const findIntlKeyByAntdLocaleKey = <T extends string | undefined>(
+  localeKey: T,
+) => {
+  if (!localeKey) {
+    return 'zh-CN' as T;
+  }
+  const localeName = localeKey.toLocaleLowerCase();
+  return intlMapKeys.find((intlKey) => {
+    const lowerCaseKey = intlKey.toLocaleLowerCase();
+    return lowerCaseKey.includes(localeName);
+  }) as T;
+};
 
 const AppProConfigContext = createContext<ConfigContextPropsType>({
   intl: {

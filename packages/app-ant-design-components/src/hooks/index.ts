@@ -1,4 +1,5 @@
 import { ProRequest, useFetchData } from './useFetchData';
+import { useIntl } from './useIntl';
 import { usePrevious } from './usePrevious';
 import { useRefFn } from './useRefFn';
 import {
@@ -42,4 +43,5 @@ export {
   darkAlgorithm,
   defaultAlgorithm,
   compactAlgorithm,
+  useIntl,
 };
