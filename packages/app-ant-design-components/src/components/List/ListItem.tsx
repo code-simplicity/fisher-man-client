@@ -22,7 +22,8 @@ import {
 } from './typing';
 
 /**
- *  Antd 自带的toArray 不支持方法，所以需要自己搞一个
+ *  Antd 自带的 toArray 不支持方法，所以需要自己搞一个
+ * list转为数组
  * @param children
  */
 const listToArray = (children?: ReactNode | ReactNode[]) => {
@@ -161,6 +162,9 @@ const AppProFormListItem: FC<
     field.name,
   ]);
 
+  /**
+   * 默认触发动作的dom
+   */
   const defaultActionDom: React.ReactNode[] = useMemo(
     () =>
       [copyIcon, deleteIcon].filter(
@@ -169,14 +173,22 @@ const AppProFormListItem: FC<
     [copyIcon, deleteIcon],
   );
 
+  /**
+   * 返回actionRender
+   */
   const actions =
     actionRender?.(field, action, defaultActionDom, count) || defaultActionDom;
-
+  /**
+   * 返回dom节点
+   */
   const dom =
     actions.length > 0 ? (
       <div className={`${prefixCls}-action ${hashId}`}>{actions}</div>
     ) : null;
 
+  /**
+   * 获取行数据
+   */
   const getCurrentRowData = () => {
     return formInstance.getFieldValue(
       [listContext.listName, originName, index?.toString()]
@@ -185,6 +197,9 @@ const AppProFormListItem: FC<
     );
   };
 
+  /**
+   * 表单列表的触发动作
+   */
   const formListAction = {
     getCurrentRowData,
     setCurrentRowData: (data: Record<string, any>) => {
@@ -193,7 +208,9 @@ const AppProFormListItem: FC<
         .flat(1)
         .filter((item) => item !== null && item !== undefined);
       const updateValues = set(oldTableDate, rowKeyName, {
-        // 只是简单的覆盖，如果很复杂的话，需要自己处理
+        /**
+         * 只是简单的覆盖，如果很复杂的话，需要自己处理
+         */
         ...getCurrentRowData(),
         ...(data || {}),
       });
@@ -201,6 +218,9 @@ const AppProFormListItem: FC<
     },
   };
 
+  /**
+   * 返回children，转成数组返回
+   */
   const childrenArray = listToArray(children as React.ReactNode)
     .map((childrenItem) => {
       if (typeof childrenItem === 'function') {
@@ -226,9 +246,15 @@ const AppProFormListItem: FC<
       return childrenItem;
     });
 
+  /**
+   * 列表项的容器
+   */
   const itemContainer =
     itemContainerRender?.(childrenArray, options) || childrenArray;
 
+  /**
+   * 内容区域
+   */
   const contentDom = itemRender?.(
     {
       listDom: (
