@@ -26,6 +26,7 @@ import AppSpin from '../AppSpin';
 import AppSubmitter from '../AppSubmitter';
 import {
   AppFieldContext,
+  AppFormListContext,
   AppProConfigProvider,
   AppProFormContext,
   AppProFormEditOrReadOnlyContext,
@@ -569,47 +570,49 @@ const AppBaseForm: FC<AppBaseFormProps> = (props) => {
             },
           }}
         >
-          <Form
-            {...omit(otherProps, [
-              'labelWidth',
-              'autoFocusFirstInput',
-            ] as any[])}
-            autoComplete="off"
-            form={form}
-            initialValues={
-              syncToInitialValues
-                ? {
-                    ...initialValues,
-                    ...initialData,
-                    ...urlParamsMergeInitialValue,
-                  }
-                : {
-                    ...urlParamsMergeInitialValue,
-                    ...initialValues,
-                    ...initialData,
-                  }
-            }
-            className={classNames(props.className)}
-            onValuesChange={(changedValues, values) => {
-              otherProps?.onValuesChange?.(
-                transformKey(changedValues, !!omitNil),
-                transformKey(values, !!omitNil),
-              );
-            }}
-            onFinish={handleFinish}
-          >
-            <AppBaseFormComponents
-              transformKey={transformKey}
+          <AppFormListContext.Provider value={{}}>
+            <Form
+              {...omit(otherProps, [
+                'labelWidth',
+                'autoFocusFirstInput',
+              ] as any[])}
               autoComplete="off"
-              loading={loading}
-              {...props}
-              formRef={formRef}
-              initialValues={{
-                ...initialValues,
-                ...initialData,
+              form={form}
+              initialValues={
+                syncToInitialValues
+                  ? {
+                      ...initialValues,
+                      ...initialData,
+                      ...urlParamsMergeInitialValue,
+                    }
+                  : {
+                      ...urlParamsMergeInitialValue,
+                      ...initialValues,
+                      ...initialData,
+                    }
+              }
+              className={classNames(props.className)}
+              onValuesChange={(changedValues, values) => {
+                otherProps?.onValuesChange?.(
+                  transformKey(changedValues, !!omitNil),
+                  transformKey(values, !!omitNil),
+                );
               }}
-            />
-          </Form>
+              onFinish={handleFinish}
+            >
+              <AppBaseFormComponents
+                transformKey={transformKey}
+                autoComplete="off"
+                loading={loading}
+                {...props}
+                formRef={formRef}
+                initialValues={{
+                  ...initialValues,
+                  ...initialData,
+                }}
+              />
+            </Form>
+          </AppFormListContext.Provider>
         </AppFieldContext.Provider>
       </AppProConfigProvider>
     </AppProFormEditOrReadOnlyContext.Provider>
