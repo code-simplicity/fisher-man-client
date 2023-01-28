@@ -4,10 +4,11 @@ import type {
   FormListFieldData,
   FormListOperation,
 } from 'antd';
-import { FormListProps } from 'antd/es/form';
+import type { FormListProps } from 'antd/es/form';
 import type { LabelTooltipType } from 'antd/es/form/FormItemLabel';
 import { CSSProperties, FC, MutableRefObject, ReactNode } from 'react';
 import type { AppProFormGridConfig } from '../../AppBaseForm';
+import type { AppProAliasToken } from '../../hooks';
 
 export type FormListMeta = {
   name: FormListProps['name'];
@@ -290,7 +291,7 @@ export type AppProFormListItemProps = ProFormListCommonProps & {
   /**
    * 样式前缀
    */
-  prefixCls: string;
+  prefixCls?: string;
   /**
    * 字段集合
    */
@@ -341,4 +342,11 @@ export type AppProFormListItemProps = ProFormListCommonProps & {
   onAfterRemove?: (
     ...params: [...Parameters<FormListOperation['remove']>, number]
   ) => void;
+};
+
+/**
+ * 组件库的样式
+ */
+export type AppProToken = AppProAliasToken & {
+  componentCls: string;
 };

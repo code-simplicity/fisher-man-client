@@ -58,7 +58,7 @@ export const useToken = appProTheme.useToken;
  * hooks 返回的 style
  */
 export type AppUseStyleResult = {
-  wrapSRR: (node: ReactElement) => ReactElement;
+  wrapSSR: (node: ReactElement) => ReactElement;
   hashId: string;
 };
 
@@ -155,7 +155,7 @@ export const useStyle = (
   // @ts-ignore
   token.antCls = `.${getPrefixCls()}`;
   return {
-    wrapSRR: useStyleRegister(
+    wrapSSR: useStyleRegister(
       {
         theme: theme!,
         token,
