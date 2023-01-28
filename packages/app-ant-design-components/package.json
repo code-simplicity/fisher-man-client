@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dpy0912/fisher-man-client/tree/develop/packages/app-ant-design-components"
+    "url": "https://github.com/dpy0912/fisher-man-client.git"
   },
   "license": "MIT",
   "main": "lib/index.js",
@@ -37,6 +37,9 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
+    "release": "release-it",
+    "release:changelog:fix": "node ./bin/injectContributorsList.js && git add CHANGELOG.md",
+    "release:no-npm": "release-it --no-npm",
     "start:APP-AND-DESIGN-COMPONENTS": "npm run dev"
   },
   "commitlint": {
@@ -81,6 +84,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@release-it/conventional-changelog": "^5.1.1",
     "@types/deep-equal": "^1.0.1",
     "@types/lodash": "^4.14.191",
     "@types/uuid": "^9.0.0",
@@ -95,6 +99,7 @@
     "prettier-plugin-packagejson": "^2.2.18",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "release-it": "^15.6.0",
     "stylelint": "^14.9.1"
   },
   "peerDependencies": {

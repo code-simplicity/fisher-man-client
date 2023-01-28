@@ -1,0 +1,29 @@
+{
+  "git": {
+    "commitMessage": "chore: release v${version}",
+    "push": true,
+    "commit": true,
+    "tag": true,
+    "requireCommits": false
+  },
+  "github": {
+    "release": true
+  },
+  "npm": {
+    "publish": false,
+    "ignoreVersion": false
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": "angular",
+      "infile": "CHANGELOG.md",
+      "header": "# Changelog"
+    }
+  },
+  "hooks": {
+    "before:init": "npm run lint",
+    "after:bump": "gulp version --bump ${version} && npm run build:APP-AND-DESIGN-COMPONENTS && git add ./dist",
+    "before:release": "npm run release:changelog:fix",
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  }
+}
