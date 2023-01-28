@@ -1,7 +1,7 @@
 import type { ButtonProps, SpaceProps } from 'antd';
 import type { LabelTooltipType } from 'antd/es/form/FormItemLabel';
-import { AppProFormGridConfig } from 'app-ant-design-components/AppBaseForm';
 import { ReactNode, Ref, type CSSProperties } from 'react';
+import { AppProFormGridConfig } from './AppBaseForm';
 
 /**
  * 字段的props
