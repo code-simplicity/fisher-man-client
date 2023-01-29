@@ -16,3 +16,4 @@ lerna-debug.log*
 
 # IDE - VSCode
 .vscode/*
+/.dumi/
