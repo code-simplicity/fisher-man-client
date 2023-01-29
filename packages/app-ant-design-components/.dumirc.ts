@@ -23,12 +23,14 @@ export default defineConfig({
   themeConfig: {
     name: '摸鱼君',
     logo: '',
+    helmetIcon: '🍺',
     defaultLanguage: 'zh-CN',
     rtl: true,
     // 展示搜索框
     showSearch: true,
     // GitHub地址
     githubUrl: repository.url,
+    prefersColor: { default: 'auto', switch: true },
     // 展示头部的GitHub的icon
     showGithubCorner: true,
     // 展示官网语言的切换
