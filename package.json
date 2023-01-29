@@ -11,13 +11,22 @@
     "install": "pnpm install",
     "bootstrap": "lerna bootstrap --hoist",
     "build": "rm -rf dist && rollup --config",
+    "build:APP-ANTD-COMPONENTS": "pnpm --filter=./packages/app-ant-design-components run docs:build",
     "test": "jest",
     "clear": "lerna clean",
+    "clear:all": "rimraf 'packages/*/{lib,node_modules}' && rimraf node_modules",
     "version": "lerna version 0.0.2",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build:APP-ANTD-COMPONENTS && pnpm release:only",
+    "release:only": "changeset publish --registry=https://registry.npmjs.com/"
   },
   "devDependencies": {
     "husky": "^8.0.2",
     "lerna": "^5.5.2"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.0"
   }
 }
